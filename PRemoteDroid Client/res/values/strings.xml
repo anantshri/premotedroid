@@ -11,6 +11,8 @@
 	<string
 		name="text_help">Help</string>
 	<string
+		name="text_explore_files">Explore files</string>
+	<string
 		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi!\n\nMain features :\n - Mouse control\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n - Keyboard control (not implemented yet)\n</string>
 	<string
 		name="text_help_usage_content">Press, drag and hold the screen to move the mouse.\n\nTo click, just press briefly the screen.\n\nTo hold your click, press and hold the screen (do not move!).\nAfter the vibration, you can move.\nTo release your click, do a simple click.\n\nManual click buttons are available around the screen.\nHold a button one second, and it will stay pressed.\n</string>

@@ -30,7 +30,8 @@
 		<activity
 			android:name=".activity.HelpActivity"
 			android:label="@string/text_help"></activity>
-	</application>
+	<activity android:label="@string/text_explore_files" android:name=".activity.ExploreFilesActivity"></activity>
+</application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission
