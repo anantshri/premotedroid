@@ -77,6 +77,10 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public synchronized void run()
 	{
+		System.out.println("start connection");
+		
+		PRemoteDroidConnection c = null;
+		
 		try
 		{
 			String server = this.preferences.getString("connection_server", null);
@@ -85,45 +89,50 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 			
 			synchronized (this.connection)
 			{
-				this.connection[0] = new PRemoteDroidConnection(new Socket(server, port));
+				c = new PRemoteDroidConnection(new Socket(server, port));
+				
+				this.connection[0] = c;
 			}
-			
-			this.showToast(R.string.text_connection_established);
 			
 			try
 			{
+				this.showToast(R.string.text_connection_established);
+				
 				this.sendAction(new AuthentificationAction(password));
 				
 				while (true)
 				{
-					PRemoteDroidAction action = this.connection[0].receiveAction();
+					PRemoteDroidAction action = c.receiveAction();
 					
 					this.receiveAction(action);
 				}
 			}
 			finally
 			{
-				this.connection[0].close();
+				synchronized (this.connection)
+				{
+					c.close();
+					
+					System.out.println("set connection null");
+					this.connection[0] = null;
+				}
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 			
-			synchronized (this.connection)
+			if (c == null)
 			{
-				if (this.connection[0] == null)
-				{
-					this.showToast(R.string.text_connection_refused);
-				}
-				else
-				{
-					this.showToast(R.string.text_connection_closed);
-					this.connection[0] = null;
-				}
+				this.showToast(R.string.text_connection_refused);
 			}
-			
+			else
+			{
+				this.showToast(R.string.text_connection_closed);
+			}
 		}
+		
+		System.out.println("stop connection");
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
@@ -220,6 +229,8 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 							if (PRemoteDroid.this.actionReceiverList.size() == 0)
 							{
 								PRemoteDroid.this.connection[0].close();
+								
+								PRemoteDroid.this.connection[0] = null;
 							}
 						}
 					}
