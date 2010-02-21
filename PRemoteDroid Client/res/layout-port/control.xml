@@ -1,0 +1,36 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/clickLayout"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:orientation="horizontal">
+		<view
+			class="org.pierre.remotedroid.client.view.ClickView"
+			android:id="@+id/leftClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="2" />
+		<view
+			class="org.pierre.remotedroid.client.view.ClickView"
+			android:id="@+id/middleClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="1" />
+		<view
+			class="org.pierre.remotedroid.client.view.ClickView"
+			android:id="@+id/rightClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="2" />
+	</LinearLayout>
+	<view
+		class="org.pierre.remotedroid.client.view.ControlView"
+		android:id="@+id/controlView"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+</LinearLayout>

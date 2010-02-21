@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="PRemoteDroid Protocol" default="build">
+	<target name="build" />
+	<target name="javadoc">
+		<mkdir dir="javadoc" />
+		<javadoc destdir="javadoc">
+			<fileset dir="src" />
+			<link href="http://java.sun.com/javase/6/docs/api/" />
+		</javadoc>
+	</target>
+</project>

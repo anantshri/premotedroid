@@ -1,0 +1,78 @@
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:title="@string/text_connection">
+		<EditTextPreference
+			android:key="connection_server"
+			android:inputType="text"
+			android:defaultValue="192.168.0.1"
+			android:title="@string/text_server" />
+		<EditTextPreference
+			android:key="connection_port"
+			android:inputType="number"
+			android:defaultValue="64788"
+			android:title="@string/text_port" />
+		<EditTextPreference
+			android:key="connection_password"
+			android:inputType="textPassword"
+			android:defaultValue="azerty"
+			android:title="@string/text_password" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/text_control">
+		<EditTextPreference
+			android:key="control_sensitivity"
+			android:inputType="numberDecimal"
+			android:defaultValue="0.7"
+			android:title="@string/text_sensitivity" />
+		<EditTextPreference
+			android:key="control_acceleration"
+			android:inputType="numberDecimal"
+			android:defaultValue="1.5"
+			android:title="@string/text_acceleration" />
+		<EditTextPreference
+			android:key="control_click_delay"
+			android:inputType="number"
+			android:defaultValue="150"
+			android:title="@string/text_click_delay" />
+		<EditTextPreference
+			android:key="control_hold_delay"
+			android:inputType="number"
+			android:defaultValue="500"
+			android:title="@string/text_hold_delay" />
+		<EditTextPreference
+			android:key="control_immobile_distance"
+			android:inputType="numberDecimal"
+			android:defaultValue="10"
+			android:title="@string/text_immobile_distance" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/text_screen_capture">
+		<CheckBoxPreference
+			android:key="screenCapture_enabled"
+			android:defaultValue="false"
+			android:title="@string/text_capture_enabled" />
+		<ListPreference
+			android:key="screenCapture_format"
+			android:entries="@array/screenCapture_format_name"
+			android:entryValues="@array/screenCapture_format_id"
+			android:defaultValue="png"
+			android:title="@string/text_capture_format" />
+		<CheckBoxPreference
+			android:key="screenCapture_cursor_enabled"
+			android:defaultValue="true"
+			android:title="@string/text_cursor_enabled" />
+		<EditTextPreference
+			android:key="screenCapture_cursor_size"
+			android:inputType="numberDecimal"
+			android:defaultValue="3"
+			android:title="@string/text_cursor_size" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/text_debug">
+		<CheckBoxPreference
+			android:key="debug_firstRun"
+			android:defaultValue="true"
+			android:title="@string/text_first_run" />
+	</PreferenceCategory>
+</PreferenceScreen>
