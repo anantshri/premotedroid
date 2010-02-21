@@ -77,8 +77,6 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public synchronized void run()
 	{
-		System.out.println("start connection");
-		
 		PRemoteDroidConnection c = null;
 		
 		try
@@ -111,10 +109,9 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 			{
 				synchronized (this.connection)
 				{
-					c.close();
-					
-					System.out.println("set connection null");
 					this.connection[0] = null;
+					
+					c.close();
 				}
 			}
 		}
@@ -131,8 +128,6 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 				this.showToast(R.string.text_connection_closed);
 			}
 		}
-		
-		System.out.println("stop connection");
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
