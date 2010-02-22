@@ -4,18 +4,18 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ExploreFileResponseAction extends PRemoteDroidAction
+public class FileExploreResponseAction extends PRemoteDroidAction
 {
 	public String directory;
 	public String[] files;
 	
-	public ExploreFileResponseAction(String directory, String[] files)
+	public FileExploreResponseAction(String directory, String[] files)
 	{
 		this.directory = directory;
 		this.files = files;
 	}
 	
-	public static ExploreFileResponseAction parse(DataInputStream dis) throws IOException
+	public static FileExploreResponseAction parse(DataInputStream dis) throws IOException
 	{
 		String directory = dis.readUTF();
 		
@@ -27,12 +27,12 @@ public class ExploreFileResponseAction extends PRemoteDroidAction
 			files[i] = dis.readUTF();
 		}
 		
-		return new ExploreFileResponseAction(directory, files);
+		return new FileExploreResponseAction(directory, files);
 	}
 	
 	public void toDataOutputStream(DataOutputStream dos) throws IOException
 	{
-		dos.write(EXPLORE_FILE_RESPONSE);
+		dos.write(FILE_EXPLORE_RESPONSE);
 		
 		dos.writeUTF(this.directory);
 		dos.writeInt(this.files.length);

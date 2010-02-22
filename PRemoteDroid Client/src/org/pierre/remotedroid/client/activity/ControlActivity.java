@@ -17,11 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 
 public class ControlActivity extends Activity
 {
-	private static final int keyboardMenuItemId = 0;
-	private static final int exploreFileMenuItemId = 1;
-	private static final int settingsMenuItemId = 2;
-	private static final int getServerMenuItemId = 3;
-	private static final int helpMenuItemId = 4;
+	private static final int KEYBOARD_MENU_ITEM_ID = 0;
+	private static final int FILE_EXPLORER_MENU_ITEM_ID = 1;
+	private static final int SETTINGS_MENU_ITEM_ID = 2;
+	private static final int GET_SERVER_MENU_ITEM_ID = 3;
+	private static final int HELP__MENU_ITEM_ID = 4;
 	
 	private PRemoteDroid application;
 	
@@ -49,11 +49,11 @@ public class ControlActivity extends Activity
 	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		menu.add(Menu.NONE, keyboardMenuItemId, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
-		menu.add(Menu.NONE, exploreFileMenuItemId, Menu.NONE, this.getResources().getString(R.string.text_explore_file));
-		menu.add(Menu.NONE, settingsMenuItemId, Menu.NONE, this.getResources().getString(R.string.text_settings));
-		menu.add(Menu.NONE, getServerMenuItemId, Menu.NONE, this.getResources().getString(R.string.text_get_server));
-		menu.add(Menu.NONE, helpMenuItemId, Menu.NONE, this.getResources().getString(R.string.text_help));
+		menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
+		menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_file_explorer));
+		menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_settings));
+		menu.add(Menu.NONE, GET_SERVER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_get_server));
+		menu.add(Menu.NONE, HELP__MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -62,20 +62,20 @@ public class ControlActivity extends Activity
 	{
 		switch (item.getItemId())
 		{
-			case keyboardMenuItemId:
+			case KEYBOARD_MENU_ITEM_ID:
 				this.toggleKeyboard();
 				this.application.showToast(R.string.text_keyboard_not_supported);
 				break;
-			case exploreFileMenuItemId:
-				this.startActivity(new Intent(this, ExploreFileActivity.class));
+			case FILE_EXPLORER_MENU_ITEM_ID:
+				this.startActivity(new Intent(this, FileExplorerActivity.class));
 				break;
-			case settingsMenuItemId:
+			case SETTINGS_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, SettingsActivity.class));
 				break;
-			case getServerMenuItemId:
+			case GET_SERVER_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, GetServerActivity.class));
 				break;
-			case helpMenuItemId:
+			case HELP__MENU_ITEM_ID:
 				this.startActivity(new Intent(this, HelpActivity.class));
 				break;
 		}

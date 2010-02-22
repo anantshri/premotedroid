@@ -15,8 +15,8 @@ public abstract class PRemoteDroidAction
 	public static final byte AUTHENTIFICATION_RESPONSE = 5;
 	public static final byte SCREEN_CAPTURE_REQUEST = 6;
 	public static final byte SCREEN_CAPTURE_RESPONSE = 7;
-	public static final byte EXPLORE_FILE_REQUEST = 8;
-	public static final byte EXPLORE_FILE_RESPONSE = 9;
+	public static final byte FILE_EXPLORE_REQUEST = 8;
+	public static final byte FILE_EXPLORE_RESPONSE = 9;
 	
 	public InetSocketAddress sender;
 	
@@ -42,10 +42,10 @@ public abstract class PRemoteDroidAction
 				return ScreenCaptureRequestAction.parse(dis);
 			case SCREEN_CAPTURE_RESPONSE:
 				return ScreenCaptureResponseAction.parse(dis);
-			case EXPLORE_FILE_REQUEST:
-				return ExploreFileRequestAction.parse(dis);
-			case EXPLORE_FILE_RESPONSE:
-				return ExploreFileResponseAction.parse(dis);
+			case FILE_EXPLORE_REQUEST:
+				return FileExploreRequestAction.parse(dis);
+			case FILE_EXPLORE_RESPONSE:
+				return FileExploreResponseAction.parse(dis);
 			default:
 				throw new IOException();
 		}

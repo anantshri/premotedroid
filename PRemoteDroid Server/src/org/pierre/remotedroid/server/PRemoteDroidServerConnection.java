@@ -18,8 +18,8 @@ import javax.imageio.ImageIO;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.AuthentificationResponseAction;
-import org.pierre.remotedroid.protocol.action.ExploreFileRequestAction;
-import org.pierre.remotedroid.protocol.action.ExploreFileResponseAction;
+import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
+import org.pierre.remotedroid.protocol.action.FileExploreResponseAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
@@ -92,9 +92,9 @@ public class PRemoteDroidServerConnection implements Runnable
 			{
 				this.screenCapture((ScreenCaptureRequestAction) action);
 			}
-			else if (action instanceof ExploreFileRequestAction)
+			else if (action instanceof FileExploreRequestAction)
 			{
-				this.exploreFile((ExploreFileRequestAction) action);
+				this.fileExplore((FileExploreRequestAction) action);
 			}
 		}
 		else
@@ -203,17 +203,17 @@ public class PRemoteDroidServerConnection implements Runnable
 		}
 	}
 	
-	private void exploreFile(ExploreFileRequestAction action)
+	private void fileExplore(FileExploreRequestAction action)
 	{
 		if (action.directory.isEmpty() && action.file.isEmpty())
 		{
-			this.exploreFileRoots();
+			this.fileExploreRoots();
 		}
 		else
 		{
 			if (action.directory.isEmpty())
 			{
-				this.exploreFile(new File(action.file));
+				this.fileExplore(new File(action.file));
 			}
 			else
 			{
@@ -221,13 +221,13 @@ public class PRemoteDroidServerConnection implements Runnable
 				
 				if (directory.getParent() == null && action.file.equals(".."))
 				{
-					this.exploreFileRoots();
+					this.fileExploreRoots();
 				}
 				else
 				{
 					try
 					{
-						this.exploreFile(new File(directory, action.file).getCanonicalFile());
+						this.fileExplore(new File(directory, action.file).getCanonicalFile());
 					}
 					catch (IOException e)
 					{
@@ -238,13 +238,13 @@ public class PRemoteDroidServerConnection implements Runnable
 		}
 	}
 	
-	private void exploreFile(File file)
+	private void fileExplore(File file)
 	{
 		if (file.exists() && file.canRead())
 		{
 			if (file.isDirectory())
 			{
-				this.exploreFileSendResponse(file.getAbsolutePath(), file.listFiles(), true);
+				this.sendFileExploreResponse(file.getAbsolutePath(), file.listFiles(), true);
 			}
 			else
 			{
@@ -268,16 +268,16 @@ public class PRemoteDroidServerConnection implements Runnable
 		}
 	}
 	
-	private void exploreFileRoots()
+	private void fileExploreRoots()
 	{
 		String directory = "";
 		
 		File[] files = File.listRoots();
 		
-		this.exploreFileSendResponse(directory, files, false);
+		this.sendFileExploreResponse(directory, files, false);
 	}
 	
-	private void exploreFileSendResponse(String directory, File[] f, boolean parent)
+	private void sendFileExploreResponse(String directory, File[] f, boolean parent)
 	{
 		if (f != null)
 		{
@@ -311,7 +311,7 @@ public class PRemoteDroidServerConnection implements Runnable
 			
 			files = list.toArray(files);
 			
-			this.sendAction(new ExploreFileResponseAction(directory, files));
+			this.sendAction(new FileExploreResponseAction(directory, files));
 		}
 	}
 	

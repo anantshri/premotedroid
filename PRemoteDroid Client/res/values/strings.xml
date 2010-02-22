@@ -10,7 +10,8 @@
 		name="text_get_server">Get server</string>
 	<string
 		name="text_help">Help</string>
-	<string name="text_explore_file">Explore file</string>
+	<string
+		name="text_file_explorer">File explorer</string>
 	<string
 		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi!\n\nMain features :\n - Mouse control\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n - Keyboard control (not implemented yet)\n</string>
 	<string

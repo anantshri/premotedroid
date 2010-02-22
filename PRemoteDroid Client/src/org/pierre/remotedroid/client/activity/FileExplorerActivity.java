@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
-import org.pierre.remotedroid.protocol.action.ExploreFileRequestAction;
-import org.pierre.remotedroid.protocol.action.ExploreFileResponseAction;
+import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
+import org.pierre.remotedroid.protocol.action.FileExploreResponseAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 import android.R;
@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ExploreFileActivity extends ListActivity implements PRemoteDroidActionReceiver, OnItemClickListener
+public class FileExplorerActivity extends ListActivity implements PRemoteDroidActionReceiver, OnItemClickListener
 {
 	private PRemoteDroid application;
 	
@@ -34,13 +34,12 @@ public class ExploreFileActivity extends ListActivity implements PRemoteDroidAct
 		
 		this.fileListString = new ArrayList<String>();
 		
-		this.adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, this.fileListString);
+		this.currentDirectoryString = "";
 		
+		this.adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, this.fileListString);
 		this.setListAdapter(this.adapter);
 		
 		this.getListView().setOnItemClickListener(this);
-		
-		this.currentDirectoryString = "";
 	}
 	
 	protected void onResume()
@@ -49,7 +48,7 @@ public class ExploreFileActivity extends ListActivity implements PRemoteDroidAct
 		
 		this.application.registerActionReceiver(this);
 		
-		this.sendExploreRequest("");
+		this.sendFileExploreRequest("");
 	}
 	
 	protected void onPause()
@@ -61,33 +60,33 @@ public class ExploreFileActivity extends ListActivity implements PRemoteDroidAct
 	
 	public void receiveAction(PRemoteDroidAction action)
 	{
-		if (action instanceof ExploreFileResponseAction)
+		if (action instanceof FileExploreResponseAction)
 		{
-			ExploreFileResponseAction efra = (ExploreFileResponseAction) action;
+			FileExploreResponseAction fera = (FileExploreResponseAction) action;
 			
-			this.currentDirectoryString = efra.directory;
+			this.currentDirectoryString = fera.directory;
 			
 			this.fileListString.clear();
-			this.fileListString.addAll(Arrays.asList(efra.files));
+			this.fileListString.addAll(Arrays.asList(fera.files));
 			
 			this.runOnUiThread(new Runnable()
 			{
 				public void run()
 				{
-					ExploreFileActivity.this.adapter.notifyDataSetInvalidated();
-					ExploreFileActivity.this.getListView().setSelection(0);
+					FileExplorerActivity.this.adapter.notifyDataSetInvalidated();
+					FileExplorerActivity.this.getListView().setSelection(0);
 				}
 			});
 		}
 	}
 	
-	private void sendExploreRequest(String fileString)
+	private void sendFileExploreRequest(String fileString)
 	{
-		this.application.sendAction(new ExploreFileRequestAction(this.currentDirectoryString, fileString));
+		this.application.sendAction(new FileExploreRequestAction(this.currentDirectoryString, fileString));
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
-		this.sendExploreRequest(this.fileListString.get(position));
+		this.sendFileExploreRequest(this.fileListString.get(position));
 	}
 }
