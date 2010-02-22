@@ -70,159 +70,157 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 	}
 	
 	protected void onAttachedToWindow()
-    {
-    	super.onAttachedToWindow();
-    	
-    	this.leftClickView = (ClickView) this.controlActivity.findViewById(R.id.leftClickView);
-    }
-
+	{
+		super.onAttachedToWindow();
+		
+		this.leftClickView = (ClickView) this.controlActivity.findViewById(R.id.leftClickView);
+	}
+	
 	protected synchronized void onWindowVisibilityChanged(int visibility)
-    {
-    	super.onWindowVisibilityChanged(visibility);
-    	
-    	if (visibility == VISIBLE)
-    	{
-    		this.application.registerActionReceiver(this);
-    		
-    		this.reloadPreferences();
-    	}
-    	else
-    	{
-    		this.application.unregisterActionReceiver(this);
-    		
-    		this.setImageBitmap(null);
-    		
-    		if (this.currentBitmap != null)
-    		{
-    			this.currentBitmap.recycle();
-    			this.currentBitmap = null;
-    		}
-    	}
-    }
-
+	{
+		super.onWindowVisibilityChanged(visibility);
+		
+		if (visibility == VISIBLE)
+		{
+			this.application.registerActionReceiver(this);
+			
+			this.reloadPreferences();
+		}
+		else
+		{
+			this.application.unregisterActionReceiver(this);
+			
+			this.setImageBitmap(null);
+			
+			if (this.currentBitmap != null)
+			{
+				this.currentBitmap.recycle();
+				this.currentBitmap = null;
+			}
+		}
+	}
+	
 	public boolean onTouchEvent(MotionEvent event)
-    {
-    	switch (event.getAction())
-    	{
-    		case MotionEvent.ACTION_MOVE:
-    		{
-    			this.onTouchMove(event);
-    			break;
-    		}
-    			
-    		case MotionEvent.ACTION_DOWN:
-    		{
-    			this.onTouchDown(event);
-    			break;
-    		}
-    			
-    		case MotionEvent.ACTION_UP:
-    		{
-    			this.screenCaptureRequest();
-    			this.onTouchUp(event);
-    			break;
-    		}
-    			
-    		default:
-    			break;
-    	}
-    	
-    	event.recycle();
-    	
-    	return true;
-    }
-
+	{
+		switch (event.getAction())
+		{
+			case MotionEvent.ACTION_MOVE:
+			{
+				this.onTouchMove(event);
+				break;
+			}
+				
+			case MotionEvent.ACTION_DOWN:
+			{
+				this.onTouchDown(event);
+				break;
+			}
+				
+			case MotionEvent.ACTION_UP:
+			{
+				this.screenCaptureRequest();
+				this.onTouchUp(event);
+				break;
+			}
+				
+			default:
+				break;
+		}
+		
+		return true;
+	}
+	
 	protected void onTouchDown(MotionEvent event)
-    {
-    	this.downX = this.previousX = event.getRawX();
-    	this.downY = this.previousY = event.getRawY();
-    	
-    	this.resultX = 0;
-    	this.resultY = 0;
-    	
-    	this.holdPossible = true;
-    }
-
+	{
+		this.downX = this.previousX = event.getRawX();
+		this.downY = this.previousY = event.getRawY();
+		
+		this.resultX = 0;
+		this.resultY = 0;
+		
+		this.holdPossible = true;
+	}
+	
 	protected void onTouchMove(MotionEvent event)
-    {
-    	if (this.holdPossible)
-    	{
-    		if (this.getDistanceFromDown(event) > this.immobileDistance)
-    		{
-    			this.holdPossible = false;
-    		}
-    		else if (event.getEventTime() - event.getDownTime() > this.holdDelay)
-    		{
-    			this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_DOWN);
-    			
-    			this.holdPossible = false;
-    			
-    			this.leftClickView.setPressed(true);
-    			this.leftClickView.setHold(true);
-    			
-    			this.application.vibrate(100);
-    		}
-    	}
-    	
-    	float moveXRaw = event.getRawX() - this.previousX;
-    	float moveYRaw = event.getRawY() - this.previousY;
-    	
-    	moveXRaw *= this.sensitivity;
-    	moveYRaw *= this.sensitivity;
-    	
-    	moveXRaw = (float) ((Math.pow(Math.abs(moveXRaw), this.acceleration) * Math.signum(moveXRaw)));
-    	moveYRaw = (float) ((Math.pow(Math.abs(moveYRaw), this.acceleration) * Math.signum(moveYRaw)));
-    	
-    	moveXRaw += this.resultX;
-    	moveYRaw += this.resultY;
-    	
-    	int moveXFinal = Math.round(moveXRaw);
-    	int moveYFinal = Math.round(moveYRaw);
-    	
-    	this.resultX = moveXRaw - moveXFinal;
-    	this.resultY = moveYRaw - moveYFinal;
-    	
-    	if (moveXFinal != 0 || moveYFinal != 0)
-    	{
-    		this.controlActivity.mouseMove(moveXFinal, moveYFinal);
-    	}
-    	
-    	this.previousX = event.getRawX();
-    	this.previousY = event.getRawY();
-    }
-
+	{
+		if (this.holdPossible)
+		{
+			if (this.getDistanceFromDown(event) > this.immobileDistance)
+			{
+				this.holdPossible = false;
+			}
+			else if (event.getEventTime() - event.getDownTime() > this.holdDelay)
+			{
+				this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_DOWN);
+				
+				this.holdPossible = false;
+				
+				this.leftClickView.setPressed(true);
+				this.leftClickView.setHold(true);
+				
+				this.application.vibrate(100);
+			}
+		}
+		
+		float moveXRaw = event.getRawX() - this.previousX;
+		float moveYRaw = event.getRawY() - this.previousY;
+		
+		moveXRaw *= this.sensitivity;
+		moveYRaw *= this.sensitivity;
+		
+		moveXRaw = (float) ((Math.pow(Math.abs(moveXRaw), this.acceleration) * Math.signum(moveXRaw)));
+		moveYRaw = (float) ((Math.pow(Math.abs(moveYRaw), this.acceleration) * Math.signum(moveYRaw)));
+		
+		moveXRaw += this.resultX;
+		moveYRaw += this.resultY;
+		
+		int moveXFinal = Math.round(moveXRaw);
+		int moveYFinal = Math.round(moveYRaw);
+		
+		this.resultX = moveXRaw - moveXFinal;
+		this.resultY = moveYRaw - moveYFinal;
+		
+		if (moveXFinal != 0 || moveYFinal != 0)
+		{
+			this.controlActivity.mouseMove(moveXFinal, moveYFinal);
+		}
+		
+		this.previousX = event.getRawX();
+		this.previousY = event.getRawY();
+	}
+	
 	protected void onTouchUp(MotionEvent event)
-    {
-    	if (event.getEventTime() - event.getDownTime() < this.clickDelay && this.getDistanceFromDown(event) <= this.immobileDistance)
-    	{
-    		if (this.leftClickView.isPressed())
-    		{
-    			this.application.vibrate(100);
-    		}
-    		else
-    		{
-    			this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_DOWN);
-    			
-    			this.application.vibrate(50);
-    		}
-    		
-    		this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_UP);
-    		
-    		this.leftClickView.setPressed(false);
-    		this.leftClickView.setHold(false);
-    	}
-    }
-
+	{
+		if (event.getEventTime() - event.getDownTime() < this.clickDelay && this.getDistanceFromDown(event) <= this.immobileDistance)
+		{
+			if (this.leftClickView.isPressed())
+			{
+				this.application.vibrate(100);
+			}
+			else
+			{
+				this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_DOWN);
+				
+				this.application.vibrate(50);
+			}
+			
+			this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_UP);
+			
+			this.leftClickView.setPressed(false);
+			this.leftClickView.setHold(false);
+		}
+	}
+	
 	protected void onDraw(Canvas canvas)
-    {
-    	super.onDraw(canvas);
-    	
-    	if (this.screenCaptureEnabled && this.screenCaptureCursorEnabled)
-    	{
-    		canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, this.screenCaptureCursorSize, this.paint);
-    	}
-    }
-
+	{
+		super.onDraw(canvas);
+		
+		if (this.screenCaptureEnabled && this.screenCaptureCursorEnabled)
+		{
+			canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, this.screenCaptureCursorSize, this.paint);
+		}
+	}
+	
 	public synchronized void receiveAction(PRemoteDroidAction action)
 	{
 		if (action instanceof ScreenCaptureResponseAction)

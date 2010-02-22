@@ -83,8 +83,6 @@ public class ClickView extends Button
 				break;
 		}
 		
-		event.recycle();
-		
 		return true;
 	}
 	
