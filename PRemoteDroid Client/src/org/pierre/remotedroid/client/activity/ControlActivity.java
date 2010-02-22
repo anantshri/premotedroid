@@ -55,7 +55,7 @@ public class ControlActivity extends Activity
 		menu.add(Menu.NONE, GET_SERVER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_get_server));
 		menu.add(Menu.NONE, HELP__MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
 		
-		return super.onCreateOptionsMenu(menu);
+		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item)
@@ -80,7 +80,7 @@ public class ControlActivity extends Activity
 				break;
 		}
 		
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 	
 	public void mouseClick(byte button, boolean state)

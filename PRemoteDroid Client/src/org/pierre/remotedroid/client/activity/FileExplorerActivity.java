@@ -3,17 +3,19 @@ package org.pierre.remotedroid.client.activity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
 import org.pierre.remotedroid.protocol.action.FileExploreResponseAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
-import android.R;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +23,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FileExplorerActivity extends ListActivity implements PRemoteDroidActionReceiver, OnItemClickListener
 {
+	private static final int REFRESH_MENU_ITEM_ID = 0;
+	private static final int EXPLORE_ROOTS_MENU_ITEM_ID = 1;
+	
 	private PRemoteDroid application;
 	
 	private SharedPreferences preferences;
@@ -40,7 +45,7 @@ public class FileExplorerActivity extends ListActivity implements PRemoteDroidAc
 		
 		this.files = new ArrayList<String>();
 		
-		this.adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, this.files);
+		this.adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.files);
 		this.setListAdapter(this.adapter);
 		
 		this.getListView().setOnItemClickListener(this);
@@ -54,7 +59,30 @@ public class FileExplorerActivity extends ListActivity implements PRemoteDroidAc
 		
 		this.directory = this.preferences.getString("fileExplore_directory", "");
 		
-		this.sendFileExploreRequest("");
+		this.refresh();
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		menu.add(Menu.NONE, REFRESH_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_refresh));
+		menu.add(Menu.NONE, EXPLORE_ROOTS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_explore_roots));
+		
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case REFRESH_MENU_ITEM_ID:
+				this.refresh();
+				break;
+			case EXPLORE_ROOTS_MENU_ITEM_ID:
+				this.exploreRoots();
+				break;
+		}
+		
+		return true;
 	}
 	
 	protected void onPause()
@@ -98,5 +126,16 @@ public class FileExplorerActivity extends ListActivity implements PRemoteDroidAc
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
 		this.sendFileExploreRequest(this.files.get(position));
+	}
+	
+	private void refresh()
+	{
+		this.sendFileExploreRequest("");
+	}
+	
+	private void exploreRoots()
+	{
+		this.directory = "";
+		this.refresh();
 	}
 }
