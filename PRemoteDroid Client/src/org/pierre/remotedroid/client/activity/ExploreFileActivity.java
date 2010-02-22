@@ -74,7 +74,8 @@ public class ExploreFileActivity extends ListActivity implements PRemoteDroidAct
 			{
 				public void run()
 				{
-					ExploreFileActivity.this.adapter.notifyDataSetChanged();
+					ExploreFileActivity.this.adapter.notifyDataSetInvalidated();
+					ExploreFileActivity.this.getListView().setSelection(0);
 				}
 			});
 		}
