@@ -43,9 +43,9 @@ public abstract class PRemoteDroidAction
 			case SCREEN_CAPTURE_RESPONSE:
 				return ScreenCaptureResponseAction.parse(dis);
 			case EXPLORE_FILE_REQUEST:
-				return ExploreFileRequest.parse(dis);
+				return ExploreFileRequestAction.parse(dis);
 			case EXPLORE_FILE_RESPONSE:
-				return ExploreFileResponse.parse(dis);
+				return ExploreFileResponseAction.parse(dis);
 			default:
 				throw new IOException();
 		}

@@ -1,5 +1,6 @@
 package org.pierre.remotedroid.server;
 
+import java.awt.Desktop;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -7,7 +8,9 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -15,6 +18,8 @@ import javax.imageio.ImageIO;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.AuthentificationResponseAction;
+import org.pierre.remotedroid.protocol.action.ExploreFileRequestAction;
+import org.pierre.remotedroid.protocol.action.ExploreFileResponseAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
@@ -86,6 +91,10 @@ public class PRemoteDroidServerConnection implements Runnable
 			else if (action instanceof ScreenCaptureRequestAction)
 			{
 				this.screenCapture((ScreenCaptureRequestAction) action);
+			}
+			else if (action instanceof ExploreFileRequestAction)
+			{
+				this.exploreFile((ExploreFileRequestAction) action);
 			}
 		}
 		else
@@ -191,6 +200,118 @@ public class PRemoteDroidServerConnection implements Runnable
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	private void exploreFile(ExploreFileRequestAction action)
+	{
+		if (action.directory.isEmpty() && action.file.isEmpty())
+		{
+			this.exploreFileRoots();
+		}
+		else
+		{
+			if (action.directory.isEmpty())
+			{
+				this.exploreFile(new File(action.file));
+			}
+			else
+			{
+				File directory = new File(action.directory);
+				
+				if (directory.getParent() == null && action.file.equals(".."))
+				{
+					this.exploreFileRoots();
+				}
+				else
+				{
+					try
+					{
+						this.exploreFile(new File(directory, action.file).getCanonicalFile());
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	private void exploreFile(File file)
+	{
+		if (file.exists() && file.canRead())
+		{
+			if (file.isDirectory())
+			{
+				this.exploreFileSendResponse(file.getAbsolutePath(), file.listFiles(), true);
+			}
+			else
+			{
+				if (Desktop.isDesktopSupported())
+				{
+					Desktop desktop = Desktop.getDesktop();
+					
+					if (desktop.isSupported(Desktop.Action.OPEN))
+					{
+						try
+						{
+							desktop.open(file);
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void exploreFileRoots()
+	{
+		String directory = "";
+		
+		File[] files = File.listRoots();
+		
+		this.exploreFileSendResponse(directory, files, false);
+	}
+	
+	private void exploreFileSendResponse(String directory, File[] f, boolean parent)
+	{
+		if (f != null)
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			
+			if (parent)
+			{
+				list.add("..");
+			}
+			
+			for (int i = 0; i < f.length; i++)
+			{
+				String name = f[i].getName();
+				
+				if (!name.isEmpty())
+				{
+					if (f[i].isDirectory())
+					{
+						name += File.separator;
+					}
+				}
+				else
+				{
+					name = f[i].getAbsolutePath();
+				}
+				
+				list.add(name);
+			}
+			
+			String[] files = new String[list.size()];
+			
+			files = list.toArray(files);
+			
+			this.sendAction(new ExploreFileResponseAction(directory, files));
 		}
 	}
 	

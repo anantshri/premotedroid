@@ -76,7 +76,7 @@ public class ControlActivity extends Activity
 				this.startActivity(new Intent(this, HelpActivity.class));
 				break;
 			case exploreFilesMenuItemId:
-				this.startActivity(new Intent(this, ExploreFilesActivity.class));
+				this.startActivity(new Intent(this, ExploreFileActivity.class));
 				break;
 		}
 		
