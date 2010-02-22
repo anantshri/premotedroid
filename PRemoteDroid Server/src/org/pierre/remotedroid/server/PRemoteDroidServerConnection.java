@@ -232,6 +232,8 @@ public class PRemoteDroidServerConnection implements Runnable
 					catch (IOException e)
 					{
 						e.printStackTrace();
+						
+						this.fileExploreRoots();
 					}
 				}
 			}
@@ -265,6 +267,10 @@ public class PRemoteDroidServerConnection implements Runnable
 					}
 				}
 			}
+		}
+		else
+		{
+			this.fileExploreRoots();
 		}
 	}
 	
