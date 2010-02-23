@@ -7,9 +7,11 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -274,9 +276,18 @@ public class PRemoteDroidServerConnection implements Runnable
 							
 							if (System.getProperty("os.name").toLowerCase().contains("windows"))
 							{
+								System.out.println("windows cmd fix");
+								
 								try
 								{
-									Runtime.getRuntime().exec("cmd /C " + file.getAbsolutePath());
+									Process process = Runtime.getRuntime().exec("cmd /C " + file.getAbsolutePath());
+									BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+									
+									String line;
+									while ((line = br.readLine()) != null)
+									{
+										System.out.println(line);
+									}
 								}
 								catch (IOException e1)
 								{
