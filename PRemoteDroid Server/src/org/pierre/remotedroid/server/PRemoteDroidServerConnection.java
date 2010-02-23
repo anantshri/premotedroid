@@ -263,6 +263,18 @@ public class PRemoteDroidServerConnection implements Runnable
 						catch (IOException e)
 						{
 							e.printStackTrace();
+							
+							if (System.getProperty("os.name").toLowerCase().contains("windows"))
+							{
+								try
+								{
+									Runtime.getRuntime().exec("cmd /C " + file.getAbsolutePath());
+								}
+								catch (IOException e1)
+								{
+									e1.printStackTrace();
+								}
+							}
 						}
 					}
 				}
