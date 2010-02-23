@@ -56,9 +56,9 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		this.setContentView(R.layout.getserver);
 	}
 	
-	protected void onStart()
+	protected void onResume()
 	{
-		super.onStart();
+		super.onResume();
 		
 		try
 		{
@@ -76,9 +76,9 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		}
 	}
 	
-	protected void onStop()
+	protected void onPause()
 	{
-		super.onStop();
+		super.onPause();
 		
 		try
 		{
