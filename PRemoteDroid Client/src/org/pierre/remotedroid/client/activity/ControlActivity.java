@@ -7,8 +7,15 @@ import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +31,7 @@ public class ControlActivity extends Activity
 	private static final int HELP__MENU_ITEM_ID = 4;
 	
 	private PRemoteDroid application;
+	private SharedPreferences preferences;
 	
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -32,6 +40,10 @@ public class ControlActivity extends Activity
 		this.setContentView(R.layout.control);
 		
 		this.application = (PRemoteDroid) this.getApplication();
+		
+		this.preferences = this.application.getPreferences();
+		
+		this.checkOnCreate();
 	}
 	
 	public boolean onTrackballEvent(MotionEvent event)
@@ -97,5 +109,111 @@ public class ControlActivity extends Activity
 	{
 		InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(0, 0);
+	}
+	
+	private void checkOnCreate()
+	{
+		if (this.checkFirstRun())
+		{
+			this.firstRunDialog();
+		}
+		else if (this.checkNewVersion())
+		{
+			this.newVersionDialog();
+		}
+	}
+	
+	private boolean checkFirstRun()
+	{
+		return this.preferences.getBoolean("debug_firstRun", true);
+	}
+	
+	private void firstRunDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		builder.setMessage(R.string.text_first_run_dialog);
+		builder.setPositiveButton(R.string.text_yes, new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				ControlActivity.this.startActivity(new Intent(ControlActivity.this, HelpActivity.class));
+				ControlActivity.this.disableFirstRun();
+			}
+		});
+		builder.setNegativeButton(R.string.text_no, new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+				ControlActivity.this.disableFirstRun();
+			}
+		});
+		builder.create().show();
+	}
+	
+	private void disableFirstRun()
+	{
+		Editor editor = this.preferences.edit();
+		editor.putBoolean("debug_firstRun", false);
+		editor.commit();
+		
+		this.updateVersionCode();
+	}
+	
+	private boolean checkNewVersion()
+	{
+		try
+		{
+			if (this.getPackageManager().getPackageInfo("org.pierre.remotedroid.client", PackageManager.GET_META_DATA).versionCode != this.preferences.getInt("app_versionCode", 0))
+			{
+				
+				return true;
+			}
+		}
+		catch (NameNotFoundException e)
+		{
+			this.application.debug(e);
+		}
+		
+		return false;
+	}
+	
+	private void newVersionDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		builder.setMessage(R.string.text_new_version_dialog);
+		builder.setPositiveButton(R.string.text_get_server, new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				ControlActivity.this.startActivity(new Intent(ControlActivity.this, GetServerActivity.class));
+				ControlActivity.this.updateVersionCode();
+			}
+		});
+		builder.setNegativeButton(R.string.text_no, new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+				ControlActivity.this.updateVersionCode();
+			}
+		});
+		builder.create().show();
+	}
+	
+	private void updateVersionCode()
+	{
+		try
+		{
+			Editor editor = this.preferences.edit();
+			editor.putInt("app_versionCode", this.getPackageManager().getPackageInfo("org.pierre.remotedroid.client", PackageManager.GET_META_DATA).versionCode);
+			editor.commit();
+		}
+		catch (NameNotFoundException e)
+		{
+			this.application.debug(e);
+		}
 	}
 }

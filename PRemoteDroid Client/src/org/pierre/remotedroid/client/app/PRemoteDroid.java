@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import org.pierre.remotedroid.client.R;
-import org.pierre.remotedroid.client.activity.HelpActivity;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
@@ -13,9 +12,7 @@ import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -45,17 +42,6 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		PreferenceManager.setDefaultValues(this, R.xml.settings, true);
 		
 		this.vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-		
-		if (this.preferences.getBoolean("debug_firstRun", true))
-		{
-			Intent intent = new Intent(this, HelpActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			this.startActivity(intent);
-			
-			Editor editor = this.preferences.edit();
-			editor.putBoolean("debug_firstRun", false);
-			editor.commit();
-		}
 		
 		this.actionReceiverList = new ArrayList<PRemoteDroidActionReceiver>();
 		
@@ -206,11 +192,11 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		}
 	}
 	
-	public void debug(Exception exception)
+	public void debug(Exception e)
 	{
 		if (this.preferences.getBoolean("debug_enabled", false))
 		{
-			Log.d(this.getResources().getString(R.string.app_name), null, exception);
+			Log.d(this.getResources().getString(R.string.app_name), null, e);
 		}
 	}
 	
