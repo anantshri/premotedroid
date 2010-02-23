@@ -25,7 +25,7 @@ public class FileExploreRequestAction extends PRemoteDroidAction
 	
 	public void toDataOutputStream(DataOutputStream dos) throws IOException
 	{
-		dos.write(FILE_EXPLORE_REQUEST);
+		dos.writeByte(FILE_EXPLORE_REQUEST);
 		dos.writeUTF(this.directory);
 		dos.writeUTF(this.file);
 	}
