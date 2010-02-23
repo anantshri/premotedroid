@@ -71,6 +71,10 @@
 	<PreferenceCategory
 		android:title="@string/text_debug">
 		<CheckBoxPreference
+			android:key="debug_enabled"
+			android:defaultValue="false"
+			android:title="@string/text_debug" />
+		<CheckBoxPreference
 			android:key="debug_firstRun"
 			android:defaultValue="true"
 			android:title="@string/text_first_run" />

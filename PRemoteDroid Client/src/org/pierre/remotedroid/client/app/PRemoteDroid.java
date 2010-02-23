@@ -19,6 +19,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class PRemoteDroid extends Application implements Runnable, PRemoteDroidActionReceiver
@@ -117,7 +118,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			this.debug(e);
 			
 			if (c == null)
 			{
@@ -142,7 +143,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 				}
 				catch (IOException e)
 				{
-					e.printStackTrace();
+					this.debug(e);
 				}
 			}
 		}
@@ -205,6 +206,14 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		}
 	}
 	
+	public void debug(Exception exception)
+	{
+		if (this.preferences.getBoolean("debug_enabled", false))
+		{
+			Log.d(this.getResources().getString(R.string.app_name), null, exception);
+		}
+	}
+	
 	private class CloseConnectionScheduler implements Runnable
 	{
 		private Thread currentThread;
@@ -235,11 +244,11 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 			}
 			catch (InterruptedException e)
 			{
-				e.printStackTrace();
+				PRemoteDroid.this.debug(e);
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+				PRemoteDroid.this.debug(e);
 			}
 		}
 		

@@ -18,6 +18,7 @@ public class SettingsActivity extends PreferenceActivity
 	
 	private static final int resetPreferencesMenuItemId = 0;
 	
+	private PRemoteDroid application;
 	private SharedPreferences preferences;
 	
 	protected void onCreate(Bundle savedInstanceState)
@@ -26,7 +27,8 @@ public class SettingsActivity extends PreferenceActivity
 		
 		this.addPreferencesFromResource(R.xml.settings);
 		
-		this.preferences = ((PRemoteDroid) this.getApplication()).getPreferences();
+		this.application = (PRemoteDroid) this.getApplication();
+		this.preferences = this.application.getPreferences();
 	}
 	
 	protected void onPause()
@@ -67,7 +69,7 @@ public class SettingsActivity extends PreferenceActivity
 			}
 			catch (NumberFormatException e)
 			{
-				e.printStackTrace();
+				this.application.debug(e);
 				editor.remove(s);
 			}
 		}
@@ -80,7 +82,7 @@ public class SettingsActivity extends PreferenceActivity
 			}
 			catch (NumberFormatException e)
 			{
-				e.printStackTrace();
+				this.application.debug(e);
 				editor.remove(s);
 			}
 		}

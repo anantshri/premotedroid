@@ -46,6 +46,8 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 {
 	private static String FILENAME = "/PRemoteDroid-Server.zip";
 	
+	private PRemoteDroid application;
+	
 	private ServerSocket serverSocket;
 	private HttpService httpService;
 	
@@ -54,6 +56,8 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		super.onCreate(savedInstanceState);
 		
 		this.setContentView(R.layout.getserver);
+		
+		this.application = (PRemoteDroid) this.getApplication();
 	}
 	
 	protected void onResume()
@@ -70,7 +74,7 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			this.application.debug(e);
 			
 			this.finish();
 		}
@@ -89,7 +93,7 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			this.application.debug(e);
 		}
 	}
 	
@@ -112,7 +116,7 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 				}
 				catch (HttpException e)
 				{
-					e.printStackTrace();
+					this.application.debug(e);
 				}
 				
 				conn.close();
@@ -120,7 +124,7 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			this.application.debug(e);
 		}
 	}
 	
