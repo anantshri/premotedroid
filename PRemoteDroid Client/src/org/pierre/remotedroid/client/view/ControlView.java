@@ -100,6 +100,13 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		}
 	}
 	
+	protected void onSizeChanged(int w, int h, int oldw, int oldh)
+	{
+		super.onSizeChanged(w, h, oldw, oldh);
+		
+		this.screenCaptureRequest();
+	}
+	
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		switch (event.getAction())
