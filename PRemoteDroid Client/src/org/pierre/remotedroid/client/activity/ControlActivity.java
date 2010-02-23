@@ -165,9 +165,8 @@ public class ControlActivity extends Activity
 	{
 		try
 		{
-			if (this.getPackageManager().getPackageInfo("org.pierre.remotedroid.client", PackageManager.GET_META_DATA).versionCode != this.preferences.getInt("app_versionCode", 0))
+			if (this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_META_DATA).versionCode != this.preferences.getInt("app_versionCode", 0))
 			{
-				
 				return true;
 			}
 		}
@@ -208,7 +207,7 @@ public class ControlActivity extends Activity
 		try
 		{
 			Editor editor = this.preferences.edit();
-			editor.putInt("app_versionCode", this.getPackageManager().getPackageInfo("org.pierre.remotedroid.client", PackageManager.GET_META_DATA).versionCode);
+			editor.putInt("app_versionCode", this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_META_DATA).versionCode);
 			editor.commit();
 		}
 		catch (NameNotFoundException e)
