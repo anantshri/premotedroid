@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -30,10 +31,11 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 public class PRemoteDroidServerConnection implements Runnable
 {
 	private PRemoteDroidConnection connection;
+	
+	private Preferences preferences;
 	private Robot robot;
 	private PRemoteDroidServerTrayIcon trayIcon;
 	
-	private Preferences preferences;
 	private boolean authentificated;
 	
 	public PRemoteDroidServerConnection(PRemoteDroidConnection connection, Robot robot, PRemoteDroidServerTrayIcon trayIcon)
@@ -65,6 +67,12 @@ public class PRemoteDroidServerConnection implements Runnable
 			{
 				this.connection.close();
 			}
+		}
+		catch (ProtocolException e)
+		{
+			e.printStackTrace();
+			
+			this.trayIcon.notifyProtocolProblem();
 		}
 		catch (IOException e)
 		{
@@ -124,7 +132,7 @@ public class PRemoteDroidServerConnection implements Runnable
 		{
 			this.authentificated = true;
 			
-			this.trayIcon.notifyConnection(action.sender);
+			this.trayIcon.notifyConnection(this.connection.getInetAddress(), this.connection.getPort());
 		}
 		
 		this.sendAction(new AuthentificationResponseAction(this.authentificated));

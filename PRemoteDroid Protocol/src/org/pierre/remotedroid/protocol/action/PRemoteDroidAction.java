@@ -3,7 +3,7 @@ package org.pierre.remotedroid.protocol.action;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.ProtocolException;
 
 public abstract class PRemoteDroidAction
 {
@@ -17,8 +17,6 @@ public abstract class PRemoteDroidAction
 	public static final byte SCREEN_CAPTURE_RESPONSE = 7;
 	public static final byte FILE_EXPLORE_REQUEST = 8;
 	public static final byte FILE_EXPLORE_RESPONSE = 9;
-	
-	public InetSocketAddress sender;
 	
 	public static PRemoteDroidAction parse(DataInputStream dis) throws IOException
 	{
@@ -47,7 +45,7 @@ public abstract class PRemoteDroidAction
 			case FILE_EXPLORE_RESPONSE:
 				return FileExploreResponseAction.parse(dis);
 			default:
-				throw new IOException();
+				throw new ProtocolException();
 		}
 	}
 	

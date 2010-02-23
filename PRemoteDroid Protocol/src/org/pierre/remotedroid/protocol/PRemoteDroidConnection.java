@@ -4,9 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
@@ -16,21 +15,24 @@ public class PRemoteDroidConnection
 	
 	private Socket socket;
 	
-	public PRemoteDroidConnection(Socket socket) throws SocketException
+	private DataInputStream dataInputStream;
+	
+	public PRemoteDroidConnection(Socket socket) throws IOException
 	{
 		this.socket = socket;
 		this.socket.setPerformancePreferences(0, 2, 1);
 		this.socket.setTcpNoDelay(true);
 		this.socket.setReceiveBufferSize(1024 * 1024);
 		this.socket.setSendBufferSize(1024 * 1024);
+		
+		this.dataInputStream = new DataInputStream(this.socket.getInputStream());
 	}
 	
 	public PRemoteDroidAction receiveAction() throws IOException
 	{
-		synchronized (this.socket.getInputStream())
+		synchronized (this.dataInputStream)
 		{
-			PRemoteDroidAction action = PRemoteDroidAction.parse(new DataInputStream(this.socket.getInputStream()));
-			action.sender = (InetSocketAddress) this.socket.getRemoteSocketAddress();
+			PRemoteDroidAction action = PRemoteDroidAction.parse(this.dataInputStream);
 			return action;
 		}
 	}
@@ -51,5 +53,15 @@ public class PRemoteDroidConnection
 		this.socket.shutdownInput();
 		this.socket.shutdownOutput();
 		this.socket.close();
+	}
+	
+	public InetAddress getInetAddress()
+	{
+		return this.socket.getInetAddress();
+	}
+	
+	public int getPort()
+	{
+		return this.socket.getPort();
 	}
 }

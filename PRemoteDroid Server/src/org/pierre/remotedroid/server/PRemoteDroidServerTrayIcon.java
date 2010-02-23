@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.prefs.Preferences;
@@ -118,9 +117,14 @@ public class PRemoteDroidServerTrayIcon
 		this.trayIcon.displayMessage("PRemoteDroid", message.toString(), TrayIcon.MessageType.INFO);
 	}
 	
-	public void notifyConnection(InetSocketAddress socketAddress)
+	public void notifyConnection(InetAddress inetAddress, int port)
 	{
-		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + socketAddress.getAddress().getHostAddress() + ":" + socketAddress.getPort(), MessageType.INFO);
+		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress + ":" + port, MessageType.INFO);
+	}
+	
+	public void notifyProtocolProblem()
+	{
+		this.trayIcon.displayMessage("PRemoteDroid", "Protocol problem. Please Download the server again", MessageType.INFO);
 	}
 	
 	public void close()
