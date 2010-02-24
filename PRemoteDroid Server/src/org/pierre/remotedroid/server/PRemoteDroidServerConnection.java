@@ -23,6 +23,7 @@ import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.AuthentificationResponseAction;
 import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
 import org.pierre.remotedroid.protocol.action.FileExploreResponseAction;
+import org.pierre.remotedroid.protocol.action.KeyboardAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
@@ -105,6 +106,10 @@ public class PRemoteDroidServerConnection implements Runnable
 			else if (action instanceof FileExploreRequestAction)
 			{
 				this.fileExplore((FileExploreRequestAction) action);
+			}
+			else if (action instanceof KeyboardAction)
+			{
+				this.keyboard((KeyboardAction) action);
 			}
 		}
 		else
@@ -349,6 +354,23 @@ public class PRemoteDroidServerConnection implements Runnable
 			files = list.toArray(files);
 			
 			this.sendAction(new FileExploreResponseAction(directory, files));
+		}
+	}
+	
+	private void keyboard(KeyboardAction action)
+	{
+		int key = AndroidToSwingKeyTranslator.translate(action.key);
+		
+		if (key != -1)
+		{
+			if (action.state)
+			{
+				this.robot.keyPress(key);
+			}
+			else
+			{
+				this.robot.keyRelease(key);
+			}
 		}
 	}
 	
