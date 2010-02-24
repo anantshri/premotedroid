@@ -2,6 +2,7 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
+import org.pierre.remotedroid.protocol.action.KeyboardAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
@@ -17,6 +18,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,7 +30,7 @@ public class ControlActivity extends Activity
 	private static final int FILE_EXPLORER_MENU_ITEM_ID = 1;
 	private static final int SETTINGS_MENU_ITEM_ID = 2;
 	private static final int GET_SERVER_MENU_ITEM_ID = 3;
-	private static final int HELP__MENU_ITEM_ID = 4;
+	private static final int HELP_MENU_ITEM_ID = 4;
 	
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
@@ -44,6 +46,20 @@ public class ControlActivity extends Activity
 		this.preferences = this.application.getPreferences();
 		
 		this.checkOnCreate();
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		this.keyboard(true, keyCode);
+		
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	public boolean onKeyUp(int keyCode, KeyEvent event)
+	{
+		this.keyboard(false, keyCode);
+		
+		return super.onKeyUp(keyCode, event);
 	}
 	
 	public boolean onTrackballEvent(MotionEvent event)
@@ -65,7 +81,7 @@ public class ControlActivity extends Activity
 		menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_file_explorer));
 		menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_settings));
 		menu.add(Menu.NONE, GET_SERVER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_get_server));
-		menu.add(Menu.NONE, HELP__MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
+		menu.add(Menu.NONE, HELP_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
 		
 		return true;
 	}
@@ -87,7 +103,7 @@ public class ControlActivity extends Activity
 			case GET_SERVER_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, GetServerActivity.class));
 				break;
-			case HELP__MENU_ITEM_ID:
+			case HELP_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, HelpActivity.class));
 				break;
 		}
@@ -103,6 +119,11 @@ public class ControlActivity extends Activity
 	public void mouseMove(int moveX, int moveY)
 	{
 		this.application.sendAction(new MouseMoveAction((short) moveX, (short) moveY));
+	}
+	
+	public void keyboard(boolean state, int key)
+	{
+		this.application.sendAction(new KeyboardAction(state, key));
 	}
 	
 	private void toggleKeyboard()
