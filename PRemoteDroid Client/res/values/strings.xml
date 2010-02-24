@@ -91,8 +91,6 @@
 	<string
 		name="text_not_authentificated">Not authentificated (wrong password)</string>
 	<string
-		name="text_keyboard_not_supported">Keyboard is not supported yet</string>
-	<string
 		name="text_first_run_dialog">It is the first time you launch PRemoteDroid.\nDo you want to read the help?</string>
 	<string
 		name="text_new_version_dialog">It is a new version of PRemoteDroid.\nYou should download the server again.</string>

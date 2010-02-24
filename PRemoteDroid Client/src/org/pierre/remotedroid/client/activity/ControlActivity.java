@@ -92,7 +92,6 @@ public class ControlActivity extends Activity
 		{
 			case KEYBOARD_MENU_ITEM_ID:
 				this.toggleKeyboard();
-				this.application.showToast(R.string.text_keyboard_not_supported);
 				break;
 			case FILE_EXPLORER_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, FileExplorerActivity.class));
