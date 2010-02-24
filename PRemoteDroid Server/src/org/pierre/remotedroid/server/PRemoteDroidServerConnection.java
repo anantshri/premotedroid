@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -361,7 +362,7 @@ public class PRemoteDroidServerConnection implements Runnable
 	{
 		int key = AndroidToSwingKeyTranslator.translate(action.key);
 		
-		if (key != -1)
+		if (key != KeyEvent.CHAR_UNDEFINED)
 		{
 			if (action.state)
 			{

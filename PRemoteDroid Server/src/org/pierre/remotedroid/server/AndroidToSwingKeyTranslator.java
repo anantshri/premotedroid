@@ -16,15 +16,13 @@ public class AndroidToSwingKeyTranslator
 	{
 		Integer i = map.get(androidKey);
 		
-		System.out.println(androidKey);
-		
 		if (i != null)
 		{
 			return i;
 		}
 		else
 		{
-			return -1;
+			return KeyEvent.CHAR_UNDEFINED;
 		}
 	}
 	
@@ -32,16 +30,36 @@ public class AndroidToSwingKeyTranslator
 	{
 		map = new HashMap<Integer, Integer>();
 		
-		initChar();
+		initAlpha();
+		initNumeric();
+		initOther();
 	}
 	
-	private static void initChar()
+	private static void initAlpha()
 	{
-		int shift = KeyEvent.VK_A - 29;
+		initInterval(29, 54, KeyEvent.VK_A);
+	}
+	
+	private static void initNumeric()
+	{
+		initInterval(7, 16, KeyEvent.VK_NUMPAD0);
+	}
+	
+	private static void initInterval(int start, int end, int baseKey)
+	{
+		int shift = baseKey - start;
 		
-		for (int i = 29; i <= 54; i++)
+		for (int i = start; i <= end; i++)
 		{
 			map.put(i, i + shift);
 		}
+	}
+	
+	private static void initOther()
+	{
+		map.put(59, KeyEvent.VK_SHIFT);
+		map.put(62, KeyEvent.VK_SPACE);
+		map.put(66, KeyEvent.VK_ENTER);
+		map.put(67, KeyEvent.VK_BACK_SPACE);
 	}
 }
