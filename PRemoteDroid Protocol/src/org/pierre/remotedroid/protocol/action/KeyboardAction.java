@@ -10,26 +10,26 @@ public class KeyboardAction extends PRemoteDroidAction
 	public static final boolean STATE_DOWN = true;
 	
 	public boolean state;
-	public int key;
+	public int swingKeyCode;
 	
-	public KeyboardAction(boolean state, int key)
+	public KeyboardAction(boolean state, int swingKeyCode)
 	{
 		this.state = state;
-		this.key = key;
+		this.swingKeyCode = swingKeyCode;
 	}
 	
 	public static KeyboardAction parse(DataInputStream dis) throws IOException
 	{
 		boolean state = dis.readBoolean();
-		int key = dis.readInt();
+		int swingKeyCode = dis.readInt();
 		
-		return new KeyboardAction(state, key);
+		return new KeyboardAction(state, swingKeyCode);
 	}
 	
 	public void toDataOutputStream(DataOutputStream dos) throws IOException
 	{
 		dos.writeByte(KEYBOARD);
 		dos.writeBoolean(this.state);
-		dos.writeInt(this.key);
+		dos.writeInt(this.swingKeyCode);
 	}
 }

@@ -2,6 +2,7 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
+import org.pierre.remotedroid.client.keyboard.AndroidToSwingKeyConverter;
 import org.pierre.remotedroid.protocol.action.KeyboardAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
@@ -35,6 +36,8 @@ public class ControlActivity extends Activity
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
 	
+	private AndroidToSwingKeyConverter keyConverter;
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -45,19 +48,21 @@ public class ControlActivity extends Activity
 		
 		this.preferences = this.application.getPreferences();
 		
+		this.keyConverter = new AndroidToSwingKeyConverter();
+		
 		this.checkOnCreate();
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		this.keyboard(true, keyCode);
+		this.keyboard(event);
 		
 		return super.onKeyDown(keyCode, event);
 	}
 	
 	public boolean onKeyUp(int keyCode, KeyEvent event)
 	{
-		this.keyboard(false, keyCode);
+		this.keyboard(event);
 		
 		return super.onKeyUp(keyCode, event);
 	}
@@ -120,9 +125,14 @@ public class ControlActivity extends Activity
 		this.application.sendAction(new MouseMoveAction((short) moveX, (short) moveY));
 	}
 	
-	public void keyboard(boolean state, int key)
+	public void keyboard(KeyEvent event)
 	{
-		this.application.sendAction(new KeyboardAction(state, key));
+		KeyboardAction[] kaArray = this.keyConverter.convert(event);
+		
+		for (KeyboardAction ka : kaArray)
+		{
+			this.application.sendAction(ka);
+		}
 	}
 	
 	private void toggleKeyboard()

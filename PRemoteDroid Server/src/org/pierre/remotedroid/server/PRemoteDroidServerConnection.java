@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -360,18 +359,13 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void keyboard(KeyboardAction action)
 	{
-		int key = AndroidToSwingKeyTranslator.translate(action.key);
-		
-		if (key != KeyEvent.CHAR_UNDEFINED)
+		if (action.state)
 		{
-			if (action.state)
-			{
-				this.robot.keyPress(key);
-			}
-			else
-			{
-				this.robot.keyRelease(key);
-			}
+			this.robot.keyPress(action.swingKeyCode);
+		}
+		else
+		{
+			this.robot.keyRelease(action.swingKeyCode);
 		}
 	}
 	
