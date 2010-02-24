@@ -6,6 +6,9 @@ import java.io.IOException;
 
 public class KeyboardAction extends PRemoteDroidAction
 {
+	public static final boolean STATE_UP = false;
+	public static final boolean STATE_DOWN = true;
+	
 	public boolean state;
 	public int key;
 	
