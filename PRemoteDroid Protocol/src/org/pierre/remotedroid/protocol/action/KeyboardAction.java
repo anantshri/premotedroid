@@ -6,30 +6,25 @@ import java.io.IOException;
 
 public class KeyboardAction extends PRemoteDroidAction
 {
-	public static final boolean STATE_UP = false;
-	public static final boolean STATE_DOWN = true;
+	public static final int UNICODE_BACKSPACE = -1;
 	
-	public boolean state;
-	public int swingKeyCode;
+	public int unicode;
 	
-	public KeyboardAction(boolean state, int swingKeyCode)
+	public KeyboardAction(int unicode)
 	{
-		this.state = state;
-		this.swingKeyCode = swingKeyCode;
+		this.unicode = unicode;
 	}
 	
 	public static KeyboardAction parse(DataInputStream dis) throws IOException
 	{
-		boolean state = dis.readBoolean();
-		int swingKeyCode = dis.readInt();
+		int unicode = dis.readInt();
 		
-		return new KeyboardAction(state, swingKeyCode);
+		return new KeyboardAction(unicode);
 	}
 	
 	public void toDataOutputStream(DataOutputStream dos) throws IOException
 	{
 		dos.writeByte(KEYBOARD);
-		dos.writeBoolean(this.state);
-		dos.writeInt(this.swingKeyCode);
+		dos.writeInt(this.unicode);
 	}
 }

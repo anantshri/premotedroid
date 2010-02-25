@@ -359,14 +359,6 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void keyboard(KeyboardAction action)
 	{
-		if (action.state)
-		{
-			this.robot.keyPress(action.swingKeyCode);
-		}
-		else
-		{
-			this.robot.keyRelease(action.swingKeyCode);
-		}
 	}
 	
 	private void sendAction(PRemoteDroidAction action)
