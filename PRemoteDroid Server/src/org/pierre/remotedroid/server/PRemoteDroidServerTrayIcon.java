@@ -1,6 +1,7 @@
 package org.pierre.remotedroid.server;
 
 import java.awt.AWTException;
+import java.awt.CheckboxMenuItem;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -8,6 +9,8 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.Inet6Address;
@@ -104,6 +107,20 @@ public class PRemoteDroidServerTrayIcon
 			}
 		});
 		menu.add(menuItemExit);
+		
+		if (PRemoteDroidServer.IS_WINDOWS)
+		{
+			final CheckboxMenuItem menuItemUnicodeWindows = new CheckboxMenuItem("Force disable Unicode Windows alt trick", this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false));
+			menuItemUnicodeWindows.addItemListener(new ItemListener()
+			{
+				public void itemStateChanged(ItemEvent e)
+				{
+					PRemoteDroidServerTrayIcon.this.preferences.putBoolean("force_disable_unicode_windows_alt_trick", menuItemUnicodeWindows.getState());
+					JOptionPane.showMessageDialog(null, "Restart the connection to apply this preference.");
+				}
+			});
+			menu.add(menuItemUnicodeWindows);
+		}
 		
 		this.trayIcon = new TrayIcon(ImageIO.read(new File("res/icon.png")));
 		this.trayIcon.setImageAutoSize(true);
