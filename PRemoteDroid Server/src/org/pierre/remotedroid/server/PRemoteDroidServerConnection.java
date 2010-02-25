@@ -34,7 +34,7 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 public class PRemoteDroidServerConnection implements Runnable
 {
-	private static boolean IS_WINDOWS;
+	
 	private static final int[][] UNICODE_EXCEPTION = {
 	        {
 	                KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE
@@ -53,11 +53,6 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private boolean useUnicodeWindowsAltTrick;
 	
-	static
-	{
-		IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
-	}
-	
 	public PRemoteDroidServerConnection(PRemoteDroidConnection connection, Robot robot, PRemoteDroidServerTrayIcon trayIcon)
 	{
 		this.connection = connection;
@@ -67,7 +62,7 @@ public class PRemoteDroidServerConnection implements Runnable
 		this.preferences = Preferences.userNodeForPackage(PRemoteDroidServer.class);
 		this.authentificated = false;
 		
-		this.useUnicodeWindowsAltTrick = IS_WINDOWS && !this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false);
+		this.useUnicodeWindowsAltTrick = PRemoteDroidServer.IS_WINDOWS && !this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false);
 		
 		(new Thread(this)).start();
 	}

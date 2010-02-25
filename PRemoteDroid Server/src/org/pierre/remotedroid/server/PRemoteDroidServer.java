@@ -10,6 +10,8 @@ import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 public class PRemoteDroidServer implements Runnable
 {
+	public static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
+	
 	public static final String DEFAULT_PASSWORD = "azerty";
 	
 	private Preferences preferences;
