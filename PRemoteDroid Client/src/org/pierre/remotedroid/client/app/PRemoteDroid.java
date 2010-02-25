@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import org.pierre.remotedroid.client.R;
-import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;

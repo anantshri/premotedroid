@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
+import org.pierre.remotedroid.client.app.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
 import org.pierre.remotedroid.protocol.action.FileExploreResponseAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;

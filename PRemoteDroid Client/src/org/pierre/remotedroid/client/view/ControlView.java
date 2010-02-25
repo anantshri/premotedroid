@@ -3,7 +3,7 @@ package org.pierre.remotedroid.client.view;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.activity.ControlActivity;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
+import org.pierre.remotedroid.client.app.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 import org.pierre.remotedroid.protocol.action.ScreenCaptureRequestAction;
