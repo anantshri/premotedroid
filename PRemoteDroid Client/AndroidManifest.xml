@@ -2,7 +2,7 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.pierre.remotedroid.client"
-	android:versionName="2010-02-24" android:versionCode="26">
+	android:versionName="2010-02-25" android:versionCode="27">
 	<uses-sdk
 		android:minSdkVersion="3" />
 	<application
