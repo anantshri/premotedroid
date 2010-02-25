@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -33,6 +34,9 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 public class PRemoteDroidServerConnection implements Runnable
 {
+	private static boolean IS_WINDOWS;
+	private static final int[][] UNICODE_EXCEPTION = { { KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE }, { 10, KeyEvent.VK_ENTER } };
+	
 	private PRemoteDroidConnection connection;
 	
 	private Preferences preferences;
@@ -40,6 +44,11 @@ public class PRemoteDroidServerConnection implements Runnable
 	private PRemoteDroidServerTrayIcon trayIcon;
 	
 	private boolean authentificated;
+	
+	static
+	{
+		IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
+	}
 	
 	public PRemoteDroidServerConnection(PRemoteDroidConnection connection, Robot robot, PRemoteDroidServerTrayIcon trayIcon)
 	{
@@ -359,6 +368,40 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void keyboard(KeyboardAction action)
 	{
+		if (IS_WINDOWS)
+		{
+			boolean exception = false;
+			
+			for (int i = 0; i < UNICODE_EXCEPTION.length; i++)
+			{
+				if (action.unicode == UNICODE_EXCEPTION[i][0])
+				{
+					exception = true;
+					
+					this.robot.keyPress(UNICODE_EXCEPTION[i][1]);
+					this.robot.keyRelease(UNICODE_EXCEPTION[i][1]);
+					
+					break;
+				}
+			}
+			
+			if (!exception)
+			{
+				this.robot.keyPress(KeyEvent.VK_ALT);
+				
+				String unicodeString = Integer.toString(action.unicode);
+				
+				for (int i = 0; i < unicodeString.length(); i++)
+				{
+					int digit = Integer.parseInt(unicodeString.substring(i, i + 1));
+					int keycode = digit + KeyEvent.VK_NUMPAD0;
+					this.robot.keyPress(keycode);
+					this.robot.keyRelease(keycode);
+				}
+				
+				this.robot.keyRelease(KeyEvent.VK_ALT);
+			}
+		}
 	}
 	
 	private void sendAction(PRemoteDroidAction action)
