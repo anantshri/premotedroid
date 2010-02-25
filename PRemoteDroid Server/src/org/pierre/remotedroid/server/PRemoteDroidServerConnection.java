@@ -35,7 +35,13 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 public class PRemoteDroidServerConnection implements Runnable
 {
 	private static boolean IS_WINDOWS;
-	private static final int[][] UNICODE_EXCEPTION = { { KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE }, { 10, KeyEvent.VK_ENTER } };
+	private static final int[][] UNICODE_EXCEPTION = {
+	        {
+	                KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE
+	        }, {
+	                10, KeyEvent.VK_ENTER
+	        }
+	};
 	
 	private PRemoteDroidConnection connection;
 	
@@ -44,6 +50,8 @@ public class PRemoteDroidServerConnection implements Runnable
 	private PRemoteDroidServerTrayIcon trayIcon;
 	
 	private boolean authentificated;
+	
+	private boolean useUnicodeWindowsAltTrick;
 	
 	static
 	{
@@ -58,6 +66,8 @@ public class PRemoteDroidServerConnection implements Runnable
 		
 		this.preferences = Preferences.userNodeForPackage(PRemoteDroidServer.class);
 		this.authentificated = false;
+		
+		this.useUnicodeWindowsAltTrick = IS_WINDOWS && !this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false);
 		
 		(new Thread(this)).start();
 	}
@@ -368,40 +378,78 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void keyboard(KeyboardAction action)
 	{
-		if (IS_WINDOWS)
+		// if (this.useUnicodeWindowsAltTrick)
+		// {
+		// this.keyboardUnicodeWindowsAltTrick(action);
+		// }
+		// else
 		{
-			boolean exception = false;
-			
-			for (int i = 0; i < UNICODE_EXCEPTION.length; i++)
+			this.keyboardClassic(action);
+		}
+	}
+	
+	private void keyboardUnicodeWindowsAltTrick(KeyboardAction action)
+	{
+		boolean exception = false;
+		
+		for (int i = 0; i < UNICODE_EXCEPTION.length; i++)
+		{
+			if (action.unicode == UNICODE_EXCEPTION[i][0])
 			{
-				if (action.unicode == UNICODE_EXCEPTION[i][0])
-				{
-					exception = true;
-					
-					this.robot.keyPress(UNICODE_EXCEPTION[i][1]);
-					this.robot.keyRelease(UNICODE_EXCEPTION[i][1]);
-					
-					break;
-				}
-			}
-			
-			if (!exception)
-			{
-				this.robot.keyPress(KeyEvent.VK_ALT);
+				exception = true;
 				
-				String unicodeString = Integer.toString(action.unicode);
+				this.robot.keyPress(UNICODE_EXCEPTION[i][1]);
+				this.robot.keyRelease(UNICODE_EXCEPTION[i][1]);
 				
-				for (int i = 0; i < unicodeString.length(); i++)
-				{
-					int digit = Integer.parseInt(unicodeString.substring(i, i + 1));
-					int keycode = digit + KeyEvent.VK_NUMPAD0;
-					this.robot.keyPress(keycode);
-					this.robot.keyRelease(keycode);
-				}
-				
-				this.robot.keyRelease(KeyEvent.VK_ALT);
+				break;
 			}
 		}
+		
+		if (!exception)
+		{
+			this.robot.keyPress(KeyEvent.VK_ALT);
+			
+			String unicodeString = Integer.toString(action.unicode);
+			
+			for (int i = 0; i < unicodeString.length(); i++)
+			{
+				int digit = Integer.parseInt(unicodeString.substring(i, i + 1));
+				int keycode = digit + KeyEvent.VK_NUMPAD0;
+				this.robot.keyPress(keycode);
+				this.robot.keyRelease(keycode);
+			}
+			
+			this.robot.keyRelease(KeyEvent.VK_ALT);
+		}
+	}
+	
+	private void keyboardClassic(KeyboardAction action)
+	{
+		int keycode = UnicodeToSwingKeyCodeConverter.convert(action.unicode);
+		
+		if (keycode != UnicodeToSwingKeyCodeConverter.NO_SWING_KEYCODE)
+		{
+			boolean useShift = UnicodeToSwingKeyCodeConverter.useShift(action.unicode);
+			
+			if (useShift)
+			{
+				this.robot.keyPress(KeyEvent.VK_SHIFT);
+			}
+			
+			this.robot.keyPress(keycode);
+			this.robot.keyRelease(keycode);
+			
+			if (useShift)
+			{
+				this.robot.keyRelease(KeyEvent.VK_SHIFT);
+			}
+		}
+	}
+	
+	private int translateUnicodeToSwingKeyCode(int unicode)
+	{
+		return unicode;
+		
 	}
 	
 	private void sendAction(PRemoteDroidAction action)
