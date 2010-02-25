@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.client.app;
+package org.pierre.remotedroid.protocol;
 
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
