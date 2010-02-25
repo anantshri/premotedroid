@@ -33,6 +33,28 @@ public class PRemoteDroidServerTrayIcon
 		
 		this.preferences = Preferences.userNodeForPackage(PRemoteDroidServer.class);
 		
+		this.initTrayIcon();
+	}
+	
+	public void notifyConnection(InetAddress inetAddress, int port)
+	{
+		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress + ":" + port, MessageType.INFO);
+	}
+	
+	public void notifyProtocolProblem()
+	{
+		this.trayIcon.displayMessage("PRemoteDroid", "Protocol problem. Please Download the server again", MessageType.INFO);
+	}
+	
+	public void close()
+	{
+		SystemTray.getSystemTray().remove(this.trayIcon);
+	}
+	
+	private void initTrayIcon() throws AWTException, IOException
+	{
+		PopupMenu menu = new PopupMenu();
+		
 		MenuItem menuItemPassword = new MenuItem("Password");
 		menuItemPassword.addActionListener(new ActionListener()
 		{
@@ -43,6 +65,7 @@ public class PRemoteDroidServerTrayIcon
 				PRemoteDroidServerTrayIcon.this.preferences.put("password", password);
 			}
 		});
+		menu.add(menuItemPassword);
 		
 		MenuItem menuItemPort = new MenuItem("Port");
 		menuItemPort.addActionListener(new ActionListener()
@@ -70,6 +93,7 @@ public class PRemoteDroidServerTrayIcon
 				JOptionPane.showMessageDialog(null, "Restart the server to apply the new port.");
 			}
 		});
+		menu.add(menuItemPort);
 		
 		MenuItem menuItemExit = new MenuItem("Exit");
 		menuItemExit.addActionListener(new ActionListener()
@@ -79,10 +103,6 @@ public class PRemoteDroidServerTrayIcon
 				PRemoteDroidServerTrayIcon.this.server.exit();
 			}
 		});
-		
-		PopupMenu menu = new PopupMenu();
-		menu.add(menuItemPassword);
-		menu.add(menuItemPort);
 		menu.add(menuItemExit);
 		
 		this.trayIcon = new TrayIcon(ImageIO.read(new File("res/icon.png")));
@@ -115,20 +135,5 @@ public class PRemoteDroidServerTrayIcon
 		}
 		
 		this.trayIcon.displayMessage("PRemoteDroid", message.toString(), TrayIcon.MessageType.INFO);
-	}
-	
-	public void notifyConnection(InetAddress inetAddress, int port)
-	{
-		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress + ":" + port, MessageType.INFO);
-	}
-	
-	public void notifyProtocolProblem()
-	{
-		this.trayIcon.displayMessage("PRemoteDroid", "Protocol problem. Please Download the server again", MessageType.INFO);
-	}
-	
-	public void close()
-	{
-		SystemTray.getSystemTray().remove(this.trayIcon);
 	}
 }
