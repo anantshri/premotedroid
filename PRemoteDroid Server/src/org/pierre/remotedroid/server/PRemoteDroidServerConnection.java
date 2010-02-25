@@ -378,11 +378,11 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void keyboard(KeyboardAction action)
 	{
-		// if (this.useUnicodeWindowsAltTrick)
-		// {
-		// this.keyboardUnicodeWindowsAltTrick(action);
-		// }
-		// else
+		if (this.useUnicodeWindowsAltTrick)
+		{
+			this.keyboardUnicodeWindowsAltTrick(action);
+		}
+		else
 		{
 			this.keyboardClassic(action);
 		}
@@ -444,12 +444,6 @@ public class PRemoteDroidServerConnection implements Runnable
 				this.robot.keyRelease(KeyEvent.VK_SHIFT);
 			}
 		}
-	}
-	
-	private int translateUnicodeToSwingKeyCode(int unicode)
-	{
-		return unicode;
-		
 	}
 	
 	private void sendAction(PRemoteDroidAction action)
