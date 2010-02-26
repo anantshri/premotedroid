@@ -10,11 +10,8 @@
 	</target>
 
 	<target name="export">
-		<mkdir dir="export" />
-		<copy todir="export">
-			<fileset dir="." includes="res/**" />
-		</copy>
-		<jar destfile="export/PRemoteDroid-Server.jar">
+		<mkdir dir="export/PRemoteDroid-Server" />
+		<jar destfile="export/PRemoteDroid-Server/PRemoteDroid-Server.jar">
 			<fileset dir="bin" />
 			<fileset dir="../PRemoteDroid Protocol/bin" />
 			<manifest>
@@ -24,11 +21,19 @@
 	</target>
 
 	<target name="windows-exe">
-		<launch4j configfile="launch4j.xml" />
+		<launch4j>
+			<config outfile="export\PRemoteDroid-Server\PRemoteDroid-Server.exe" headertype="gui" jarpath="PRemoteDroid-Server.jar" dontwrapjar="true" downloadurl="http://java.com/download">
+				<jre minVersion="1.6.0" />
+			</config>
+		</launch4j>
 	</target>
 
 	<target name="windows-exe-debug">
-		<launch4j configfile="launch4j-debug.xml" />
+		<launch4j>
+			<config outfile="export\PRemoteDroid-Server\PRemoteDroid-Server-debug.exe" headertype="console" jarpath="PRemoteDroid-Server.jar" dontwrapjar="true" downloadurl="http://java.com/download">
+				<jre minVersion="1.6.0" />
+			</config>
+		</launch4j>
 	</target>
 
 	<target name="javadoc">
