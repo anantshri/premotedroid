@@ -34,7 +34,6 @@ import org.apache.http.protocol.ResponseDate;
 import org.apache.http.protocol.ResponseServer;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -145,7 +144,7 @@ public class GetServerActivity extends Activity implements Runnable, HttpRequest
 	
 	private void createServer() throws IOException
 	{
-		this.serverSocket = new ServerSocket(PRemoteDroidConnection.DEFAULT_PORT);
+		this.serverSocket = new ServerSocket(0);
 		
 		BasicHttpProcessor httpproc = new BasicHttpProcessor();
 		httpproc.addInterceptor(new ResponseDate());
