@@ -3,22 +3,17 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="horizontal">
-	<view
-		class="org.pierre.remotedroid.client.view.ClickView"
-		android:id="@+id/leftClickView"
-		android:layout_width="50dip"
-		android:layout_height="fill_parent" />
-	<view
-		class="org.pierre.remotedroid.client.view.ControlView"
-		android:id="@+id/controlView"
-		android:layout_width="0dp"
-		android:layout_height="fill_parent"
-		android:layout_weight="1" />
 	<LinearLayout
 		android:id="@+id/clickLayout"
 		android:layout_width="50dp"
 		android:layout_height="fill_parent"
 		android:orientation="vertical">
+		<view
+			class="org.pierre.remotedroid.client.view.ClickView"
+			android:id="@+id/leftClickView"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_weight="2" />
 		<view
 			class="org.pierre.remotedroid.client.view.ClickView"
 			android:id="@+id/middleClickView"
@@ -32,4 +27,10 @@
 			android:layout_height="0dp"
 			android:layout_weight="2" />
 	</LinearLayout>
+	<view
+		class="org.pierre.remotedroid.client.view.ControlView"
+		android:id="@+id/controlView"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_weight="1" />
 </LinearLayout>

@@ -22,6 +22,8 @@ import android.widget.ImageView;
 
 public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 {
+	private static final float MOUSE_WHEEL_SENSITIVITY_FACTOR = 10;
+	
 	private PRemoteDroid application;
 	private ControlActivity controlActivity;
 	private SharedPreferences preferences;
@@ -38,21 +40,29 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 	
 	private ClickView leftClickView;
 	
-	private float downX;
-	private float downY;
 	private boolean holdPossible;
 	
 	private long clickDelay;
 	private long holdDelay;
 	private float immobileDistance;
 	
-	private float sensitivity;
-	private float acceleration;
+	private boolean mouseMoveOrWheel;
 	
-	private float previousX;
-	private float previousY;
-	private float resultX;
-	private float resultY;
+	private float moveSensitivity;
+	private float moveAcceleration;
+	private float moveDownX;
+	private float moveDownY;
+	private float movePreviousX;
+	private float movePreviousY;
+	private float moveResultX;
+	private float moveResultY;
+	
+	private float wheelSensitivity;
+	private float wheelAcceleration;
+	private float wheelDown;
+	private float wheelPrevious;
+	private float wheelResult;
+	private float wheelBarWidth;
 	
 	public ControlView(Context context, AttributeSet attrs)
 	{
@@ -125,8 +135,8 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 				
 			case MotionEvent.ACTION_UP:
 			{
-				this.screenCaptureRequest();
 				this.onTouchUp(event);
+				this.screenCaptureRequest();
 				break;
 			}
 				
@@ -137,18 +147,50 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		return true;
 	}
 	
-	protected void onTouchDown(MotionEvent event)
+	private void onTouchDown(MotionEvent event)
 	{
-		this.downX = this.previousX = event.getRawX();
-		this.downY = this.previousY = event.getRawY();
+		this.mouseMoveOrWheel = event.getX() < this.getWidth() - this.wheelBarWidth;
 		
-		this.resultX = 0;
-		this.resultY = 0;
+		if (this.mouseMoveOrWheel)
+		{
+			this.onTouchDownMouseMove(event);
+		}
+		else
+		{
+			this.onTouchDownMouseWheel(event);
+		}
+	}
+	
+	private void onTouchDownMouseMove(MotionEvent event)
+	{
+		this.moveDownX = this.movePreviousX = event.getRawX();
+		this.moveDownY = this.movePreviousY = event.getRawY();
+		
+		this.moveResultX = 0;
+		this.moveResultY = 0;
 		
 		this.holdPossible = true;
 	}
 	
-	protected void onTouchMove(MotionEvent event)
+	private void onTouchDownMouseWheel(MotionEvent event)
+	{
+		this.wheelDown = this.wheelPrevious = event.getRawY();
+		this.wheelResult = 0;
+	}
+	
+	private void onTouchMove(MotionEvent event)
+	{
+		if (this.mouseMoveOrWheel)
+		{
+			this.onTouchMoveMouseMove(event);
+		}
+		else
+		{
+			this.onTouchMoveMouseWheel(event);
+		}
+	}
+	
+	private void onTouchMoveMouseMove(MotionEvent event)
 	{
 		if (this.holdPossible)
 		{
@@ -169,34 +211,63 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 			}
 		}
 		
-		float moveXRaw = event.getRawX() - this.previousX;
-		float moveYRaw = event.getRawY() - this.previousY;
+		float moveRawX = event.getRawX() - this.movePreviousX;
+		float moveRawY = event.getRawY() - this.movePreviousY;
 		
-		moveXRaw *= this.sensitivity;
-		moveYRaw *= this.sensitivity;
+		moveRawX *= this.moveSensitivity;
+		moveRawY *= this.moveSensitivity;
 		
-		moveXRaw = (float) ((Math.pow(Math.abs(moveXRaw), this.acceleration) * Math.signum(moveXRaw)));
-		moveYRaw = (float) ((Math.pow(Math.abs(moveYRaw), this.acceleration) * Math.signum(moveYRaw)));
+		moveRawX = (float) ((Math.pow(Math.abs(moveRawX), this.moveAcceleration) * Math.signum(moveRawX)));
+		moveRawY = (float) ((Math.pow(Math.abs(moveRawY), this.moveAcceleration) * Math.signum(moveRawY)));
 		
-		moveXRaw += this.resultX;
-		moveYRaw += this.resultY;
+		moveRawX += this.moveResultX;
+		moveRawY += this.moveResultY;
 		
-		int moveXFinal = Math.round(moveXRaw);
-		int moveYFinal = Math.round(moveYRaw);
-		
-		this.resultX = moveXRaw - moveXFinal;
-		this.resultY = moveYRaw - moveYFinal;
+		int moveXFinal = Math.round(moveRawX);
+		int moveYFinal = Math.round(moveRawY);
 		
 		if (moveXFinal != 0 || moveYFinal != 0)
 		{
 			this.controlActivity.mouseMove(moveXFinal, moveYFinal);
 		}
 		
-		this.previousX = event.getRawX();
-		this.previousY = event.getRawY();
+		this.moveResultX = moveRawX - moveXFinal;
+		this.moveResultY = moveRawY - moveYFinal;
+		
+		this.movePreviousX = event.getRawX();
+		this.movePreviousY = event.getRawY();
 	}
 	
-	protected void onTouchUp(MotionEvent event)
+	private void onTouchMoveMouseWheel(MotionEvent event)
+	{
+		float wheelRaw = event.getRawY() - this.wheelPrevious;
+		wheelRaw *= this.wheelSensitivity;
+		wheelRaw = (float) ((Math.pow(Math.abs(wheelRaw), this.wheelAcceleration) * Math.signum(wheelRaw)));
+		wheelRaw += this.wheelResult;
+		int wheelFinal = Math.round(wheelRaw);
+		
+		if (wheelFinal != 0)
+		{
+			this.controlActivity.mouseWheel(wheelFinal);
+		}
+		
+		this.wheelResult = wheelRaw - wheelFinal;
+		this.wheelPrevious = event.getRawY();
+	}
+	
+	private void onTouchUp(MotionEvent event)
+	{
+		if (this.mouseMoveOrWheel)
+		{
+			this.onTouchUpMouseMove(event);
+		}
+		else
+		{
+			this.onTouchUpMouseWheel(event);
+		}
+	}
+	
+	private void onTouchUpMouseMove(MotionEvent event)
 	{
 		if (event.getEventTime() - event.getDownTime() < this.clickDelay && this.getDistanceFromDown(event) <= this.immobileDistance)
 		{
@@ -216,6 +287,11 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 			this.leftClickView.setPressed(false);
 			this.leftClickView.setHold(false);
 		}
+	}
+	
+	private void onTouchUpMouseWheel(MotionEvent event)
+	{
+		
 	}
 	
 	protected void onDraw(Canvas canvas)
@@ -261,7 +337,7 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		}
 	}
 	
-	public void screenCaptureRequest()
+	private void screenCaptureRequest()
 	{
 		if (this.screenCaptureEnabled)
 		{
@@ -271,7 +347,7 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 	
 	private double getDistanceFromDown(MotionEvent event)
 	{
-		return Math.sqrt(Math.pow(event.getRawX() - this.downX, 2) + Math.pow(event.getRawY() - this.downY, 2));
+		return Math.sqrt(Math.pow(event.getRawX() - this.moveDownX, 2) + Math.pow(event.getRawY() - this.moveDownY, 2));
 	}
 	
 	private void reloadPreferences()
@@ -285,9 +361,14 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		this.immobileDistance = Float.parseFloat(this.preferences.getString("control_immobile_distance", null));
 		this.immobileDistance *= screenDensity;
 		
-		this.sensitivity = Float.parseFloat(this.preferences.getString("control_sensitivity", null));
-		this.sensitivity /= screenDensity;
-		this.acceleration = Float.parseFloat(this.preferences.getString("control_acceleration", null));
+		this.moveSensitivity = Float.parseFloat(this.preferences.getString("control_sensitivity", null));
+		this.moveSensitivity /= screenDensity;
+		this.moveAcceleration = Float.parseFloat(this.preferences.getString("control_acceleration", null));
+		
+		this.wheelSensitivity = this.moveSensitivity / MOUSE_WHEEL_SENSITIVITY_FACTOR;
+		this.wheelAcceleration = this.moveAcceleration;
+		
+		this.wheelBarWidth = Float.parseFloat(this.preferences.getString("wheel_bar_width", null)) * screenDensity;
 		
 		this.screenCaptureEnabled = this.preferences.getBoolean("screenCapture_enabled", false);
 		
@@ -305,5 +386,6 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		
 		this.screenCaptureCursorSize = Float.parseFloat(this.preferences.getString("screenCapture_cursor_size", null));
 		this.screenCaptureCursorSize *= screenDensity;
+		
 	}
 }

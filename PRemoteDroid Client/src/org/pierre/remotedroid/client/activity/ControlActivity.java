@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 
 public class ControlActivity extends Activity
@@ -63,19 +62,6 @@ public class ControlActivity extends Activity
 		}
 		
 		return super.onKeyDown(keyCode, event);
-	}
-	
-	public boolean onTrackballEvent(MotionEvent event)
-	{
-		int amount = Math.round(event.getY() * 6);
-		
-		if (amount != 0)
-		{
-			MouseWheelAction action = new MouseWheelAction((byte) amount);
-			this.application.sendAction(action);
-		}
-		
-		return true;
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -121,6 +107,11 @@ public class ControlActivity extends Activity
 	public void mouseMove(int moveX, int moveY)
 	{
 		this.application.sendAction(new MouseMoveAction((short) moveX, (short) moveY));
+	}
+	
+	public void mouseWheel(int amount)
+	{
+		this.application.sendAction(new MouseWheelAction((byte) amount));
 	}
 	
 	private void toggleKeyboard()

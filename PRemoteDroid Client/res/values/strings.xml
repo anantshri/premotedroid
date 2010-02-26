@@ -49,6 +49,8 @@
 	<string
 		name="text_acceleration">Acceleration</string>
 	<string
+		name="text_wheel_bar_width">Wheel bar width</string>
+	<string
 		name="text_click_delay">Click delay</string>
 	<string
 		name="text_hold_delay">Hold delay</string>
