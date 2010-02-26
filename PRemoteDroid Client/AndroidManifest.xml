@@ -2,7 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.pierre.remotedroid.client"
-	android:versionName="2010-02-25" android:versionCode="27">
+	android:versionName="2010-02-26"
+	android:versionCode="28">
 	<uses-sdk
 		android:minSdkVersion="3" />
 	<application
@@ -17,9 +18,7 @@
 					android:name="android.intent.action.MAIN"></action>
 				<category
 					android:name="android.intent.category.LAUNCHER"></category>
-			
-
-</intent-filter>
+			</intent-filter>
 		</activity>
 		<activity
 			android:name=".activity.SettingsActivity"
@@ -30,8 +29,10 @@
 		<activity
 			android:name=".activity.HelpActivity"
 			android:label="@string/text_help"></activity>
-	<activity android:name=".activity.FileExplorerActivity" android:label="@string/text_file_explorer"></activity>
-</application>
+		<activity
+			android:name=".activity.FileExplorerActivity"
+			android:label="@string/text_file_explorer"></activity>
+	</application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission
