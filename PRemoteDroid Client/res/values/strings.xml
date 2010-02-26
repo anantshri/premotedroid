@@ -57,6 +57,12 @@
 	<string
 		name="text_immobile_distance">Immobile distance</string>
 	<string
+		name="text_feedback">Feedback</string>
+	<string
+		name="text_sound">Sound</string>
+	<string
+		name="text_vibration">Vibration</string>
+	<string
 		name="text_screen_capture">Screen capture</string>
 	<string
 		name="text_capture_enabled">Capture enabled</string>

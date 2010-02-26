@@ -52,6 +52,17 @@
 			android:title="@string/text_immobile_distance" />
 	</PreferenceCategory>
 	<PreferenceCategory
+		android:title="@string/text_feedback">
+		<CheckBoxPreference
+			android:key="feedback_sound"
+			android:defaultValue="false"
+			android:title="@string/text_sound" />
+		<CheckBoxPreference
+			android:key="feedback_vibration"
+			android:defaultValue="true"
+			android:title="@string/text_vibration" />
+	</PreferenceCategory>
+	<PreferenceCategory
 		android:title="@string/text_screen_capture">
 		<CheckBoxPreference
 			android:key="screenCapture_enabled"

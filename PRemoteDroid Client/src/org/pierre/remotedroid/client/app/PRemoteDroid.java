@@ -59,7 +59,10 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public void vibrate(long l)
 	{
-		this.vibrator.vibrate(l);
+		if (this.preferences.getBoolean("feedback_vibration", true))
+		{
+			this.vibrator.vibrate(l);
+		}
 	}
 	
 	public synchronized void run()

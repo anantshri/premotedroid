@@ -17,6 +17,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -34,6 +35,11 @@ public class ControlActivity extends Activity
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
 	
+	private MediaPlayer mpClickOn;
+	private MediaPlayer mpClickOff;
+	
+	private boolean feedbackSound;
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -44,7 +50,17 @@ public class ControlActivity extends Activity
 		
 		this.preferences = this.application.getPreferences();
 		
+		this.mpClickOn = MediaPlayer.create(this, R.raw.clickon);
+		this.mpClickOff = MediaPlayer.create(this, R.raw.clickoff);
+		
 		this.checkOnCreate();
+	}
+	
+	protected void onResume()
+	{
+		super.onResume();
+		
+		this.feedbackSound = this.preferences.getBoolean("feedback_sound", false);
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -102,6 +118,18 @@ public class ControlActivity extends Activity
 	public void mouseClick(byte button, boolean state)
 	{
 		this.application.sendAction(new MouseClickAction(button, state));
+		
+		if (this.feedbackSound)
+		{
+			if (state)
+			{
+				this.mpClickOn.start();
+			}
+			else
+			{
+				this.mpClickOff.start();
+			}
+		}
 	}
 	
 	public void mouseMove(int moveX, int moveY)
