@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -122,7 +121,7 @@ public class PRemoteDroidServerTrayIcon
 			menu.add(menuItemUnicodeWindows);
 		}
 		
-		this.trayIcon = new TrayIcon(ImageIO.read(new File("res/icon.png")));
+		this.trayIcon = new TrayIcon(ImageIO.read(this.getClass().getResourceAsStream("icon.png")));
 		this.trayIcon.setImageAutoSize(true);
 		this.trayIcon.setToolTip("PRemoteDroid server");
 		this.trayIcon.setPopupMenu(menu);
