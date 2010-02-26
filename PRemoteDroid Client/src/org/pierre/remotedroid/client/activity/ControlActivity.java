@@ -123,11 +123,11 @@ public class ControlActivity extends Activity
 		{
 			if (state)
 			{
-				this.mpClickOn.start();
+				this.playSound(this.mpClickOn);
 			}
 			else
 			{
-				this.mpClickOff.start();
+				this.playSound(this.mpClickOff);
 			}
 		}
 	}
@@ -140,6 +140,12 @@ public class ControlActivity extends Activity
 	public void mouseWheel(int amount)
 	{
 		this.application.sendAction(new MouseWheelAction((byte) amount));
+	}
+	
+	private void playSound(MediaPlayer mp)
+	{
+		mp.seekTo(0);
+		mp.start();
 	}
 	
 	private void toggleKeyboard()
