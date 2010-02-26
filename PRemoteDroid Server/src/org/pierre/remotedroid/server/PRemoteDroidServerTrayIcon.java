@@ -97,16 +97,6 @@ public class PRemoteDroidServerTrayIcon
 		});
 		menu.add(menuItemPort);
 		
-		MenuItem menuItemExit = new MenuItem("Exit");
-		menuItemExit.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				PRemoteDroidServerTrayIcon.this.server.exit();
-			}
-		});
-		menu.add(menuItemExit);
-		
 		if (PRemoteDroidServer.IS_WINDOWS)
 		{
 			final CheckboxMenuItem menuItemUnicodeWindows = new CheckboxMenuItem("Force disable Unicode Windows alt trick", this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false));
@@ -120,6 +110,16 @@ public class PRemoteDroidServerTrayIcon
 			});
 			menu.add(menuItemUnicodeWindows);
 		}
+		
+		MenuItem menuItemExit = new MenuItem("Exit");
+		menuItemExit.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				PRemoteDroidServerTrayIcon.this.server.exit();
+			}
+		});
+		menu.add(menuItemExit);
 		
 		this.trayIcon = new TrayIcon(ImageIO.read(this.getClass().getResourceAsStream("icon.png")));
 		this.trayIcon.setImageAutoSize(true);
