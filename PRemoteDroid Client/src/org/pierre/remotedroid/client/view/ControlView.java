@@ -273,19 +273,27 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		{
 			if (this.leftClickView.isPressed())
 			{
+				this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_UP);
 				this.application.vibrate(100);
+				this.leftClickView.setPressed(false);
+				this.leftClickView.setHold(false);
 			}
 			else
 			{
 				this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_DOWN);
 				
 				this.application.vibrate(50);
+				this.leftClickView.setPressed(true);
+				
+				this.postDelayed(new Runnable()
+				{
+					public void run()
+					{
+						ControlView.this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_UP);
+						ControlView.this.leftClickView.setPressed(false);
+					}
+				}, 50);
 			}
-			
-			this.controlActivity.mouseClick(MouseClickAction.BUTTON_LEFT, MouseClickAction.STATE_UP);
-			
-			this.leftClickView.setPressed(false);
-			this.leftClickView.setHold(false);
 		}
 	}
 	
