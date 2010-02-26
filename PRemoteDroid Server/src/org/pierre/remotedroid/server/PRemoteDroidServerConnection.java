@@ -293,7 +293,7 @@ public class PRemoteDroidServerConnection implements Runnable
 						{
 							e.printStackTrace();
 							
-							if (System.getProperty("os.name").toLowerCase().contains("windows"))
+							if (PRemoteDroidServer.IS_WINDOWS)
 							{
 								System.out.println("windows cmd fix");
 								
