@@ -2,7 +2,12 @@
 <project name="PRemoteDroid Server" default="build">
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="../launch4j/launch4j.jar:../launch4j/lib/xstream.jar" />
 
-	<target name="build" depends="export,windows-exe,windows-exe-debug" />
+	<target name="build">
+		<antcall target="export" />
+		<antcall target="windows-exe" />
+		<antcall target="windows-exe-debug" />
+		<!--<antcall target="javadoc" />-->
+	</target>
 
 	<target name="export">
 		<mkdir dir="export" />
@@ -31,8 +36,6 @@
 		<javadoc destdir="javadoc">
 			<fileset dir="src" />
 			<fileset dir="../PRemoteDroid Protocol/src" />
-			<fileset dir="../PConfig/src" />
-			<fileset dir="../PConsole/src" />
 			<link href="http://java.sun.com/javase/6/docs/api/" />
 		</javadoc>
 	</target>

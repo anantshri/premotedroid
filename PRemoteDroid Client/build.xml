@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="PRemoteDroid Client" default="build">
-	<target name="build" depends="zip" />
+	<target name="build">
+		<antcall target="zip" />
+		<!--<antcall target="javadoc" />-->
+	</target>
 
 	<target name="zip">
 		<zip destfile="res/raw/premotedroidserver.zip" basedir="../PRemoteDroid Server/export" />
@@ -10,6 +13,7 @@
 		<mkdir dir="javadoc" />
 		<javadoc destdir="javadoc">
 			<fileset dir="src" />
+			<fileset dir="../PRemoteDroid Protocol/src" />
 			<link href="http://java.sun.com/javase/6/docs/api/" />
 		</javadoc>
 	</target>
