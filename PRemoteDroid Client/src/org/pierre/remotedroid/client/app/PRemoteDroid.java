@@ -2,7 +2,7 @@ package org.pierre.remotedroid.client.app;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
@@ -28,7 +28,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	private PRemoteDroidConnection[] connection;
 	
-	private ArrayList<PRemoteDroidActionReceiver> actionReceiverList;
+	private HashSet<PRemoteDroidActionReceiver> actionReceivers;
 	
 	private Handler handler;
 	
@@ -43,7 +43,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		
 		this.vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		this.actionReceiverList = new ArrayList<PRemoteDroidActionReceiver>();
+		this.actionReceivers = new HashSet<PRemoteDroidActionReceiver>();
 		
 		this.handler = new Handler();
 		
@@ -140,7 +140,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public void showToast(final int resId)
 	{
-		if (this.actionReceiverList.size() > 0)
+		if (this.actionReceivers.size() > 0)
 		{
 			this.handler.post(new Runnable()
 			{
@@ -154,9 +154,9 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public void receiveAction(PRemoteDroidAction action)
 	{
-		synchronized (this.actionReceiverList)
+		synchronized (this.actionReceivers)
 		{
-			for (PRemoteDroidActionReceiver actionReceiver : this.actionReceiverList)
+			for (PRemoteDroidActionReceiver actionReceiver : this.actionReceivers)
 			{
 				actionReceiver.receiveAction(action);
 			}
@@ -165,11 +165,11 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public void registerActionReceiver(PRemoteDroidActionReceiver actionReceiver)
 	{
-		synchronized (this.actionReceiverList)
+		synchronized (this.actionReceivers)
 		{
-			this.actionReceiverList.add(actionReceiver);
+			this.actionReceivers.add(actionReceiver);
 			
-			if (this.actionReceiverList.size() > 0)
+			if (this.actionReceivers.size() > 0)
 			{
 				synchronized (this.connection)
 				{
@@ -184,11 +184,11 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 	
 	public void unregisterActionReceiver(PRemoteDroidActionReceiver actionReceiver)
 	{
-		synchronized (this.actionReceiverList)
+		synchronized (this.actionReceivers)
 		{
-			this.actionReceiverList.remove(actionReceiver);
+			this.actionReceivers.remove(actionReceiver);
 			
-			if (this.actionReceiverList.size() == 0)
+			if (this.actionReceivers.size() == 0)
 			{
 				this.closeConnectionScheduler.schedule();
 			}
@@ -217,9 +217,9 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 				{
 					if (PRemoteDroid.this.connection[0] != null)
 					{
-						synchronized (PRemoteDroid.this.actionReceiverList)
+						synchronized (PRemoteDroid.this.actionReceivers)
 						{
-							if (PRemoteDroid.this.actionReceiverList.size() == 0)
+							if (PRemoteDroid.this.actionReceivers.size() == 0)
 							{
 								PRemoteDroid.this.connection[0].close();
 								
