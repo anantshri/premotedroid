@@ -42,7 +42,7 @@ public class PRemoteDroid extends Application implements Runnable
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		PreferenceManager.setDefaultValues(this, R.xml.settings, true);
 		
-		this.debugFix();
+		// this.debugFix();
 		
 		this.vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
