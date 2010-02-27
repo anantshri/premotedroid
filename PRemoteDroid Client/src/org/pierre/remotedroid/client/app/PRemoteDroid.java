@@ -1,6 +1,7 @@
 package org.pierre.remotedroid.client.app;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashSet;
 
@@ -75,10 +76,13 @@ public class PRemoteDroid extends Application implements Runnable
 			int port = Integer.parseInt(this.preferences.getString("connection_port", null));
 			String password = this.preferences.getString("connection_password", null);
 			
+			Socket socket = new Socket();
+			socket.connect(new InetSocketAddress(server, port), 1000);
+			
+			c = new PRemoteDroidConnection(socket);
+			
 			synchronized (this.connection)
 			{
-				c = new PRemoteDroidConnection(new Socket(server, port));
-				
 				this.connection[0] = c;
 			}
 			
@@ -100,9 +104,9 @@ public class PRemoteDroid extends Application implements Runnable
 				synchronized (this.connection)
 				{
 					this.connection[0] = null;
-					
-					c.close();
 				}
+				
+				c.close();
 			}
 		}
 		catch (IOException e)
