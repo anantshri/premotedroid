@@ -13,7 +13,6 @@ import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -41,8 +40,6 @@ public class PRemoteDroid extends Application implements Runnable
 		
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		PreferenceManager.setDefaultValues(this, R.xml.settings, true);
-		
-		// this.debugFix();
 		
 		this.vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
@@ -204,13 +201,6 @@ public class PRemoteDroid extends Application implements Runnable
 		{
 			Log.d(this.getResources().getString(R.string.app_name), null, e);
 		}
-	}
-	
-	private void debugFix()
-	{
-		Editor editor = this.preferences.edit();
-		editor.putBoolean("debug_enabled", true);
-		editor.commit();
 	}
 	
 	private class CloseConnectionScheduler implements Runnable
