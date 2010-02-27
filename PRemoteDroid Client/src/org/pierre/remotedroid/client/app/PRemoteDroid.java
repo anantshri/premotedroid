@@ -213,13 +213,13 @@ public class PRemoteDroid extends Application implements Runnable
 			{
 				this.wait(PRemoteDroid.CONNECTION_CLOSE_DELAY);
 				
-				synchronized (PRemoteDroid.this.connection)
+				synchronized (PRemoteDroid.this.actionReceivers)
 				{
-					if (PRemoteDroid.this.connection[0] != null)
+					if (PRemoteDroid.this.actionReceivers.size() == 0)
 					{
-						synchronized (PRemoteDroid.this.actionReceivers)
+						synchronized (PRemoteDroid.this.connection)
 						{
-							if (PRemoteDroid.this.actionReceivers.size() == 0)
+							if (PRemoteDroid.this.connection[0] != null)
 							{
 								PRemoteDroid.this.connection[0].close();
 								
