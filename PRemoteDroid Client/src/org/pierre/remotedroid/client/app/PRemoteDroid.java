@@ -20,7 +20,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class PRemoteDroid extends Application implements Runnable, PRemoteDroidActionReceiver
+public class PRemoteDroid extends Application implements Runnable
 {
 	private static final long CONNECTION_CLOSE_DELAY = 3000;
 	
@@ -155,7 +155,7 @@ public class PRemoteDroid extends Application implements Runnable, PRemoteDroidA
 		}
 	}
 	
-	public void receiveAction(PRemoteDroidAction action)
+	private void receiveAction(PRemoteDroidAction action)
 	{
 		synchronized (this.actionReceivers)
 		{

@@ -2,10 +2,14 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
+import org.pierre.remotedroid.client.view.ControlView;
+import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.action.KeyboardAction;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
 import org.pierre.remotedroid.protocol.action.MouseMoveAction;
 import org.pierre.remotedroid.protocol.action.MouseWheelAction;
+import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
+import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,7 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-public class ControlActivity extends Activity
+public class ControlActivity extends Activity implements PRemoteDroidActionReceiver
 {
 	private static final int KEYBOARD_MENU_ITEM_ID = 0;
 	private static final int FILE_EXPLORER_MENU_ITEM_ID = 1;
@@ -34,6 +38,8 @@ public class ControlActivity extends Activity
 	
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
+	
+	private ControlView controlView;
 	
 	private MediaPlayer mpClickOn;
 	private MediaPlayer mpClickOff;
@@ -50,6 +56,8 @@ public class ControlActivity extends Activity
 		
 		this.preferences = this.application.getPreferences();
 		
+		this.controlView = (ControlView) this.findViewById(R.id.controlView);
+		
 		this.mpClickOn = MediaPlayer.create(this, R.raw.clickon);
 		this.mpClickOff = MediaPlayer.create(this, R.raw.clickoff);
 		
@@ -60,7 +68,16 @@ public class ControlActivity extends Activity
 	{
 		super.onResume();
 		
+		this.application.registerActionReceiver(this);
+		
 		this.feedbackSound = this.preferences.getBoolean("feedback_sound", false);
+	}
+	
+	protected void onPause()
+	{
+		super.onPause();
+		
+		this.application.unregisterActionReceiver(this);
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -113,6 +130,14 @@ public class ControlActivity extends Activity
 		}
 		
 		return true;
+	}
+	
+	public void receiveAction(PRemoteDroidAction action)
+	{
+		if (action instanceof ScreenCaptureResponseAction)
+		{
+			this.controlView.receiveAction((ScreenCaptureResponseAction) action);
+		}
 	}
 	
 	public void mouseClick(byte button, boolean state)
@@ -258,4 +283,5 @@ public class ControlActivity extends Activity
 			this.application.debug(e);
 		}
 	}
+	
 }

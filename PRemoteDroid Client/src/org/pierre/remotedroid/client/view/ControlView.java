@@ -3,9 +3,7 @@ package org.pierre.remotedroid.client.view;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.activity.ControlActivity;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.action.MouseClickAction;
-import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 import org.pierre.remotedroid.protocol.action.ScreenCaptureRequestAction;
 import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
@@ -20,7 +18,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-public class ControlView extends ImageView implements PRemoteDroidActionReceiver
+public class ControlView extends ImageView
 {
 	private static final float MOUSE_WHEEL_SENSITIVITY_FACTOR = 10;
 	
@@ -92,14 +90,10 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		
 		if (visibility == VISIBLE)
 		{
-			this.application.registerActionReceiver(this);
-			
 			this.reloadPreferences();
 		}
 		else
 		{
-			this.application.unregisterActionReceiver(this);
-			
 			this.setImageBitmap(null);
 			
 			if (this.currentBitmap != null)
@@ -312,37 +306,32 @@ public class ControlView extends ImageView implements PRemoteDroidActionReceiver
 		}
 	}
 	
-	public synchronized void receiveAction(PRemoteDroidAction action)
+	public synchronized void receiveAction(ScreenCaptureResponseAction action)
 	{
-		if (action instanceof ScreenCaptureResponseAction)
+		if (this.newBitmap != null)
 		{
-			ScreenCaptureResponseAction scra = (ScreenCaptureResponseAction) action;
-			
-			if (this.newBitmap != null)
-			{
-				this.newBitmap.recycle();
-			}
-			
-			this.newBitmap = BitmapFactory.decodeByteArray(scra.data, 0, scra.data.length);
-			
-			this.post(new Runnable()
-			{
-				public void run()
-				{
-					ControlView controlView = ControlView.this;
-					
-					if (controlView.currentBitmap != null)
-					{
-						controlView.currentBitmap.recycle();
-					}
-					
-					controlView.currentBitmap = controlView.newBitmap;
-					controlView.newBitmap = null;
-					
-					controlView.setImageBitmap(controlView.currentBitmap);
-				}
-			});
+			this.newBitmap.recycle();
 		}
+		
+		this.newBitmap = BitmapFactory.decodeByteArray(action.data, 0, action.data.length);
+		
+		this.post(new Runnable()
+		{
+			public void run()
+			{
+				ControlView controlView = ControlView.this;
+				
+				if (controlView.currentBitmap != null)
+				{
+					controlView.currentBitmap.recycle();
+				}
+				
+				controlView.currentBitmap = controlView.newBitmap;
+				controlView.newBitmap = null;
+				
+				controlView.setImageBitmap(controlView.currentBitmap);
+			}
+		});
 	}
 	
 	private void screenCaptureRequest()
