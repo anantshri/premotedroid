@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="PRemoteDroid Client" default="build">
 	<target name="build">
-		<antcall target="zip" />
 		<!--<antcall target="javadoc" />-->
-	</target>
-
-	<target name="zip">
-		<zip destfile="res/raw/premotedroidserver.zip" basedir="../PRemoteDroid Server/export" />
 	</target>
 
 	<target name="javadoc">

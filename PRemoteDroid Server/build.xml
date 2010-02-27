@@ -4,13 +4,19 @@
 
 	<target name="build">
 		<antcall target="export" />
-		<antcall target="windows-exe" />
-		<antcall target="windows-exe-debug" />
 		<!--<antcall target="javadoc" />-->
 	</target>
 
 	<target name="export">
 		<mkdir dir="export/PRemoteDroid-Server" />
+
+		<antcall target="jar" />
+		<antcall target="windows-exe" />
+		<antcall target="windows-exe-debug" />
+		<antcall target="zip" />
+	</target>
+
+	<target name="jar">
 		<jar destfile="export/PRemoteDroid-Server/PRemoteDroid-Server.jar">
 			<fileset dir="bin" />
 			<fileset dir="../PRemoteDroid Protocol/bin" />
@@ -34,6 +40,10 @@
 				<jre minVersion="1.6.0" />
 			</config>
 		</launch4j>
+	</target>
+
+	<target name="zip">
+		<zip destfile="export/PRemoteDroid-Server.zip" basedir="export" includes="PRemoteDroid-Server/*" />
 	</target>
 
 	<target name="javadoc">
