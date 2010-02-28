@@ -24,18 +24,22 @@
 			android:layout_height="fill_parent" />
 		<TextView
 			android:text="@string/text_help_install_content_1"
-			android:layout_width="fill_parent" 
+			android:layout_width="fill_parent"
 			android:layout_height="fill_parent" />
-		<Button
-			android:id="@+id/getServerButton"
-			android:text="@string/text_get_server"
+		<LinearLayout
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
-		<Button
-			android:id="@+id/settingsButton"
-			android:text="@string/text_settings"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content">
+			<Button
+				android:id="@+id/getServerButton"
+				android:text="@string/text_get_server"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+			<Button
+				android:id="@+id/settingsButton"
+				android:text="@string/text_settings"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
 		<TextView
 			android:text="@string/text_help_install_content_2"
 			android:layout_width="fill_parent"

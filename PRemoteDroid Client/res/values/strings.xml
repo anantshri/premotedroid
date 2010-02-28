@@ -17,9 +17,9 @@
 	<string
 		name="text_explore_roots">Explore root(s)</string>
 	<string
-		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi!\n\nMain features :\n - Mouse control\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n - Keyboard control (not implemented yet)\n</string>
+		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi!\n\nMain features :\n - Mouse control (move, click and wheel)\n - Keyboard control\n - File explorer (view directories and launch files)\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n</string>
 	<string
-		name="text_help_usage_content">Press, drag and hold the screen to move the mouse.\n\nTo click, just press briefly the screen.\n\nTo hold your click, press and hold the screen (do not move!).\nAfter the vibration, you can move.\nTo release your click, do a simple click.\n\nManual click buttons are available around the screen.\nHold a button one second, and it will stay pressed.\n</string>
+		name="text_help_usage_content">Press, drag and hold the screen to move the mouse.\n\nTo click, just press briefly the screen.\n\nTo hold your click, press and hold the screen (do not move!).\nAfter the vibration, you can move.\nTo release your click, do a simple click.\n\nManual click buttons are available around the screen.\nHold a button one second, and it will stay pressed.\n\nTo use the mouse wheel, slide the right part of the screen (up and down)</string>
 	<string
 		name="text_help_install_content_1">Press the \"Get server\" button to get the server on your computer.\nPress the \"Settings\" button to configure the connection (host, port) and your preferences (sensitivity, acceleration, ... ).\n</string>
 	<string
