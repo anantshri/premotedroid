@@ -40,7 +40,7 @@ public class PRemoteDroidServerTrayIcon
 	
 	public void notifyConnection(InetAddress inetAddress, int port)
 	{
-		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress + ":" + port, MessageType.INFO);
+		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress.getHostAddress() + ":" + port, MessageType.INFO);
 	}
 	
 	public void notifyProtocolProblem()
