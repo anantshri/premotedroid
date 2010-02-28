@@ -51,6 +51,8 @@
 	<string
 		name="text_acceleration">Acceleration</string>
 	<string
+		name="text_buttons_size">Buttons size</string>
+	<string
 		name="text_wheel_bar_width">Wheel bar width</string>
 	<string
 		name="text_click_delay">Click delay</string>

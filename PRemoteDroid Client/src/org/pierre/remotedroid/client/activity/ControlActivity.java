@@ -21,6 +21,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 
 public class ControlActivity extends Activity implements PRemoteDroidActionReceiver
 {
@@ -59,6 +61,8 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		this.checkFullscreen();
 		
 		this.setContentView(R.layout.control);
+		
+		this.setButtonsSize();
 		
 		this.controlView = (ControlView) this.findViewById(R.id.controlView);
 		
@@ -189,6 +193,24 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		{
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+	
+	private void setButtonsSize()
+	{
+		LinearLayout clickLayout = (LinearLayout) this.findViewById(R.id.clickLayout);
+		
+		int orientation = this.getResources().getConfiguration().orientation;
+		
+		int size = (int) (Float.parseFloat(this.preferences.getString("buttons_size", null)) * this.getResources().getDisplayMetrics().density);
+		
+		if (orientation == Configuration.ORIENTATION_PORTRAIT)
+		{
+			clickLayout.getLayoutParams().height = (int) size;
+		}
+		else if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+		{
+			clickLayout.getLayoutParams().width = (int) size;
 		}
 	}
 	

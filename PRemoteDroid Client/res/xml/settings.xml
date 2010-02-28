@@ -36,6 +36,11 @@
 				android:defaultValue="1.5"
 				android:title="@string/text_acceleration" />
 			<EditTextPreference
+				android:key="buttons_size"
+				android:inputType="numberDecimal"
+				android:defaultValue="50"
+				android:title="@string/text_buttons_size" />
+			<EditTextPreference
 				android:key="wheel_bar_width"
 				android:inputType="numberDecimal"
 				android:defaultValue="50"
