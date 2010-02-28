@@ -63,6 +63,13 @@
 			android:title="@string/text_vibration" />
 	</PreferenceCategory>
 	<PreferenceCategory
+		android:title="@string/text_miscellaneous">
+		<CheckBoxPreference
+			android:key="keep_screen_on"
+			android:defaultValue="false"
+			android:title="@string/text_keep_screen_on" />
+	</PreferenceCategory>
+	<PreferenceCategory
 		android:title="@string/text_screen_capture">
 		<CheckBoxPreference
 			android:key="screenCapture_enabled"

@@ -81,6 +81,10 @@
 	<string
 		name="text_cursor_size">Cursor size</string>
 	<string
+		name="text_miscellaneous">Miscellaneous</string>
+	<string
+		name="text_keep_screen_on">Keep screen on</string>
+	<string
 		name="text_debug">Debug</string>
 	<string
 		name="text_first_run">First run</string>

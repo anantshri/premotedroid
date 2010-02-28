@@ -384,5 +384,6 @@ public class ControlView extends ImageView
 		this.screenCaptureCursorSize = Float.parseFloat(this.preferences.getString("screenCapture_cursor_size", null));
 		this.screenCaptureCursorSize *= screenDensity;
 		
+		this.setKeepScreenOn(this.preferences.getBoolean("keep_screen_on", false));
 	}
 }
