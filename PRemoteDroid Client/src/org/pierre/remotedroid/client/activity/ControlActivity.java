@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 public class ControlActivity extends Activity implements PRemoteDroidActionReceiver
@@ -50,11 +52,13 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	{
 		super.onCreate(savedInstanceState);
 		
-		this.setContentView(R.layout.control);
-		
 		this.application = (PRemoteDroid) this.getApplication();
 		
 		this.preferences = this.application.getPreferences();
+		
+		this.checkFullscreen();
+		
+		this.setContentView(R.layout.control);
 		
 		this.controlView = (ControlView) this.findViewById(R.id.controlView);
 		
@@ -177,6 +181,15 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	{
 		InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(0, 0);
+	}
+	
+	private void checkFullscreen()
+	{
+		if (this.preferences.getBoolean("fullscreen", false))
+		{
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
 	}
 	
 	private void checkOnCreate()
