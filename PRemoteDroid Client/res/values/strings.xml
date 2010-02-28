@@ -35,6 +35,8 @@
 	<string
 		name="text_connection">Connection</string>
 	<string
+		name="text_advanced_connection">Advanced connection</string>
+	<string
 		name="text_server">Server</string>
 	<string
 		name="text_password">Password</string>
@@ -42,6 +44,8 @@
 		name="text_port">Port</string>
 	<string
 		name="text_control">Control</string>
+	<string
+		name="text_advanced_control">Advanced control</string>
 	<string
 		name="text_sensitivity">Sensitivity</string>
 	<string
@@ -62,6 +66,8 @@
 		name="text_vibration">Vibration</string>
 	<string
 		name="text_screen_capture">Screen capture</string>
+	<string
+		name="text_advanced_screen_capture">Advanced screen capture</string>
 	<string
 		name="text_capture_enabled">Capture enabled</string>
 	<string
