@@ -54,5 +54,15 @@
 			android:text="@string/text_help_usage_content"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent" />
+		<TextView
+			android:text="@string/text_help_contact"
+			android:textSize="20dp"
+			android:textStyle="bold"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
+		<TextView
+			android:text="@string/text_help_contact_content"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
 	</LinearLayout>
 </ScrollView>
