@@ -4,28 +4,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 public class PRemoteDroidConnection
 {
-	public final static int DEFAULT_PORT = 64788;
-	
-	private Socket socket;
-	
 	private DataInputStream dataInputStream;
+	private OutputStream outputStream;
 	
-	public PRemoteDroidConnection(Socket socket) throws IOException
+	public PRemoteDroidConnection(InputStream inputStream, OutputStream outputStream)
 	{
-		this.socket = socket;
-		this.socket.setPerformancePreferences(0, 2, 1);
-		this.socket.setTcpNoDelay(true);
-		this.socket.setReceiveBufferSize(1024 * 1024);
-		this.socket.setSendBufferSize(1024 * 1024);
-		
-		this.dataInputStream = new DataInputStream(this.socket.getInputStream());
+		this.dataInputStream = new DataInputStream(inputStream);
+		this.outputStream = outputStream;
 	}
 	
 	public PRemoteDroidAction receiveAction() throws IOException
@@ -42,26 +34,15 @@ public class PRemoteDroidConnection
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		action.toDataOutputStream(new DataOutputStream(baos));
 		
-		synchronized (this.socket.getOutputStream())
+		synchronized (this.outputStream)
 		{
-			this.socket.getOutputStream().write(baos.toByteArray());
+			this.outputStream.write(baos.toByteArray());
 		}
 	}
 	
 	public void close() throws IOException
 	{
-		this.socket.shutdownInput();
-		this.socket.shutdownOutput();
-		this.socket.close();
-	}
-	
-	public InetAddress getInetAddress()
-	{
-		return this.socket.getInetAddress();
-	}
-	
-	public int getPort()
-	{
-		return this.socket.getPort();
+		this.dataInputStream.close();
+		this.outputStream.close();
 	}
 }

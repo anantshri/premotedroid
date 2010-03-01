@@ -21,7 +21,7 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidTcpConnection;
 
 public class PRemoteDroidServerTrayIcon
 {
@@ -74,7 +74,7 @@ public class PRemoteDroidServerTrayIcon
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidConnection.DEFAULT_PORT);
+				int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidTcpConnection.DEFAULT_PORT);
 				
 				boolean ok = false;
 				while (!ok)
@@ -128,7 +128,7 @@ public class PRemoteDroidServerTrayIcon
 		
 		SystemTray.getSystemTray().add(this.trayIcon);
 		
-		int port = this.preferences.getInt("port", PRemoteDroidConnection.DEFAULT_PORT);
+		int port = this.preferences.getInt("port", PRemoteDroidTcpConnection.DEFAULT_PORT);
 		
 		StringBuilder message = new StringBuilder("Server started");
 		

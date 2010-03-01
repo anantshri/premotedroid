@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.prefs.Preferences;
 
-import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidTcpConnection;
 
 public class PRemoteDroidServer implements Runnable
 {
@@ -25,7 +25,7 @@ public class PRemoteDroidServer implements Runnable
 		
 		this.robot = new Robot();
 		
-		int port = this.preferences.getInt("port", PRemoteDroidConnection.DEFAULT_PORT);
+		int port = this.preferences.getInt("port", PRemoteDroidTcpConnection.DEFAULT_PORT);
 		this.serverSocket = new ServerSocket(port);
 		
 		this.trayIcon = new PRemoteDroidServerTrayIcon(this);
@@ -55,7 +55,7 @@ public class PRemoteDroidServer implements Runnable
 		{
 			while (true)
 			{
-				new PRemoteDroidServerConnection(new PRemoteDroidConnection(this.serverSocket.accept()), this.robot, this.trayIcon);
+				new PRemoteDroidServerConnection(new PRemoteDroidTcpConnection(this.serverSocket.accept()), this.robot, this.trayIcon);
 			}
 		}
 		catch (IOException e)

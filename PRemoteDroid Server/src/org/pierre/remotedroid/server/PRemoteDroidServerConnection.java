@@ -19,7 +19,7 @@ import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
 
-import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidTcpConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.AuthentificationResponseAction;
 import org.pierre.remotedroid.protocol.action.FileExploreRequestAction;
@@ -34,7 +34,6 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 public class PRemoteDroidServerConnection implements Runnable
 {
-	
 	private static final int[][] UNICODE_EXCEPTION = {
 	        {
 	                KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE
@@ -43,7 +42,7 @@ public class PRemoteDroidServerConnection implements Runnable
 	        }
 	};
 	
-	private PRemoteDroidConnection connection;
+	private PRemoteDroidTcpConnection connection;
 	
 	private Preferences preferences;
 	private Robot robot;
@@ -53,7 +52,7 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private boolean useUnicodeWindowsAltTrick;
 	
-	public PRemoteDroidServerConnection(PRemoteDroidConnection connection, Robot robot, PRemoteDroidServerTrayIcon trayIcon)
+	public PRemoteDroidServerConnection(PRemoteDroidTcpConnection connection, Robot robot, PRemoteDroidServerTrayIcon trayIcon)
 	{
 		this.connection = connection;
 		this.robot = robot;
