@@ -8,7 +8,7 @@ import java.util.HashSet;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
-import org.pierre.remotedroid.protocol.PRemoteDroidTcpConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
@@ -80,7 +80,7 @@ public class PRemoteDroid extends Application implements Runnable
 			Socket socket = new Socket();
 			socket.connect(new InetSocketAddress(server, port), 1000);
 			
-			c = new PRemoteDroidTcpConnection(socket);
+			c = new PRemoteDroidConnectionTcp(socket);
 			
 			synchronized (this.connection)
 			{

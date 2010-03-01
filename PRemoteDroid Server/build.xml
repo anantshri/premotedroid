@@ -21,7 +21,7 @@
 			<fileset dir="bin" />
 			<fileset dir="../PRemoteDroid Protocol/bin" />
 			<manifest>
-				<attribute name="Main-Class" value="org.pierre.remotedroid.server.PRemoteDroidServer" />
+				<attribute name="Main-Class" value="org.pierre.remotedroid.server.PRemoteDroidServerApp" />
 			</manifest>
 		</jar>
 	</target>

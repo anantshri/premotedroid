@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.server;
+package org.pierre.remotedroid.server.tools;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;

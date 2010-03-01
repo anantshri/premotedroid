@@ -11,6 +11,8 @@ import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 public class PRemoteDroidConnection
 {
+	public static final String DEFAULT_PASSWORD = "azerty";
+	
 	private DataInputStream dataInputStream;
 	private OutputStream outputStream;
 	

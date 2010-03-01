@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class PRemoteDroidTcpConnection extends PRemoteDroidConnection
+public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 {
 	public final static int DEFAULT_PORT = 64788;
 	
 	private Socket socket;
 	
-	public PRemoteDroidTcpConnection(Socket socket) throws IOException
+	public PRemoteDroidConnectionTcp(Socket socket) throws IOException
 	{
 		super(socket.getInputStream(), socket.getOutputStream());
 		

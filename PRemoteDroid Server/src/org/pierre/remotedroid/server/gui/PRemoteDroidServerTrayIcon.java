@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.server;
+package org.pierre.remotedroid.server.gui;
 
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
@@ -21,17 +21,20 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import org.pierre.remotedroid.protocol.PRemoteDroidTcpConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.PRemoteDroidConnectionTcp;
+import org.pierre.remotedroid.server.PRemoteDroidServerApp;
+import org.pierre.remotedroid.server.connection.PRemoteDroidServer;
 
 public class PRemoteDroidServerTrayIcon
 {
 	private Preferences preferences;
-	private PRemoteDroidServer server;
+	private PRemoteDroidServerApp application;
 	private TrayIcon trayIcon;
 	
-	public PRemoteDroidServerTrayIcon(PRemoteDroidServer server) throws AWTException, IOException
+	public PRemoteDroidServerTrayIcon(PRemoteDroidServerApp application) throws AWTException, IOException
 	{
-		this.server = server;
+		this.application = application;
 		
 		this.preferences = Preferences.userNodeForPackage(PRemoteDroidServer.class);
 		
@@ -62,7 +65,7 @@ public class PRemoteDroidServerTrayIcon
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String password = PRemoteDroidServerTrayIcon.this.preferences.get("password", PRemoteDroidServer.DEFAULT_PASSWORD);
+				String password = PRemoteDroidServerTrayIcon.this.preferences.get("password", PRemoteDroidConnection.DEFAULT_PASSWORD);
 				password = JOptionPane.showInputDialog("Password", password);
 				PRemoteDroidServerTrayIcon.this.preferences.put("password", password);
 			}
@@ -74,7 +77,7 @@ public class PRemoteDroidServerTrayIcon
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidTcpConnection.DEFAULT_PORT);
+				int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidConnectionTcp.DEFAULT_PORT);
 				
 				boolean ok = false;
 				while (!ok)
@@ -97,7 +100,7 @@ public class PRemoteDroidServerTrayIcon
 		});
 		menu.add(menuItemPort);
 		
-		if (PRemoteDroidServer.IS_WINDOWS)
+		if (PRemoteDroidServerApp.IS_WINDOWS)
 		{
 			final CheckboxMenuItem menuItemUnicodeWindows = new CheckboxMenuItem("Force disable Unicode Windows alt trick", this.preferences.getBoolean("force_disable_unicode_windows_alt_trick", false));
 			menuItemUnicodeWindows.addItemListener(new ItemListener()
@@ -116,7 +119,7 @@ public class PRemoteDroidServerTrayIcon
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				PRemoteDroidServerTrayIcon.this.server.exit();
+				PRemoteDroidServerTrayIcon.this.application.exit();
 			}
 		});
 		menu.add(menuItemExit);
@@ -128,7 +131,7 @@ public class PRemoteDroidServerTrayIcon
 		
 		SystemTray.getSystemTray().add(this.trayIcon);
 		
-		int port = this.preferences.getInt("port", PRemoteDroidTcpConnection.DEFAULT_PORT);
+		int port = this.preferences.getInt("port", PRemoteDroidConnectionTcp.DEFAULT_PORT);
 		
 		StringBuilder message = new StringBuilder("Server started");
 		
