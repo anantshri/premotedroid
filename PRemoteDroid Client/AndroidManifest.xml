@@ -42,4 +42,7 @@
 		android:normalScreens="true"
 		android:resizeable="true"
 		android:largeScreens="true"></supports-screens>
+
+<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 </manifest>
