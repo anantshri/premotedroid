@@ -10,10 +10,17 @@
 	<target name="export">
 		<mkdir dir="export/PRemoteDroid-Server" />
 
+		<antcall target="libraries" />
 		<antcall target="jar" />
 		<antcall target="windows-exe" />
 		<antcall target="windows-exe-debug" />
 		<antcall target="zip" />
+	</target>
+
+	<target name="libraries">
+		<copy todir="export/PRemoteDroid-Server">
+			<fileset dir="lib" />
+		</copy>
 	</target>
 
 	<target name="jar">
@@ -23,6 +30,7 @@
 			<zipfileset src="lib/bluecove-2.1.0.jar" includes="**/*.class" />
 			<zipfileset src="lib/bluecove-gpl-2.1.0.jar" includes="**/*.class" />
 			<manifest>
+				<attribute name="Class-Path" value="bluecove-2.1.0.jar bluecove-gpl-2.1.0.jar" />
 				<attribute name="Main-Class" value="org.pierre.remotedroid.server.PRemoteDroidServerApp" />
 			</manifest>
 		</jar>
