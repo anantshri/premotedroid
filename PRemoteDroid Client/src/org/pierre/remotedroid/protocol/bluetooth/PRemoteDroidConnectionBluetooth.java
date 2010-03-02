@@ -8,6 +8,7 @@ import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.os.Looper;
 
 public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 {
@@ -22,6 +23,8 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 	
 	public static PRemoteDroidConnectionBluetooth create(String address) throws IOException
 	{
+		Looper.prepare();
+		
 		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 		
 		if (adapter != null)

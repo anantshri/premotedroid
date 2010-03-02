@@ -8,6 +8,7 @@ import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
+import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
 import android.app.Application;
@@ -121,7 +122,16 @@ public class PRemoteDroid extends Application implements Runnable
 	{
 		String connectiontype = this.preferences.getString("connection_type", null);
 		
-		return this.initConnectionTcp();
+		if (connectiontype.equals("wifi"))
+		{
+			return this.initConnectionTcp();
+		}
+		else if (connectiontype.equals("bluetooth"))
+		{
+			return this.initConnectionBluetooth();
+		}
+		
+		throw new IOException();
 	}
 	
 	public PRemoteDroidConnectionTcp initConnectionTcp() throws IOException
@@ -129,7 +139,18 @@ public class PRemoteDroid extends Application implements Runnable
 		String server = this.preferences.getString("wifi_server", null);
 		int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
 		
-		return PRemoteDroidConnectionTcp.create(server, port);
+		PRemoteDroidConnectionTcp connection = PRemoteDroidConnectionTcp.create(server, port);
+		
+		return connection;
+	}
+	
+	public PRemoteDroidConnectionBluetooth initConnectionBluetooth() throws IOException
+	{
+		String address = this.preferences.getString("bluetooth_device", null);
+		
+		PRemoteDroidConnectionBluetooth connection = PRemoteDroidConnectionBluetooth.create(address);
+		
+		return connection;
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
