@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import org.pierre.remotedroid.client.R;
+import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
@@ -128,7 +129,10 @@ public class PRemoteDroid extends Application implements Runnable
 		}
 		else if (connectiontype.equals("bluetooth"))
 		{
-			return this.initConnectionBluetooth();
+			if (BluetoothChecker.isBluetoohAvailable())
+			{
+				return this.initConnectionBluetooth();
+			}
 		}
 		
 		throw new IOException();
