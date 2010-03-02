@@ -12,8 +12,6 @@ public class BluetoothChecker
 		}
 		catch (ClassNotFoundException e)
 		{
-			e.printStackTrace();
-			
 			return false;
 		}
 	}

@@ -2,6 +2,7 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
+import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,16 +38,7 @@ public class SettingsActivity extends PreferenceActivity
 		this.application = (PRemoteDroid) this.getApplication();
 		this.preferences = this.application.getPreferences();
 		
-		Preference bluetoothDevice = this.findPreference("bluetooth_device");
-		bluetoothDevice.setOnPreferenceClickListener(new OnPreferenceClickListener()
-		{
-			public boolean onPreferenceClick(Preference preference)
-			{
-				SettingsActivity.this.startActivity(new Intent(SettingsActivity.this, BluetoothDevicesActivity.class));
-				
-				return true;
-			}
-		});
+		this.init();
 	}
 	
 	protected void onPause()
@@ -73,6 +65,37 @@ public class SettingsActivity extends PreferenceActivity
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void init()
+	{
+		this.initBluetooth();
+	}
+	
+	private void initBluetooth()
+	{
+		if (BluetoothChecker.isBluetoohAvailable())
+		{
+			this.initBluetoothDevice();
+		}
+		else
+		{
+			this.findPreference("bluetooth").setEnabled(false);
+		}
+	}
+	
+	private void initBluetoothDevice()
+	{
+		Preference bluetoothDevice = this.findPreference("bluetooth_device");
+		bluetoothDevice.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
+			public boolean onPreferenceClick(Preference preference)
+			{
+				SettingsActivity.this.startActivity(new Intent(SettingsActivity.this, BluetoothDevicesActivity.class));
+				
+				return true;
+			}
+		});
 	}
 	
 	private void checkPreferences()

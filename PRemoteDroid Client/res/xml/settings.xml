@@ -28,6 +28,7 @@
 			android:title="@string/text_port" />
 	</PreferenceCategory>
 	<PreferenceCategory
+		android:key="bluetooth"
 		android:title="@string/text_bluetooth">
 		<Preference
 			android:key="bluetooth_device"
