@@ -63,6 +63,8 @@
 	<string
 		name="text_bluetooth_device">Bluetooth device</string>
 	<string
+		name="text_bluetooth_devices">Bluetooth devices</string>
+	<string
 		name="text_control">Control</string>
 	<string
 		name="text_advanced_control">Advanced control</string>

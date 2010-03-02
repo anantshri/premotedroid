@@ -31,7 +31,8 @@
 		<activity
 			android:name=".activity.FileExplorerActivity"
 			android:label="@string/text_file_explorer"></activity>
-	</application>
+	<activity android:name=".activity.BluetoothDevicesActivity" android:label="@string/text_bluetooth_devices"></activity>
+</application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission
