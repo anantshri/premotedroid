@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.pierre.remotedroid.protocol.PRemoteDroidConnectionTcp;
+import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.server.PRemoteDroidServerApp;
 import org.pierre.remotedroid.server.connection.PRemoteDroidServer;
 import org.pierre.remotedroid.server.connection.PRemoteDroidServerConnection;

@@ -1,8 +1,11 @@
-package org.pierre.remotedroid.protocol;
+package org.pierre.remotedroid.protocol.tcp;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 {
@@ -19,6 +22,14 @@ public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 		this.socket.setTcpNoDelay(true);
 		this.socket.setReceiveBufferSize(1024 * 1024);
 		this.socket.setSendBufferSize(1024 * 1024);
+	}
+	
+	public static PRemoteDroidConnectionTcp create(String server, int port) throws IOException
+	{
+		Socket socket = new Socket();
+		socket.connect(new InetSocketAddress(server, port), 1000);
+		
+		return new PRemoteDroidConnectionTcp(socket);
 	}
 	
 	public InetAddress getInetAddress()

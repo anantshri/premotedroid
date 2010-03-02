@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
-import org.pierre.remotedroid.protocol.PRemoteDroidConnectionTcp;
+import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.server.PRemoteDroidServerApp;
 import org.pierre.remotedroid.server.connection.PRemoteDroidServer;
 

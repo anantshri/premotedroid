@@ -1,16 +1,14 @@
 package org.pierre.remotedroid.client.app;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.HashSet;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
-import org.pierre.remotedroid.protocol.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
+import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
 import android.app.Application;
 import android.content.Context;
@@ -129,10 +127,7 @@ public class PRemoteDroid extends Application implements Runnable
 		String server = this.preferences.getString("wifi_server", null);
 		int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
 		
-		Socket socket = new Socket();
-		socket.connect(new InetSocketAddress(server, port), 1000);
-		
-		return new PRemoteDroidConnectionTcp(socket);
+		return PRemoteDroidConnectionTcp.create(server, port);
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
