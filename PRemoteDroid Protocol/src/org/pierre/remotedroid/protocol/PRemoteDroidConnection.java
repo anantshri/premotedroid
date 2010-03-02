@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
-public class PRemoteDroidConnection
+public abstract class PRemoteDroidConnection
 {
 	public static final String BLUETOOTH_UUID = "300ad0a7-059d-4d97-b9a3-eabe5f6af813";
 	public static final String DEFAULT_PASSWORD = "azerty";
@@ -43,9 +43,5 @@ public class PRemoteDroidConnection
 		}
 	}
 	
-	public void close() throws IOException
-	{
-		this.dataInputStream.close();
-		this.outputStream.close();
-	}
+	public abstract void close() throws IOException;
 }
