@@ -29,7 +29,9 @@ public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 		Socket socket = new Socket();
 		socket.connect(new InetSocketAddress(server, port), 1000);
 		
-		return new PRemoteDroidConnectionTcp(socket);
+		PRemoteDroidConnectionTcp connection = new PRemoteDroidConnectionTcp(socket);
+		
+		return connection;
 	}
 	
 	public InetAddress getInetAddress()
