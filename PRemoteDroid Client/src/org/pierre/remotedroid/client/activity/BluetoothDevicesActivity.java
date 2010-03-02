@@ -7,6 +7,7 @@ import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,6 +43,8 @@ public class BluetoothDevicesActivity extends ListActivity implements Runnable, 
 	
 	public void run()
 	{
+		Looper.prepare();
+		
 		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 		
 		if (adapter != null)
@@ -60,6 +63,5 @@ public class BluetoothDevicesActivity extends ListActivity implements Runnable, 
 				});
 			}
 		}
-		
 	}
 }

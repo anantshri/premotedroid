@@ -30,7 +30,7 @@
 	<PreferenceCategory
 		android:title="@string/text_bluetooth">
 		<Preference
-			android:key="bluetooth_devices"
+			android:key="bluetooth_device"
 			android:defaultValue=""
 			android:title="@string/text_bluetooth_device" />
 	</PreferenceCategory>

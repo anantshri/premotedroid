@@ -3,18 +3,25 @@ package org.pierre.remotedroid.client.activity;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity
 {
-	private static final String[] tabFloatPreferences = { "control_sensitivity", "control_acceleration", "control_immobile_distance", "screenCapture_cursor_size" };
-	private static final String[] tabIntPreferences = { "connection_port", "control_click_delay", "control_hold_delay" };
+	private static final String[] tabFloatPreferences = {
+	        "control_sensitivity", "control_acceleration", "control_immobile_distance", "screenCapture_cursor_size"
+	};
+	private static final String[] tabIntPreferences = {
+	        "connection_port", "control_click_delay", "control_hold_delay"
+	};
 	
 	private static final int resetPreferencesMenuItemId = 0;
 	
@@ -29,6 +36,17 @@ public class SettingsActivity extends PreferenceActivity
 		
 		this.application = (PRemoteDroid) this.getApplication();
 		this.preferences = this.application.getPreferences();
+		
+		Preference bluetoothDevice = this.findPreference("bluetooth_device");
+		bluetoothDevice.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
+			public boolean onPreferenceClick(Preference preference)
+			{
+				SettingsActivity.this.startActivity(new Intent(SettingsActivity.this, BluetoothDevicesActivity.class));
+				
+				return true;
+			}
+		});
 	}
 	
 	protected void onPause()
