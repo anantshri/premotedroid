@@ -5,9 +5,6 @@ import java.io.IOException;
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
 import javax.microedition.io.StreamConnectionNotifier;
-import javax.obex.HeaderSet;
-import javax.obex.Operation;
-import javax.obex.ServerRequestHandler;
 
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
@@ -46,57 +43,13 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 	
 	public void close()
 	{
-	}
-	
-	private class BluetoothHandler extends ServerRequestHandler
-	{
-		@Override
-		public void onAuthenticationFailure(byte[] userName)
+		try
 		{
-			System.out.println("1");
-			super.onAuthenticationFailure(userName);
+			this.streamConnectionNotifier.close();
 		}
-		
-		@Override
-		public int onConnect(HeaderSet request, HeaderSet reply)
+		catch (IOException e)
 		{
-			System.out.println("2");
-			return super.onConnect(request, reply);
-		}
-		
-		@Override
-		public int onDelete(HeaderSet request, HeaderSet reply)
-		{
-			System.out.println("3");
-			return super.onDelete(request, reply);
-		}
-		
-		@Override
-		public void onDisconnect(HeaderSet request, HeaderSet reply)
-		{
-			System.out.println("4");
-			super.onDisconnect(request, reply);
-		}
-		
-		@Override
-		public int onGet(Operation op)
-		{
-			System.out.println("5");
-			return super.onGet(op);
-		}
-		
-		@Override
-		public int onPut(Operation op)
-		{
-			System.out.println("6");
-			return super.onPut(op);
-		}
-		
-		@Override
-		public int onSetPath(HeaderSet request, HeaderSet reply, boolean backup, boolean create)
-		{
-			System.out.println("7");
-			return super.onSetPath(request, reply, backup, create);
+			e.printStackTrace();
 		}
 	}
 }

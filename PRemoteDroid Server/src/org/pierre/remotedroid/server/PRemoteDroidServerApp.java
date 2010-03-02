@@ -28,9 +28,23 @@ public class PRemoteDroidServerApp
 		
 		this.trayIcon = new PRemoteDroidServerTrayIcon(this);
 		
-		this.serverTcp = new PRemoteDroidServerTcp(this);
+		try
+		{
+			this.serverTcp = new PRemoteDroidServerTcp(this);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		
-		this.serverBluetooth = new PRemoteDroidServerBluetooth(this);
+		try
+		{
+			this.serverBluetooth = new PRemoteDroidServerBluetooth(this);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public Preferences getPreferences()
@@ -52,7 +66,15 @@ public class PRemoteDroidServerApp
 	{
 		this.trayIcon.close();
 		
-		this.serverTcp.close();
+		if (this.serverTcp != null)
+		{
+			this.serverTcp.close();
+		}
+		
+		if (this.serverBluetooth != null)
+		{
+			this.serverBluetooth.close();
+		}
 		
 		System.exit(0);
 	}
@@ -71,6 +93,7 @@ public class PRemoteDroidServerApp
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 }
