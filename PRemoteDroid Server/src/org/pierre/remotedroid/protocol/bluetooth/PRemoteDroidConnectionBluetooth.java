@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.server.connection.bluetooth;
+package org.pierre.remotedroid.protocol.bluetooth;
 
 import java.io.InputStream;
 import java.io.OutputStream;

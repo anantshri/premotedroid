@@ -5,7 +5,8 @@ import java.awt.Robot;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import org.pierre.remotedroid.server.connection.tcp.PRemoteDroidServerTcp;
+import org.pierre.remotedroid.server.connection.PRemoteDroidServerBluetooth;
+import org.pierre.remotedroid.server.connection.PRemoteDroidServerTcp;
 import org.pierre.remotedroid.server.gui.PRemoteDroidServerTrayIcon;
 
 public class PRemoteDroidServerApp
@@ -17,6 +18,7 @@ public class PRemoteDroidServerApp
 	private Robot robot;
 	
 	private PRemoteDroidServerTcp serverTcp;
+	private PRemoteDroidServerBluetooth serverBluetooth;
 	
 	public PRemoteDroidServerApp() throws AWTException, IOException
 	{
@@ -27,6 +29,8 @@ public class PRemoteDroidServerApp
 		this.trayIcon = new PRemoteDroidServerTrayIcon(this);
 		
 		this.serverTcp = new PRemoteDroidServerTcp(this);
+		
+		this.serverBluetooth = new PRemoteDroidServerBluetooth(this);
 	}
 	
 	public Preferences getPreferences()
