@@ -1,6 +1,6 @@
 package org.pierre.remotedroid.client.bluetooth;
 
-public class PRemoteDroidConnectionBluetoothChecker
+public class BluetoothChecker
 {
 	public static boolean isBluetoohAvailable()
 	{
