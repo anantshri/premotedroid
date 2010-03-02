@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.pierre.remotedroid.client.R;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.bluetooth.BluetoothDevicesAdapter;
 
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
@@ -41,6 +44,15 @@ public class BluetoothDevicesActivity extends ListActivity implements Runnable, 
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		BluetoothDevice bluetoothDevice = this.bluetoothDevices.get(position);
+		String address = bluetoothDevice.getAddress();
+		
+		SharedPreferences preferences = ((PRemoteDroid) this.getApplication()).getPreferences();
+		Editor editor = preferences.edit();
+		editor.putString("bluetooth_device", address);
+		editor.commit();
+		
+		this.finish();
 	}
 	
 	public void run()
