@@ -84,6 +84,8 @@ public class SettingsActivity extends PreferenceActivity
 			{
 				if (newValue.equals("bluetooth") && !BluetoothChecker.isBluetoohAvailable())
 				{
+					SettingsActivity.this.application.showToast(R.string.text_bluetooth_not_available);
+					
 					return false;
 				}
 				else

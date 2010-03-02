@@ -51,6 +51,8 @@
 		<item>Bluetooth</item>
 	</string-array>
 	<string
+		name="text_bluetooth_not_available">Bluetooth not available on your phone (only Android 2.0+)</string>
+	<string
 		name="text_password">Password</string>
 	<string
 		name="text_wifi">Wifi</string>
