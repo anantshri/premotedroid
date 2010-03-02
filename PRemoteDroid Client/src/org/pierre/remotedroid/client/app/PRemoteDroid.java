@@ -73,14 +73,7 @@ public class PRemoteDroid extends Application implements Runnable
 		
 		try
 		{
-			String server = this.preferences.getString("wifi_server", null);
-			int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
-			String password = this.preferences.getString("connection_password", null);
-			
-			Socket socket = new Socket();
-			socket.connect(new InetSocketAddress(server, port), 1000);
-			
-			c = new PRemoteDroidConnectionTcp(socket);
+			c = this.initConnection();
 			
 			synchronized (this.connection)
 			{
@@ -91,6 +84,7 @@ public class PRemoteDroid extends Application implements Runnable
 			{
 				this.showInternalToast(R.string.text_connection_established);
 				
+				String password = this.preferences.getString("connection_password", null);
 				this.sendAction(new AuthentificationAction(password));
 				
 				while (true)
@@ -123,6 +117,22 @@ public class PRemoteDroid extends Application implements Runnable
 				this.showInternalToast(R.string.text_connection_closed);
 			}
 		}
+	}
+	
+	public PRemoteDroidConnection initConnection() throws IOException
+	{
+		return this.initConnectionTcp();
+	}
+	
+	public PRemoteDroidConnectionTcp initConnectionTcp() throws IOException
+	{
+		String server = this.preferences.getString("wifi_server", null);
+		int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
+		
+		Socket socket = new Socket();
+		socket.connect(new InetSocketAddress(server, port), 1000);
+		
+		return new PRemoteDroidConnectionTcp(socket);
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
