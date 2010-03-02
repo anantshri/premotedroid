@@ -1,14 +1,26 @@
 package org.pierre.remotedroid.protocol.bluetooth;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.IOException;
+
+import javax.microedition.io.StreamConnection;
 
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 {
-	public PRemoteDroidConnectionBluetooth(InputStream inputStream, OutputStream outputStream)
+	private StreamConnection streamConnection;
+	
+	public PRemoteDroidConnectionBluetooth(StreamConnection streamConnection) throws IOException
 	{
-		super(inputStream, outputStream);
+		super(streamConnection.openInputStream(), streamConnection.openOutputStream());
+		
+		this.streamConnection = streamConnection;
+	}
+	
+	public void close() throws IOException
+	{
+		super.close();
+		
+		this.streamConnection.close();
 	}
 }
