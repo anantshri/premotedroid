@@ -20,10 +20,10 @@ import android.view.MenuItem;
 public class SettingsActivity extends PreferenceActivity
 {
 	private static final String[] tabFloatPreferences = {
-	        "control_sensitivity", "control_acceleration", "control_immobile_distance", "screenCapture_cursor_size"
+	        "control_sensitivity", "control_acceleration", "control_immobile_distance", "screenCapture_cursor_size", "buttons_size", "wheel_bar_width"
 	};
 	private static final String[] tabIntPreferences = {
-	        "connection_port", "control_click_delay", "control_hold_delay"
+	        "wifi_port", "control_click_delay", "control_hold_delay"
 	};
 	
 	private static final int resetPreferencesMenuItemId = 0;

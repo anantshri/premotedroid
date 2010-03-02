@@ -119,6 +119,8 @@ public class PRemoteDroid extends Application implements Runnable
 	
 	public PRemoteDroidConnection initConnection() throws IOException
 	{
+		String connectiontype = this.preferences.getString("connection_type", null);
+		
 		return this.initConnectionTcp();
 	}
 	
