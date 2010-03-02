@@ -11,6 +11,7 @@ import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 public class PRemoteDroidConnection
 {
+	public static final String BLUETOOTH_UUID = "300ad0a7-059d-4d97-b9a3-eabe5f6af813";
 	public static final String DEFAULT_PASSWORD = "azerty";
 	
 	private DataInputStream dataInputStream;
