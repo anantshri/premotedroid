@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,7 +71,27 @@ public class SettingsActivity extends PreferenceActivity
 	
 	private void init()
 	{
+		this.initConnectionType();
 		this.initBluetooth();
+	}
+	
+	private void initConnectionType()
+	{
+		ListPreference connectionType = (ListPreference) this.findPreference("connection_type");
+		connectionType.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			public boolean onPreferenceChange(Preference preference, Object newValue)
+			{
+				if (newValue.equals("bluetooth") && !BluetoothChecker.isBluetoohAvailable())
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		});
 	}
 	
 	private void initBluetooth()
