@@ -36,6 +36,7 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 				if (device != null)
 				{
 					BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
+					socket.connect();
 					
 					PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
 					
