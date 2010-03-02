@@ -2,7 +2,6 @@ package org.pierre.remotedroid.server.connection;
 
 import java.io.IOException;
 
-import javax.bluetooth.UUID;
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
 import javax.microedition.io.StreamConnectionNotifier;
@@ -10,14 +9,20 @@ import javax.obex.HeaderSet;
 import javax.obex.Operation;
 import javax.obex.ServerRequestHandler;
 
+import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
 import org.pierre.remotedroid.server.PRemoteDroidServerApp;
 
 public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements Runnable
 {
-	public PRemoteDroidServerBluetooth(PRemoteDroidServerApp application)
+	private StreamConnectionNotifier streamConnectionNotifier;
+	
+	public PRemoteDroidServerBluetooth(PRemoteDroidServerApp application) throws IOException
 	{
 		super(application);
+		
+		String uuid = PRemoteDroidConnection.BLUETOOTH_UUID.replaceAll("-", "");
+		this.streamConnectionNotifier = (StreamConnectionNotifier) Connector.open("btspp://localhost:" + uuid + ";name=PRemoteDroid");
 		
 		(new Thread(this)).start();
 	}
@@ -26,12 +31,9 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 	{
 		try
 		{
-			UUID uuid = new UUID("1101", true);
-			StreamConnectionNotifier scn = (StreamConnectionNotifier) Connector.open("btspp://localhost:" + "300ad0a7059d4d97b9a3eabe5f6af813" + ";name=PRemoteDroid");
-			
 			while (true)
 			{
-				StreamConnection streamConnection = scn.acceptAndOpen();
+				StreamConnection streamConnection = streamConnectionNotifier.acceptAndOpen();
 				PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(streamConnection);
 				new PRemoteDroidServerConnection(this.application, connection);
 			}
