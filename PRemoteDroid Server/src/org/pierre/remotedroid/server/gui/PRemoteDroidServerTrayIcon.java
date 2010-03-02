@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.server.PRemoteDroidServerApp;
 import org.pierre.remotedroid.server.connection.PRemoteDroidServer;
@@ -41,9 +42,21 @@ public class PRemoteDroidServerTrayIcon
 		this.initTrayIcon();
 	}
 	
-	public void notifyConnection(InetAddress inetAddress, int port)
+	public void notifyConnection(PRemoteDroidConnection connection)
 	{
-		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + inetAddress.getHostAddress() + ":" + port, MessageType.INFO);
+		String message = "";
+		
+		if (connection instanceof PRemoteDroidConnectionTcp)
+		{
+			PRemoteDroidConnectionTcp connectionTcp = (PRemoteDroidConnectionTcp) connection;
+			message = connectionTcp.getInetAddress().getHostAddress() + ":" + connectionTcp.getPort();
+		}
+		else if (connection instanceof PRemoteDroidConnectionBluetooth)
+		{
+			message = "Bluetooth";
+		}
+		
+		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + message, MessageType.INFO);
 	}
 	
 	public void notifyProtocolProblem()

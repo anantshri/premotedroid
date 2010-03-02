@@ -148,9 +148,7 @@ public class PRemoteDroidServerConnection implements Runnable
 		{
 			this.authentificated = true;
 			
-			// TODO
-			// this.application.getTrayIcon().notifyConnection(this.connection.getInetAddress(),
-			// this.connection.getPort());
+			this.application.getTrayIcon().notifyConnection(this.connection);
 		}
 		
 		this.sendAction(new AuthentificationResponseAction(this.authentificated));
