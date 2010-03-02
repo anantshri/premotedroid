@@ -32,20 +32,36 @@
 		name="text_help_install">Install :</string>
 	<string
 		name="text_help_contact">Contact :</string>
-		<string
+	<string
 		name="text_help_contact_content">Website : http://code.google.com/p/premotedroid/\nGroup / forum : http://groups.google.com/group/premotedroid\nTwitter : @premotedroid\nEmail : pierredurand@gmail.com (dev)</string>
 	<string
 		name="text_get_server_content">You must download and install the server part of PRemoteDroid on your PC.\n\nOpen your web browser on your computer and type this URL :\n\nhttp://code.google.com/p/premotedroid/\n\nGo into the \"Downloads\" tab, and download the server file.\nUnzip the file in a folder.\n\nRun the server (PRemoteDroid-Server.exe on Windows, or PRemoteDroid-Server.jar on Linux and Mac OS).\n\nThe icon in the system tray allows you to configure the server (password and port).\n\nPress the \"back\" button on your phone to go back to the previous screen.</string>
 	<string
 		name="text_connection">Connection</string>
 	<string
-		name="text_advanced_connection">Advanced connection</string>
-	<string
-		name="text_server">Server</string>
+		name="text_connection_type">Connection type</string>
+	<string-array
+		name="connection_type_id">
+		<item>wifi</item>
+		<item>bluetooth</item>
+	</string-array>
+	<string-array
+		name="connection_type_name">
+		<item>Wifi</item>
+		<item>Bluetooth</item>
+	</string-array>
 	<string
 		name="text_password">Password</string>
 	<string
+		name="text_wifi">Wifi</string>
+	<string
+		name="text_server">Server</string>
+	<string
 		name="text_port">Port</string>
+	<string
+		name="text_bluetooth">Bluetooth</string>
+	<string
+		name="text_bluetooth_device">Bluetooth device</string>
 	<string
 		name="text_control">Control</string>
 	<string

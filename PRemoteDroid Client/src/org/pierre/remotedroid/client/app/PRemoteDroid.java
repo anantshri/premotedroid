@@ -73,8 +73,8 @@ public class PRemoteDroid extends Application implements Runnable
 		
 		try
 		{
-			String server = this.preferences.getString("connection_server", null);
-			int port = Integer.parseInt(this.preferences.getString("connection_port", null));
+			String server = this.preferences.getString("wifi_server", null);
+			int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
 			String password = this.preferences.getString("connection_password", null);
 			
 			Socket socket = new Socket();
