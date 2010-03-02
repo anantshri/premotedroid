@@ -20,12 +20,16 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class BluetoothDevicesActivity extends ListActivity implements Runnable, OnItemClickListener
 {
+	private PRemoteDroid application;
+	
 	private ArrayList<BluetoothDevice> bluetoothDevices;
 	private BluetoothDevicesAdapter bluetoothDevicesAdapter;
 	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		this.application = (PRemoteDroid) this.getApplication();
 		
 		this.bluetoothDevices = new ArrayList<BluetoothDevice>();
 		
@@ -76,6 +80,14 @@ public class BluetoothDevicesActivity extends ListActivity implements Runnable, 
 					}
 				});
 			}
+			else
+			{
+				this.application.showToast(R.string.text_bluetooth_not_enabled);
+			}
+		}
+		else
+		{
+			this.application.showToast(R.string.text_bluetooth_not_available);
 		}
 	}
 }

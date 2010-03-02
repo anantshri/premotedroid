@@ -152,9 +152,18 @@ public class PRemoteDroid extends Application implements Runnable
 	{
 		String address = this.preferences.getString("bluetooth_device", null);
 		
-		PRemoteDroidConnectionBluetooth connection = PRemoteDroidConnectionBluetooth.create(address);
-		
-		return connection;
+		try
+		{
+			PRemoteDroidConnectionBluetooth connection = PRemoteDroidConnectionBluetooth.create(address);
+			
+			return connection;
+		}
+		catch (IOException e)
+		{
+			this.showInternalToast(R.string.text_bluetooth_connection_error);
+			
+			throw e;
+		}
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
@@ -210,7 +219,7 @@ public class PRemoteDroid extends Application implements Runnable
 		{
 			public void run()
 			{
-				Toast.makeText(PRemoteDroid.this, message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(PRemoteDroid.this, message, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
