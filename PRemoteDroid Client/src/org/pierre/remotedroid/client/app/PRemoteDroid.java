@@ -89,7 +89,7 @@ public class PRemoteDroid extends Application implements Runnable
 			
 			try
 			{
-				this.showToast(R.string.text_connection_established);
+				this.showInternalToast(R.string.text_connection_established);
 				
 				this.sendAction(new AuthentificationAction(password));
 				
@@ -116,11 +116,11 @@ public class PRemoteDroid extends Application implements Runnable
 			
 			if (c == null)
 			{
-				this.showToast(R.string.text_connection_refused);
+				this.showInternalToast(R.string.text_connection_refused);
 			}
 			else
 			{
-				this.showToast(R.string.text_connection_closed);
+				this.showInternalToast(R.string.text_connection_closed);
 			}
 		}
 	}
@@ -143,18 +143,44 @@ public class PRemoteDroid extends Application implements Runnable
 		}
 	}
 	
-	public void showToast(final int resId)
+	public void showInternalToast(int resId)
 	{
-		if (this.actionReceivers.size() > 0)
+		if (this.isInternalToast())
 		{
-			this.handler.post(new Runnable()
-			{
-				public void run()
-				{
-					Toast.makeText(PRemoteDroid.this, resId, Toast.LENGTH_SHORT).show();
-				}
-			});
+			this.showToast(resId);
 		}
+	}
+	
+	public void showInternalToast(String message)
+	{
+		if (this.isInternalToast())
+		{
+			this.showToast(message);
+		}
+	}
+	
+	public boolean isInternalToast()
+	{
+		synchronized (this.actionReceivers)
+		{
+			return !this.actionReceivers.isEmpty();
+		}
+	}
+	
+	public void showToast(int resId)
+	{
+		this.showToast(this.getResources().getString(resId));
+	}
+	
+	public void showToast(final String message)
+	{
+		this.handler.post(new Runnable()
+		{
+			public void run()
+			{
+				Toast.makeText(PRemoteDroid.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 	
 	private void receiveAction(PRemoteDroidAction action)
