@@ -42,10 +42,20 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 					
 					return connection;
 				}
+				else
+				{
+					throw new IOException("Remote device not found");
+				}
+			}
+			else
+			{
+				throw new IOException("Bluetooth disabled");
 			}
 		}
-		
-		throw new IOException();
+		else
+		{
+			throw new IOException("No bluetooth adapter found");
+		}
 	}
 	
 	public void close() throws IOException
