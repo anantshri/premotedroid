@@ -1,6 +1,12 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
+		android:title="@string/text_connection">
+		<Preference
+			android:key="connections"
+			android:title="@string/text_connections" />
+	</PreferenceCategory>
+	<PreferenceCategory
 		android:title="@string/text_control">
 		<EditTextPreference
 			android:key="control_sensitivity"

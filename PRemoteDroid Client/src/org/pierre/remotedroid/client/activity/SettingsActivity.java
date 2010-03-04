@@ -2,17 +2,14 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,51 +68,17 @@ public class SettingsActivity extends PreferenceActivity
 	
 	private void init()
 	{
-		this.initConnectionType();
-		this.initBluetooth();
+		this.initConnections();
 	}
 	
-	private void initConnectionType()
+	private void initConnections()
 	{
-		ListPreference connectionType = (ListPreference) this.findPreference("connection_type");
-		connectionType.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
-			public boolean onPreferenceChange(Preference preference, Object newValue)
-			{
-				if (newValue.equals("bluetooth") && !BluetoothChecker.isBluetoohAvailable())
-				{
-					SettingsActivity.this.application.showToast(R.string.text_bluetooth_not_available_version);
-					
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-		});
-	}
-	
-	private void initBluetooth()
-	{
-		if (BluetoothChecker.isBluetoohAvailable())
-		{
-			this.initBluetoothDevice();
-		}
-		else
-		{
-			this.findPreference("bluetooth").setEnabled(false);
-		}
-	}
-	
-	private void initBluetoothDevice()
-	{
-		Preference bluetoothDevice = this.findPreference("bluetooth_device");
-		bluetoothDevice.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		Preference connections = this.findPreference("connections");
+		connections.setOnPreferenceClickListener(new OnPreferenceClickListener()
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				SettingsActivity.this.startActivity(new Intent(SettingsActivity.this, BluetoothDevicesActivity.class));
+				SettingsActivity.this.startActivity(new Intent(SettingsActivity.this, ConnectionListActivity.class));
 				
 				return true;
 			}

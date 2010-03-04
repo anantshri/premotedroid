@@ -71,7 +71,7 @@ public class ConnectionListActivity extends ListActivity
 		
 		public int getViewTypeCount()
 		{
-			return 0;
+			return 2;
 		}
 		
 		public int getCount()
