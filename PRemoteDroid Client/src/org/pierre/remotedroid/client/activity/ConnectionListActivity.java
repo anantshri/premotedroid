@@ -1,6 +1,7 @@
 package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.connection.Connection;
 import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 import org.pierre.remotedroid.client.connection.ConnectionList;
@@ -8,6 +9,8 @@ import org.pierre.remotedroid.client.connection.ConnectionWifi;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,28 @@ import android.widget.TextView;
 
 public class ConnectionListActivity extends ListActivity
 {
+	private PRemoteDroid application;
+	private SharedPreferences preferences;
+	
+	private ConnectionList connections;
+	
+	private ConnectionListAdapter adapter;
+	
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		this.application = (PRemoteDroid) this.getApplication();
+		
+		this.preferences = this.application.getPreferences();
+		
+		this.connections = new ConnectionList(this.preferences);
+		
+		this.adapter = new ConnectionListAdapter(this, this.connections);
+		
+		this.setListAdapter(this.adapter);
+	}
+	
 	private class ConnectionListAdapter extends BaseAdapter
 	{
 		private ConnectionList connections;

@@ -11,10 +11,12 @@ public class ConnectionList
 	private ArrayList<Connection> connections;
 	private SharedPreferences preferences;
 	
-	private ConnectionList(SharedPreferences preferences)
+	public ConnectionList(SharedPreferences preferences)
 	{
 		this.preferences = preferences;
 		this.connections = new ArrayList<Connection>();
+		
+		this.load();
 	}
 	
 	private void load()
