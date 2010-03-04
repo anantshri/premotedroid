@@ -139,7 +139,9 @@
 	<string
 		name="text_bluetooth_not_enabled">Bluetooth is not enabled</string>
 	<string
-		name="text_bluetooth_connection_error">Bluetooth connection error, please check :\n - Bluetooth is available\n - Bluetooth is enabled\n - Bluetooth device is paired\n - Server is started</string>
+		name="text_bluetooth_remote_device_not_found">Remote bluetooth device not found</string>
+	<string
+		name="text_bluetooth_can_not_connect">Can not connect to remote bluetooth device</string>
 	<string
 		name="text_first_run_dialog">It is the first time you launch PRemoteDroid.\nDo you want to read the help?</string>
 	<string

@@ -3,6 +3,8 @@ package org.pierre.remotedroid.protocol.bluetooth;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.pierre.remotedroid.client.R;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 import android.bluetooth.BluetoothAdapter;
@@ -21,7 +23,7 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 		this.socket = socket;
 	}
 	
-	public static PRemoteDroidConnectionBluetooth create(String address) throws IOException
+	public static PRemoteDroidConnectionBluetooth create(PRemoteDroid application, String address) throws IOException
 	{
 		Looper.prepare();
 		
@@ -35,26 +37,41 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 				
 				if (device != null)
 				{
-					BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
-					socket.connect();
-					
-					PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
-					
-					return connection;
+					try
+					{
+						BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
+						socket.connect();
+						
+						PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
+						
+						return connection;
+					}
+					catch (IOException e)
+					{
+						application.showInternalToast(R.string.text_bluetooth_can_not_connect);
+						
+						throw e;
+					}
 				}
 				else
 				{
-					throw new IOException("Remote device not found");
+					application.showInternalToast(R.string.text_bluetooth_remote_device_not_found);
+					
+					throw new IOException();
 				}
 			}
 			else
 			{
-				throw new IOException("Bluetooth disabled");
+				application.showInternalToast(R.string.text_bluetooth_not_enabled);
+				
+				throw new IOException();
 			}
 		}
 		else
 		{
-			throw new IOException("No bluetooth adapter found");
+			application.showInternalToast(R.string.text_bluetooth_not_available);
+			
+			throw new IOException();
 		}
 	}
 	
