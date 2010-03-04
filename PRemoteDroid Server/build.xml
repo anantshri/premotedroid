@@ -27,10 +27,8 @@
 		<jar destfile="export/PRemoteDroid-Server/PRemoteDroid-Server.jar">
 			<fileset dir="bin" />
 			<fileset dir="../PRemoteDroid Protocol/bin" />
-			<zipfileset src="lib/bluecove-2.1.0.jar" includes="**/*.class" />
-			<zipfileset src="lib/bluecove-gpl-2.1.0.jar" includes="**/*.class" />
 			<manifest>
-				<attribute name="Class-Path" value="bluecove-2.1.0.jar bluecove-gpl-2.1.0.jar" />
+				<attribute name="Class-Path" value="bluecove-gpl-2.1.0.jar bluecove-2.1.0.jar" />
 				<attribute name="Main-Class" value="org.pierre.remotedroid.server.PRemoteDroidServerApp" />
 			</manifest>
 		</jar>
