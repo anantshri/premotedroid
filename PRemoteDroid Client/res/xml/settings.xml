@@ -1,41 +1,6 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
-		android:title="@string/text_connection">
-		<ListPreference
-			android:key="connection_type"
-			android:entries="@array/connection_type_name"
-			android:entryValues="@array/connection_type_id"
-			android:defaultValue="wifi"
-			android:title="@string/text_connection_type" />
-		<EditTextPreference
-			android:key="connection_password"
-			android:inputType="textPassword"
-			android:defaultValue="azerty"
-			android:title="@string/text_password" />
-	</PreferenceCategory>
-	<PreferenceCategory
-		android:title="@string/text_wifi">
-		<EditTextPreference
-			android:key="wifi_server"
-			android:inputType="text"
-			android:defaultValue="192.168.0.1"
-			android:title="@string/text_server" />
-		<EditTextPreference
-			android:key="wifi_port"
-			android:inputType="number"
-			android:defaultValue="64788"
-			android:title="@string/text_port" />
-	</PreferenceCategory>
-	<PreferenceCategory
-		android:key="bluetooth"
-		android:title="@string/text_bluetooth">
-		<Preference
-			android:key="bluetooth_device"
-			android:defaultValue=""
-			android:title="@string/text_bluetooth_device" />
-	</PreferenceCategory>
-	<PreferenceCategory
 		android:title="@string/text_control">
 		<EditTextPreference
 			android:key="control_sensitivity"
