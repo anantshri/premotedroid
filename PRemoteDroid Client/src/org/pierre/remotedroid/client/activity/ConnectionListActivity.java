@@ -12,12 +12,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
-public class ConnectionListActivity extends ListActivity
+public class ConnectionListActivity extends ListActivity implements OnItemClickListener, OnItemLongClickListener
 {
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
@@ -39,6 +44,44 @@ public class ConnectionListActivity extends ListActivity
 		this.adapter = new ConnectionListAdapter(this, this.connections);
 		
 		this.setListAdapter(this.adapter);
+		
+		this.getListView().setOnItemClickListener(this);
+		
+		this.getListView().setOnItemLongClickListener(this);
+	}
+	
+	protected void onResume()
+	{
+		super.onResume();
+		
+		this.connections.sort();
+		this.adapter.notifyDataSetChanged();
+	}
+	
+	protected void onPause()
+	{
+		super.onPause();
+		
+		this.connections.save();
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onMenuItemSelected(int featureId, MenuItem item)
+	{
+		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+	{
+	}
+	
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+	{
+		return true;
 	}
 	
 	private class ConnectionListAdapter extends BaseAdapter
@@ -103,7 +146,7 @@ public class ConnectionListActivity extends ListActivity
 				{
 					convertView = this.layoutInflater.inflate(R.layout.connectionwifi, null);
 					
-					holder.address = (TextView) convertView.findViewById(R.id.hostPort);
+					holder.hostPort = (TextView) convertView.findViewById(R.id.hostPort);
 				}
 				else if (connection instanceof ConnectionBluetooth)
 				{
