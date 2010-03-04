@@ -7,9 +7,12 @@ import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 import org.pierre.remotedroid.client.connection.ConnectionList;
 import org.pierre.remotedroid.client.connection.ConnectionWifi;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,14 +25,18 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
-public class ConnectionListActivity extends ListActivity implements OnItemClickListener, OnItemLongClickListener
+public class ConnectionListActivity extends ListActivity implements OnItemClickListener, OnItemLongClickListener, OnClickListener
 {
+	private static final int NEW_MENU_ITEM_ID = 0;
+	
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
 	
 	private ConnectionList connections;
 	
 	private ConnectionListAdapter adapter;
+	
+	private AlertDialog alertDialogNew;
 	
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -48,14 +55,15 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		this.getListView().setOnItemClickListener(this);
 		
 		this.getListView().setOnItemLongClickListener(this);
+		
+		this.initAlertDialogNew();
 	}
 	
 	protected void onResume()
 	{
 		super.onResume();
 		
-		this.connections.sort();
-		this.adapter.notifyDataSetChanged();
+		this.refresh();
 	}
 	
 	protected void onPause()
@@ -67,12 +75,21 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		menu.add(Menu.NONE, NEW_MENU_ITEM_ID, Menu.NONE, R.string.text_new);
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
-	public boolean onMenuItemSelected(int featureId, MenuItem item)
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		return super.onMenuItemSelected(featureId, item);
+		switch (item.getItemId())
+		{
+			case NEW_MENU_ITEM_ID:
+				this.alertDialogNew.show();
+				break;
+		}
+		
+		return true;
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -82,6 +99,34 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 	{
 		return true;
+	}
+	
+	public void onClick(DialogInterface dialog, int which)
+	{
+		if (dialog == this.alertDialogNew)
+		{
+			String[] connectionTypeId = this.getResources().getStringArray(R.array.connection_type_id);
+			
+			Connection connection = this.connections.add(connectionTypeId[which]);
+			
+			this.refresh();
+		}
+	}
+	
+	private void refresh()
+	{
+		this.connections.sort();
+		this.adapter.notifyDataSetChanged();
+	}
+	
+	private void initAlertDialogNew()
+	{
+		String[] connectionTypeName = this.getResources().getStringArray(R.array.connection_type_name);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.text_connection_type);
+		builder.setItems(connectionTypeName, this);
+		this.alertDialogNew = builder.create();
 	}
 	
 	private class ConnectionListAdapter extends BaseAdapter

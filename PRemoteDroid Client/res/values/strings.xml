@@ -126,4 +126,18 @@
 		name="text_yes">Yes</string>
 	<string
 		name="text_no">No</string>
+	<string
+		name="text_new">New</string>
+	<string
+		name="text_connection_type">Connection type</string>
+	<string-array
+		name="connection_type_id">
+		<item>wifi</item>
+		<item>bluetooth</item>
+	</string-array>
+	<string-array
+		name="connection_type_name">
+		<item>Wifi</item>
+		<item>Bluetooth</item>
+	</string-array>
 </resources>
