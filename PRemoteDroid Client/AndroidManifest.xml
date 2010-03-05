@@ -32,6 +32,9 @@
 			android:name=".activity.FileExplorerActivity"
 			android:label="@string/text_file_explorer"></activity>
 	<activity android:label="@string/text_connections" android:name=".activity.ConnectionListActivity"></activity>
+<activity android:name=".activity.ConnectionEditActivity"></activity>
+<activity android:name=".activity.ConnectionWifiEditActivity"></activity>
+<activity android:name=".activity.ConnectionBluetoothEditActivity"></activity>
 </application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>

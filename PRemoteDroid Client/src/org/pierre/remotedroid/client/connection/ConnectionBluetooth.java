@@ -1,5 +1,9 @@
 package org.pierre.remotedroid.client.connection;
 
+import org.pierre.remotedroid.client.activity.ConnectionBluetoothEditActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
@@ -30,6 +34,12 @@ public class ConnectionBluetooth extends Connection
 		editor.putString("connection_" + position + "_type", "bluetooth");
 		
 		editor.putString("connection_" + position + "_address", this.address);
+	}
+	
+	public void edit(Context context)
+	{
+		Intent intent = new Intent(context, ConnectionBluetoothEditActivity.class);
+		this.edit(context, intent);
 	}
 	
 	public String getAddress()

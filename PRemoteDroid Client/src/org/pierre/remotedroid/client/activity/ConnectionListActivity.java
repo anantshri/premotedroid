@@ -110,6 +110,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			Connection connection = this.connections.add(connectionTypeId[which]);
 			
 			this.refresh();
+			
+			connection.edit(this);
 		}
 	}
 	

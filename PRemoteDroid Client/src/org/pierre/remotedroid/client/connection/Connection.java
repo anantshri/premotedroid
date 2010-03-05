@@ -1,11 +1,15 @@
 package org.pierre.remotedroid.client.connection;
 
+import java.io.Serializable;
+
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-public abstract class Connection implements Comparable<Connection>
+public abstract class Connection implements Comparable<Connection>, Serializable
 {
 	private String name;
 	private String password;
@@ -43,6 +47,14 @@ public abstract class Connection implements Comparable<Connection>
 		editor.putString("connection_" + position + "_name", this.name);
 		
 		editor.putString("connection_" + position + "_password", this.password);
+	}
+	
+	public abstract void edit(Context context);
+	
+	protected void edit(Context context, Intent intent)
+	{
+		intent.putExtra("connection", this);
+		context.startActivity(intent);
 	}
 	
 	public String getName()

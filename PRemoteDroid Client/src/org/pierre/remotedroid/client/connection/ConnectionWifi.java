@@ -1,7 +1,10 @@
 package org.pierre.remotedroid.client.connection;
 
+import org.pierre.remotedroid.client.activity.ConnectionWifiEditActivity;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
@@ -38,6 +41,12 @@ public class ConnectionWifi extends Connection
 		editor.putString("connection_" + position + "_host", this.host);
 		
 		editor.putInt("connection_" + position + "_port", this.port);
+	}
+	
+	public void edit(Context context)
+	{
+		Intent intent = new Intent(context, ConnectionWifiEditActivity.class);
+		this.edit(context, intent);
 	}
 	
 	public String getHost()
