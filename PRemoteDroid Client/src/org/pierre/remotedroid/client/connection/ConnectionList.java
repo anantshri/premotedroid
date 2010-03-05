@@ -50,17 +50,18 @@ public class ConnectionList
 		Collections.sort(this.connections);
 	}
 	
-	public Connection add(String type)
+	public Connection add(int type)
 	{
 		Connection connection = null;
 		
-		if (type.equals("wifi"))
+		switch (type)
 		{
-			connection = new ConnectionWifi();
-		}
-		else if (type.equals("bluetooth"))
-		{
-			connection = new ConnectionBluetooth();
+			case Connection.WIFI:
+				connection = new ConnectionWifi();
+				break;
+			case Connection.BLUETOOTH:
+				connection = new ConnectionBluetooth();
+				break;
 		}
 		
 		this.connections.add(connection);

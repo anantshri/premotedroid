@@ -105,9 +105,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		if (dialog == this.alertDialogNew)
 		{
-			String[] connectionTypeId = this.getResources().getStringArray(R.array.connection_type_id);
-			
-			Connection connection = this.connections.add(connectionTypeId[which]);
+			Connection connection = this.connections.add(which);
 			
 			this.refresh();
 			
