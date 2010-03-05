@@ -12,6 +12,11 @@ import android.content.SharedPreferences.Editor;
 
 public abstract class Connection implements Comparable<Connection>, Serializable
 {
+	public static final int TYPE_COUNT = 2;
+	
+	public static final int WIFI = 0;
+	public static final int BLUETOOTH = 1;
+	
 	private String name;
 	private String password;
 	
@@ -25,15 +30,16 @@ public abstract class Connection implements Comparable<Connection>, Serializable
 	{
 		Connection connection = null;
 		
-		String type = preferences.getString("connection_" + position + "_type", null);
+		int type = preferences.getInt("connection_" + position + "_type", -1);
 		
-		if (type.equals("wifi"))
+		switch (type)
 		{
-			connection = ConnectionWifi.load(preferences, position);
-		}
-		else if (type.equals("bluetooth"))
-		{
-			connection = ConnectionBluetooth.load(preferences, position);
+			case WIFI:
+				connection = ConnectionWifi.load(preferences, position);
+				break;
+			case BLUETOOTH:
+				connection = ConnectionBluetooth.load(preferences, position);
+				break;
 		}
 		
 		connection.name = preferences.getString("connection_" + position + "_name", null);

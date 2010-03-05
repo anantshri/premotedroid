@@ -31,7 +31,7 @@ public class ConnectionBluetooth extends Connection
 	{
 		super.save(editor, position);
 		
-		editor.putString("connection_" + position + "_type", "bluetooth");
+		editor.putInt("connection_" + position + "_type", BLUETOOTH);
 		
 		editor.putString("connection_" + position + "_address", this.address);
 	}

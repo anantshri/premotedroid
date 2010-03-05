@@ -36,7 +36,7 @@ public class ConnectionWifi extends Connection
 	{
 		super.save(editor, position);
 		
-		editor.putString("connection_" + position + "_type", "wifi");
+		editor.putInt("connection_" + position + "_type", WIFI);
 		
 		editor.putString("connection_" + position + "_host", this.host);
 		
