@@ -2,6 +2,7 @@ package org.pierre.remotedroid.client.connection;
 
 import java.io.Serializable;
 
+import org.pierre.remotedroid.client.activity.ConnectionEditActivity;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 import android.content.Context;
@@ -53,7 +54,7 @@ public abstract class Connection implements Comparable<Connection>, Serializable
 	
 	protected void edit(Context context, Intent intent)
 	{
-		intent.putExtra("connection", this);
+		ConnectionEditActivity.connectionParam = this;
 		context.startActivity(intent);
 	}
 	

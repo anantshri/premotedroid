@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 public class ConnectionEditActivity extends Activity
 {
+	public static Connection connectionParam;
+	
 	private Connection connection;
 	
 	private EditText name;
@@ -18,7 +20,7 @@ public class ConnectionEditActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		this.connection = (Connection) this.getIntent().getSerializableExtra("connection");
+		this.connection = connectionParam;
 		
 		this.name = (EditText) this.findViewById(R.id.name);
 		this.password = (EditText) this.findViewById(R.id.password);

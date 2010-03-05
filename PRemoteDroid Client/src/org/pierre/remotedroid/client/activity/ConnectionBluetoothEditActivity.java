@@ -18,7 +18,7 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity
 		
 		super.onCreate(savedInstanceState);
 		
-		this.connection = (ConnectionBluetooth) this.getIntent().getSerializableExtra("connection");
+		this.connection = (ConnectionBluetooth) connectionParam;
 		
 		this.address = (EditText) this.findViewById(R.id.address);
 	}

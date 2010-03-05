@@ -19,7 +19,7 @@ public class ConnectionWifiEditActivity extends ConnectionEditActivity
 		
 		super.onCreate(savedInstanceState);
 		
-		this.connection = (ConnectionWifi) this.getIntent().getSerializableExtra("connection");
+		this.connection = (ConnectionWifi) connectionParam;
 		
 		this.host = (EditText) this.findViewById(R.id.host);
 		this.port = (EditText) this.findViewById(R.id.port);
