@@ -38,6 +38,10 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	private AlertDialog alertDialogNew;
 	
+	private AlertDialog alertDialogItemLongClick;
+	
+	private int itemLongClickPosition;
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -57,6 +61,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		this.getListView().setOnItemLongClickListener(this);
 		
 		this.initAlertDialogNew();
+		
+		this.initAlertDialogItemLongClick();
 	}
 	
 	protected void onResume()
@@ -98,6 +104,10 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		this.itemLongClickPosition = position;
+		
+		this.alertDialogItemLongClick.show();
+		
 		return true;
 	}
 	
@@ -110,6 +120,23 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			this.refresh();
 			
 			connection.edit(this);
+		}
+		else if (dialog == this.alertDialogItemLongClick)
+		{
+			Connection connection = this.connections.get(this.itemLongClickPosition);
+			
+			switch (which)
+			{
+				case 0:
+					break;
+				case 1:
+					connection.edit(this);
+					break;
+				case 2:
+					this.connections.remove(this.itemLongClickPosition);
+					this.refresh();
+					break;
+			}
 		}
 	}
 	
@@ -127,6 +154,15 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		builder.setTitle(R.string.text_connection_type);
 		builder.setItems(connectionTypeName, this);
 		this.alertDialogNew = builder.create();
+	}
+	
+	private void initAlertDialogItemLongClick()
+	{
+		String[] connectionActionName = this.getResources().getStringArray(R.array.connection_action_name);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setItems(connectionActionName, this);
+		this.alertDialogItemLongClick = builder.create();
 	}
 	
 	private class ConnectionListAdapter extends BaseAdapter
