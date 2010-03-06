@@ -11,6 +11,8 @@ public class ConnectionList
 	private ArrayList<Connection> connections;
 	private SharedPreferences preferences;
 	
+	private Connection used;
+	
 	public ConnectionList(SharedPreferences preferences)
 	{
 		this.preferences = preferences;
@@ -28,6 +30,12 @@ public class ConnectionList
 			Connection connection = Connection.load(this.preferences, this, i);
 			this.connections.add(connection);
 		}
+		
+		int position = this.preferences.getInt("connection_use", -1);
+		if (position > 0)
+		{
+			this.used = this.get(position);
+		}
 	}
 	
 	public void save()
@@ -36,6 +44,8 @@ public class ConnectionList
 		
 		int count = this.connections.size();
 		editor.putInt("connection_count", count);
+		
+		editor.putInt("connection_use", this.getUsedPosition());
 		
 		for (int i = 0; i < count; i++)
 		{
@@ -71,7 +81,12 @@ public class ConnectionList
 	
 	public void remove(int position)
 	{
-		this.connections.remove(position);
+		Connection connection = this.connections.remove(position);
+		
+		if (connection == this.used)
+		{
+			this.used = null;
+		}
 	}
 	
 	public Connection get(int position)
@@ -82,5 +97,20 @@ public class ConnectionList
 	public int getCount()
 	{
 		return this.connections.size();
+	}
+	
+	public void use(int position)
+	{
+		this.used = this.get(position);
+	}
+	
+	public Connection getUsed()
+	{
+		return this.used;
+	}
+	
+	public int getUsedPosition()
+	{
+		return this.connections.indexOf(this.used);
 	}
 }

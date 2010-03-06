@@ -100,6 +100,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		this.useConnection(position);
 	}
 	
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
@@ -115,29 +116,51 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		if (dialog == this.alertDialogNew)
 		{
-			Connection connection = this.connections.add(which);
-			
-			this.refresh();
-			
-			connection.edit(this);
+			this.onClickAlertDialogNew(which);
 		}
 		else if (dialog == this.alertDialogItemLongClick)
 		{
-			Connection connection = this.connections.get(this.itemLongClickPosition);
-			
-			switch (which)
-			{
-				case 0:
-					break;
-				case 1:
-					connection.edit(this);
-					break;
-				case 2:
-					this.connections.remove(this.itemLongClickPosition);
-					this.refresh();
-					break;
-			}
+			this.onClickAlertDialogItemLongClick(which);
 		}
+	}
+	
+	private void onClickAlertDialogNew(int which)
+	{
+		Connection connection = this.connections.add(which);
+		
+		this.refresh();
+		
+		connection.edit(this);
+	}
+	
+	private void onClickAlertDialogItemLongClick(int which)
+	{
+		Connection connection = this.connections.get(this.itemLongClickPosition);
+		
+		switch (which)
+		{
+			case 0:
+				this.useConnection(this.itemLongClickPosition);
+				break;
+			case 1:
+				connection.edit(this);
+				break;
+			case 2:
+				this.removeConnection();
+				break;
+		}
+	}
+	
+	private void useConnection(int position)
+	{
+		this.connections.use(position);
+		this.refresh();
+	}
+	
+	private void removeConnection()
+	{
+		this.connections.remove(this.itemLongClickPosition);
+		this.refresh();
 	}
 	
 	private void refresh()
@@ -170,11 +193,20 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		private ConnectionList connections;
 		private LayoutInflater layoutInflater;
 		
+		private int connectionUsedPosition;
+		
 		public ConnectionListAdapter(Context context, ConnectionList connections)
 		{
 			this.connections = connections;
 			
 			this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		
+		public void notifyDataSetChanged()
+		{
+			super.notifyDataSetChanged();
+			
+			this.connectionUsedPosition = this.connections.getUsedPosition();
 		}
 		
 		public int getItemViewType(int position)
