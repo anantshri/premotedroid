@@ -187,7 +187,9 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	private void initAlertDialogNew()
 	{
-		String[] connectionTypeName = this.getResources().getStringArray(R.array.connection_type_name);
+		String[] connectionTypeName = {
+		        this.getResources().getString(R.string.text_wifi), this.getResources().getString(R.string.text_bluetooth)
+		};
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.text_connection_type);

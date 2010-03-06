@@ -30,10 +30,10 @@
 			android:name=".activity.FileExplorerActivity"
 			android:label="@string/text_file_explorer"></activity>
 	<activity android:label="@string/text_connections" android:name=".activity.ConnectionListActivity"></activity>
-<activity android:name=".activity.ConnectionEditActivity"></activity>
-<activity android:name=".activity.ConnectionWifiEditActivity"></activity>
-<activity android:name=".activity.ConnectionBluetoothEditActivity"></activity>
-<activity android:name=".activity.BluetoothDevicesActivity"></activity>
+
+<activity android:name=".activity.ConnectionWifiEditActivity" android:label="@string/text_wifi"></activity>
+<activity android:name=".activity.ConnectionBluetoothEditActivity" android:label="@string/text_bluetooth"></activity>
+<activity android:name=".activity.BluetoothDevicesActivity" android:label="@string/text_bluetooth"></activity>
 </application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>

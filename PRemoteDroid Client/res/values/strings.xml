@@ -138,11 +138,10 @@
 		<item>Edit</item>
 		<item>Remove</item>
 	</string-array>
-	<string-array
-		name="connection_type_name">
-		<item>Wifi</item>
-		<item>Bluetooth</item>
-	</string-array>
+	<string
+		name="text_wifi">Wifi</string>
+	<string
+		name="text_bluetooth">Bluetooth</string>
 	<string
 		name="text_name">Name : </string>
 	<string
