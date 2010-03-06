@@ -154,4 +154,6 @@
 		name="text_address">Address : </string>
 	<string
 		name="text_save">Save</string>
+	<string
+		name="text_new_connection">New connection</string>
 </resources>
