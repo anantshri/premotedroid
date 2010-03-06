@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -232,6 +233,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 				convertView = this.layoutInflater.inflate(R.layout.connection, null);
 				
 				holder.name = (TextView) convertView.findViewById(R.id.name);
+				holder.use = (RadioButton) convertView.findViewById(R.id.use);
 				
 				convertView.setTag(holder);
 			}
@@ -243,14 +245,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			Connection connection = this.connections.get(position);
 			
 			holder.name.setText(connection.getName());
-			if (position == this.connectionUsedPosition)
-			{
-				holder.name.setTextSize(30);
-			}
-			else
-			{
-				holder.name.setTextSize(20);
-			}
+			holder.use.setChecked(position == this.connectionUsedPosition);
 			
 			return convertView;
 		}
@@ -259,5 +254,6 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	private class ConnectionViewHolder
 	{
 		public TextView name;
+		public RadioButton use;
 	}
 }
