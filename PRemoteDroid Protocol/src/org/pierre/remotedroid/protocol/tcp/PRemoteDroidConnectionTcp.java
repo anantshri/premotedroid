@@ -24,10 +24,10 @@ public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 		this.socket.setSendBufferSize(1024 * 1024);
 	}
 	
-	public static PRemoteDroidConnectionTcp create(String server, int port) throws IOException
+	public static PRemoteDroidConnectionTcp create(String host, int port) throws IOException
 	{
 		Socket socket = new Socket();
-		socket.connect(new InetSocketAddress(server, port), 1000);
+		socket.connect(new InetSocketAddress(host, port), 1000);
 		
 		PRemoteDroidConnectionTcp connection = new PRemoteDroidConnectionTcp(socket);
 		

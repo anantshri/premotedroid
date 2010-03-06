@@ -1,6 +1,10 @@
 package org.pierre.remotedroid.client.connection;
 
+import java.io.IOException;
+
 import org.pierre.remotedroid.client.activity.ConnectionBluetoothEditActivity;
+import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
+import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +44,11 @@ public class ConnectionBluetooth extends Connection
 	{
 		Intent intent = new Intent(context, ConnectionBluetoothEditActivity.class);
 		this.edit(context, intent);
+	}
+	
+	public PRemoteDroidConnection connect() throws IOException
+	{
+		return PRemoteDroidConnectionBluetooth.create(this.address);
 	}
 	
 	public String getAddress()

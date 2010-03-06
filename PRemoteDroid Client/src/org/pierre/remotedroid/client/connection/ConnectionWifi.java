@@ -1,6 +1,9 @@
 package org.pierre.remotedroid.client.connection;
 
+import java.io.IOException;
+
 import org.pierre.remotedroid.client.activity.ConnectionWifiEditActivity;
+import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
 import android.content.Context;
@@ -47,6 +50,11 @@ public class ConnectionWifi extends Connection
 	{
 		Intent intent = new Intent(context, ConnectionWifiEditActivity.class);
 		this.edit(context, intent);
+	}
+	
+	public PRemoteDroidConnection connect() throws IOException
+	{
+		return PRemoteDroidConnectionTcp.create(this.host, this.port);
 	}
 	
 	public String getHost()

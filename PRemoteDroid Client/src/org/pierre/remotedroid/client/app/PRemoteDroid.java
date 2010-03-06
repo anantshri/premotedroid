@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import org.pierre.remotedroid.client.R;
-import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
+import org.pierre.remotedroid.client.connection.Connection;
 import org.pierre.remotedroid.client.connection.ConnectionList;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
-import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
-import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
 import android.app.Application;
 import android.content.Context;
@@ -79,92 +77,59 @@ public class PRemoteDroid extends Application implements Runnable
 	
 	public synchronized void run()
 	{
-		PRemoteDroidConnection c = null;
+		Connection co = this.connections.getUsed();
 		
-		try
+		if (co != null)
 		{
-			c = this.initConnection();
-			
-			synchronized (this.connection)
-			{
-				this.connection[0] = c;
-			}
+			PRemoteDroidConnection c = null;
 			
 			try
 			{
-				this.showInternalToast(R.string.text_connection_established);
+				c = co.connect();
 				
-				String password = this.preferences.getString("connection_password", null);
-				this.sendAction(new AuthentificationAction(password));
-				
-				while (true)
-				{
-					PRemoteDroidAction action = c.receiveAction();
-					
-					this.receiveAction(action);
-				}
-			}
-			finally
-			{
 				synchronized (this.connection)
 				{
-					this.connection[0] = null;
+					this.connection[0] = c;
 				}
 				
-				c.close();
+				try
+				{
+					this.showInternalToast(R.string.text_connection_established);
+					
+					String password = co.getPassword();
+					this.sendAction(new AuthentificationAction(password));
+					
+					while (true)
+					{
+						PRemoteDroidAction action = c.receiveAction();
+						
+						this.receiveAction(action);
+					}
+				}
+				finally
+				{
+					synchronized (this.connection)
+					{
+						this.connection[0] = null;
+					}
+					
+					c.close();
+				}
 			}
-		}
-		catch (IOException e)
-		{
-			this.debug(e);
-			
-			if (c == null)
+			catch (IOException e)
 			{
-				this.showInternalToast(R.string.text_connection_refused);
-			}
-			else
-			{
-				this.showInternalToast(R.string.text_connection_closed);
-			}
-		}
-	}
-	
-	public PRemoteDroidConnection initConnection() throws IOException
-	{
-		String connectiontype = this.preferences.getString("connection_type", null);
-		
-		if (connectiontype.equals("wifi"))
-		{
-			return this.initConnectionTcp();
-		}
-		else if (connectiontype.equals("bluetooth"))
-		{
-			if (BluetoothChecker.isBluetoohAvailable())
-			{
-				return this.initConnectionBluetooth();
+				this.debug(e);
+				
+				if (c == null)
+				{
+					this.showInternalToast(R.string.text_connection_refused);
+				}
+				else
+				{
+					this.showInternalToast(R.string.text_connection_closed);
+				}
 			}
 		}
-		
-		throw new IOException();
-	}
-	
-	public PRemoteDroidConnectionTcp initConnectionTcp() throws IOException
-	{
-		String server = this.preferences.getString("wifi_server", null);
-		int port = Integer.parseInt(this.preferences.getString("wifi_port", null));
-		
-		PRemoteDroidConnectionTcp connection = PRemoteDroidConnectionTcp.create(server, port);
-		
-		return connection;
-	}
-	
-	public PRemoteDroidConnectionBluetooth initConnectionBluetooth() throws IOException
-	{
-		String address = this.preferences.getString("bluetooth_device", null);
-		
-		PRemoteDroidConnectionBluetooth connection = PRemoteDroidConnectionBluetooth.create(this, address);
-		
-		return connection;
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
@@ -248,7 +213,7 @@ public class PRemoteDroid extends Application implements Runnable
 				{
 					if (this.connection[0] == null)
 					{
-						// (new Thread(this)).start();
+						(new Thread(this)).start();
 					}
 				}
 			}
