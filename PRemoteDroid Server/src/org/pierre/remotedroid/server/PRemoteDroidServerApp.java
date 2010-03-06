@@ -62,6 +62,16 @@ public class PRemoteDroidServerApp
 		return robot;
 	}
 	
+	public PRemoteDroidServerTcp getServerTcp()
+	{
+		return serverTcp;
+	}
+	
+	public PRemoteDroidServerBluetooth getServerBluetooth()
+	{
+		return serverBluetooth;
+	}
+	
 	public void exit()
 	{
 		this.trayIcon.close();

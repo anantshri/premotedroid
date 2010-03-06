@@ -80,38 +80,13 @@ public class PRemoteDroidServerTrayIcon
 			{
 				String password = PRemoteDroidServerTrayIcon.this.preferences.get("password", PRemoteDroidConnection.DEFAULT_PASSWORD);
 				password = JOptionPane.showInputDialog("Password", password);
-				PRemoteDroidServerTrayIcon.this.preferences.put("password", password);
+				if (password != null)
+				{
+					PRemoteDroidServerTrayIcon.this.preferences.put("password", password);
+				}
 			}
 		});
 		menu.add(menuItemPassword);
-		
-		MenuItem menuItemPort = new MenuItem("Port");
-		menuItemPort.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidConnectionTcp.DEFAULT_PORT);
-				
-				boolean ok = false;
-				while (!ok)
-				{
-					try
-					{
-						String newPortString = JOptionPane.showInputDialog("Port", port);
-						int newPort = Integer.parseInt(newPortString);
-						PRemoteDroidServerTrayIcon.this.preferences.putInt("port", newPort);
-						ok = true;
-					}
-					catch (NumberFormatException nfe)
-					{
-						nfe.printStackTrace();
-					}
-				}
-				
-				JOptionPane.showMessageDialog(null, "Restart the server to apply the new port.");
-			}
-		});
-		menu.add(menuItemPort);
 		
 		if (PRemoteDroidServerApp.IS_WINDOWS)
 		{
@@ -126,6 +101,76 @@ public class PRemoteDroidServerTrayIcon
 			});
 			menu.add(menuItemUnicodeWindows);
 		}
+		
+		menu.addSeparator();
+		
+		MenuItem menuItemWifiServer = new MenuItem("Wifi Server");
+		menuItemWifiServer.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				StringBuilder message = new StringBuilder();
+				
+				if (PRemoteDroidServerTrayIcon.this.application.getServerTcp() != null)
+				{
+					message.append("Wifi server is listening on :\n");
+					message.append(PRemoteDroidServerTrayIcon.this.getTcpListenAddresses());
+				}
+				else
+				{
+					message.append("Wifi server is not running");
+				}
+				
+				JOptionPane.showMessageDialog(null, message.toString());
+			}
+		});
+		menu.add(menuItemWifiServer);
+		
+		MenuItem menuItemPort = new MenuItem("Port");
+		menuItemPort.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					int port = PRemoteDroidServerTrayIcon.this.preferences.getInt("port", PRemoteDroidConnectionTcp.DEFAULT_PORT);
+					String newPortString = JOptionPane.showInputDialog("Port", port);
+					int newPort = Integer.parseInt(newPortString);
+					PRemoteDroidServerTrayIcon.this.preferences.putInt("port", newPort);
+					JOptionPane.showMessageDialog(null, "Restart the server to apply the new port.");
+				}
+				catch (NumberFormatException nfe)
+				{
+					nfe.printStackTrace();
+				}
+			}
+		});
+		menu.add(menuItemPort);
+		
+		menu.addSeparator();
+		
+		MenuItem menuItemBluetoothServer = new MenuItem("Bluetooth Server");
+		menuItemBluetoothServer.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				StringBuilder message = new StringBuilder();
+				
+				if (PRemoteDroidServerTrayIcon.this.application.getServerBluetooth() != null)
+				{
+					message.append("Bluetooth server is running");
+				}
+				else
+				{
+					message.append("Bluetooth server is not running");
+				}
+				
+				JOptionPane.showMessageDialog(null, message.toString());
+			}
+		});
+		menu.add(menuItemBluetoothServer);
+		
+		menu.addSeparator();
 		
 		MenuItem menuItemExit = new MenuItem("Exit");
 		menuItemExit.addActionListener(new ActionListener()
@@ -144,28 +189,43 @@ public class PRemoteDroidServerTrayIcon
 		
 		SystemTray.getSystemTray().add(this.trayIcon);
 		
+		StringBuilder message = new StringBuilder("Server started\n");
+		message.append(this.getTcpListenAddresses());
+		
+		this.trayIcon.displayMessage("PRemoteDroid", message.toString(), TrayIcon.MessageType.INFO);
+	}
+	
+	private String getTcpListenAddresses()
+	{
 		int port = this.preferences.getInt("port", PRemoteDroidConnectionTcp.DEFAULT_PORT);
 		
-		StringBuilder message = new StringBuilder("Server started");
+		StringBuilder message = new StringBuilder();
 		
-		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		while (interfaces.hasMoreElements())
+		try
 		{
-			NetworkInterface currentInterface = interfaces.nextElement();
-			
-			Enumeration<InetAddress> addresses = currentInterface.getInetAddresses();
-			
-			while (addresses.hasMoreElements())
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			while (interfaces.hasMoreElements())
 			{
-				InetAddress currentAddress = addresses.nextElement();
+				NetworkInterface currentInterface = interfaces.nextElement();
 				
-				if (!currentAddress.isLoopbackAddress() && !(currentAddress instanceof Inet6Address))
+				Enumeration<InetAddress> addresses = currentInterface.getInetAddresses();
+				
+				while (addresses.hasMoreElements())
 				{
-					message.append("\n" + currentAddress.getHostAddress() + ":" + port);
+					InetAddress currentAddress = addresses.nextElement();
+					
+					if (!currentAddress.isLoopbackAddress() && !(currentAddress instanceof Inet6Address))
+					{
+						message.append(currentAddress.getHostAddress() + ":" + port + "\n");
+					}
 				}
 			}
 		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		
-		this.trayIcon.displayMessage("PRemoteDroid", message.toString(), TrayIcon.MessageType.INFO);
+		return message.toString();
 	}
 }
