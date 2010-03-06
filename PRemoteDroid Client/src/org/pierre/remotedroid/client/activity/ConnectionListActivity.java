@@ -2,6 +2,7 @@ package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
+import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.client.connection.Connection;
 import org.pierre.remotedroid.client.connection.ConnectionList;
 
@@ -124,11 +125,18 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	private void onClickAlertDialogNew(int which)
 	{
-		Connection connection = this.connections.add(which);
-		
-		this.refresh();
-		
-		connection.edit(this);
+		if (which == Connection.BLUETOOTH && !BluetoothChecker.isBluetoohAvailable())
+		{
+			this.application.showToast(R.string.text_bluetooth_not_available_version);
+		}
+		else
+		{
+			Connection connection = this.connections.add(which);
+			
+			this.refresh();
+			
+			connection.edit(this);
+		}
 	}
 	
 	private void onClickAlertDialogItemLongClick(int which)
