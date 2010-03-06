@@ -281,7 +281,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		builder.setMessage(R.string.text_new_version_dialog);
-		builder.setNeutralButton(R.string.text_no, new OnClickListener()
+		builder.setNeutralButton(R.string.text_ok, new OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int which)
 			{

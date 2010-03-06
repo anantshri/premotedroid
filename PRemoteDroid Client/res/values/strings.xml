@@ -117,7 +117,7 @@
 	<string
 		name="text_first_run_dialog">It is the first time you launch PRemoteDroid.\nDo you want to read the help?</string>
 	<string
-		name="text_new_version_dialog">It is a new version of PRemoteDroid.\nYou should download the server again on http://www.premotedroid.com</string>
+		name="text_new_version_dialog">It is a new version of PRemoteDroid.\nYou should download the server again on :\nhttp://www.premotedroid.com</string>
 	<string
 		name="text_no_connection">No connection\nPress the \"Menu\" button to add a new one</string>
 	<string
@@ -126,6 +126,8 @@
 		name="text_yes">Yes</string>
 	<string
 		name="text_no">No</string>
+	<string
+		name="text_ok">Ok</string>
 	<string
 		name="text_new">New</string>
 	<string
