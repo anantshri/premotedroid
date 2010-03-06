@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class ConnectionBluetoothEditActivity extends ConnectionEditActivity implements OnClickListener
@@ -16,6 +17,7 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 	private ConnectionBluetooth connection;
 	
 	private EditText address;
+	private Button edit;
 	
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -26,7 +28,9 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 		this.connection = (ConnectionBluetooth) connectionParam;
 		
 		this.address = (EditText) this.findViewById(R.id.address);
-		this.address.setOnClickListener(this);
+		
+		this.edit = (Button) this.findViewById(R.id.edit);
+		this.edit.setOnClickListener(this);
 	}
 	
 	protected void onResume()
@@ -45,7 +49,7 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 	
 	public void onClick(View v)
 	{
-		if (v == this.address)
+		if (v == this.edit)
 		{
 			this.startActivityForResult(new Intent(this, BluetoothDevicesActivity.class), ADDRESS_REQUEST_CODE);
 		}
