@@ -55,9 +55,13 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if (requestCode == ADDRESS_REQUEST_CODE)
+		if (resultCode == RESULT_OK)
 		{
-			this.connection.setAddress(data.getStringExtra("address"));
+			if (requestCode == ADDRESS_REQUEST_CODE)
+			{
+				System.out.println(resultCode);
+				this.connection.setAddress(data.getStringExtra("address"));
+			}
 		}
 	}
 }

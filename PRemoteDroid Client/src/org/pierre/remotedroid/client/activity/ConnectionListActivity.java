@@ -195,6 +195,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			this.connections = connections;
 			
 			this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			this.connectionUsedPosition = this.connections.getUsedPosition();
 		}
 		
 		public void notifyDataSetChanged()

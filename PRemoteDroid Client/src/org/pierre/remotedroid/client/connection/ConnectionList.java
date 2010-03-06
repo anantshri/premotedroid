@@ -32,7 +32,7 @@ public class ConnectionList
 		}
 		
 		int position = this.preferences.getInt("connection_use", -1);
-		if (position > 0)
+		if (position >= 0)
 		{
 			this.used = this.get(position);
 		}
