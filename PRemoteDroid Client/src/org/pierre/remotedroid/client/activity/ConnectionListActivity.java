@@ -27,6 +27,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 {
 	private static final int NEW_MENU_ITEM_ID = 0;
 	
+	private PRemoteDroid application;
+	
 	private ConnectionList connections;
 	
 	private ConnectionListAdapter adapter;
@@ -41,7 +43,9 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		super.onCreate(savedInstanceState);
 		
-		this.connections = ((PRemoteDroid) this.getApplication()).getConnections();
+		this.application = (PRemoteDroid) this.getApplication();
+		
+		this.connections = this.application.getConnections();
 		
 		this.adapter = new ConnectionListAdapter(this, this.connections);
 		
@@ -59,6 +63,11 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		super.onResume();
 		
 		this.refresh();
+		
+		if (this.connections.getCount() == 0)
+		{
+			this.application.showToast(R.string.text_no_connection);
+		}
 	}
 	
 	protected void onPause()
