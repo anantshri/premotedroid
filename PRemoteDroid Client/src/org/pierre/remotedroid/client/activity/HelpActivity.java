@@ -16,15 +16,6 @@ public class HelpActivity extends Activity
 		
 		this.setContentView(R.layout.help);
 		
-		this.findViewById(R.id.getServerButton).setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				Intent intent = new Intent(HelpActivity.this, GetServerActivity.class);
-				HelpActivity.this.startActivity(intent);
-			}
-		});
-		
 		this.findViewById(R.id.settingsButton).setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)

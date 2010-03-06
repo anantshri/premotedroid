@@ -37,8 +37,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	private static final int KEYBOARD_MENU_ITEM_ID = 0;
 	private static final int FILE_EXPLORER_MENU_ITEM_ID = 1;
 	private static final int SETTINGS_MENU_ITEM_ID = 2;
-	private static final int GET_SERVER_MENU_ITEM_ID = 3;
-	private static final int HELP_MENU_ITEM_ID = 4;
+	private static final int HELP_MENU_ITEM_ID = 3;
 	
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
@@ -110,7 +109,6 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
 		menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_file_explorer));
 		menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_settings));
-		menu.add(Menu.NONE, GET_SERVER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_get_server));
 		menu.add(Menu.NONE, HELP_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
 		
 		return true;
@@ -128,9 +126,6 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 				break;
 			case SETTINGS_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, SettingsActivity.class));
-				break;
-			case GET_SERVER_MENU_ITEM_ID:
-				this.startActivity(new Intent(this, GetServerActivity.class));
 				break;
 			case HELP_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, HelpActivity.class));
@@ -286,15 +281,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		builder.setMessage(R.string.text_new_version_dialog);
-		builder.setPositiveButton(R.string.text_get_server, new OnClickListener()
-		{
-			public void onClick(DialogInterface dialog, int which)
-			{
-				ControlActivity.this.startActivity(new Intent(ControlActivity.this, GetServerActivity.class));
-				ControlActivity.this.updateVersionCode();
-			}
-		});
-		builder.setNegativeButton(R.string.text_no, new OnClickListener()
+		builder.setNeutralButton(R.string.text_no, new OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int which)
 			{

@@ -22,9 +22,7 @@
 		<activity
 			android:name=".activity.SettingsActivity"
 			android:label="@string/text_settings"></activity>
-		<activity
-			android:name=".activity.GetServerActivity"
-			android:label="@string/text_get_server"></activity>
+		
 		<activity
 			android:name=".activity.HelpActivity"
 			android:label="@string/text_help"></activity>
