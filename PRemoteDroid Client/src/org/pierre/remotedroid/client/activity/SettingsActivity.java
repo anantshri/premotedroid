@@ -20,7 +20,7 @@ public class SettingsActivity extends PreferenceActivity
 	        "control_sensitivity", "control_acceleration", "control_immobile_distance", "screenCapture_cursor_size", "buttons_size", "wheel_bar_width"
 	};
 	private static final String[] tabIntPreferences = {
-	        "wifi_port", "control_click_delay", "control_hold_delay"
+	        "control_click_delay", "control_hold_delay"
 	};
 	
 	private static final int resetPreferencesMenuItemId = 0;
