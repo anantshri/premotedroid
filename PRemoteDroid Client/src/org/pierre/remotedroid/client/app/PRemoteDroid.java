@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
+import org.pierre.remotedroid.client.connection.ConnectionList;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
@@ -36,6 +37,8 @@ public class PRemoteDroid extends Application implements Runnable
 	
 	private CloseConnectionScheduler closeConnectionScheduler;
 	
+	private ConnectionList connections;
+	
 	public void onCreate()
 	{
 		super.onCreate();
@@ -52,11 +55,18 @@ public class PRemoteDroid extends Application implements Runnable
 		this.connection = new PRemoteDroidConnection[1];
 		
 		this.closeConnectionScheduler = new CloseConnectionScheduler();
+		
+		this.connections = new ConnectionList(this.preferences);
 	}
 	
 	public SharedPreferences getPreferences()
 	{
 		return this.preferences;
+	}
+	
+	public ConnectionList getConnections()
+	{
+		return this.connections;
 	}
 	
 	public void vibrate(long l)

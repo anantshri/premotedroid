@@ -3,11 +3,16 @@ package org.pierre.remotedroid.client.activity;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-public class ConnectionBluetoothEditActivity extends ConnectionEditActivity
+public class ConnectionBluetoothEditActivity extends ConnectionEditActivity implements OnClickListener
 {
+	private static final int ADDRESS_REQUEST_CODE = 0;
+	
 	private ConnectionBluetooth connection;
 	
 	private EditText address;
@@ -21,6 +26,7 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity
 		this.connection = (ConnectionBluetooth) connectionParam;
 		
 		this.address = (EditText) this.findViewById(R.id.address);
+		this.address.setOnClickListener(this);
 	}
 	
 	protected void onResume()
@@ -35,5 +41,23 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity
 		super.onPause();
 		
 		this.connection.setAddress(this.address.getText().toString());
+	}
+	
+	public void onClick(View v)
+	{
+		if (v == this.address)
+		{
+			this.startActivityForResult(new Intent(this, BluetoothDevicesActivity.class), ADDRESS_REQUEST_CODE);
+		}
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (requestCode == ADDRESS_REQUEST_CODE)
+		{
+			this.connection.setAddress(data.getStringExtra("address"));
+		}
 	}
 }

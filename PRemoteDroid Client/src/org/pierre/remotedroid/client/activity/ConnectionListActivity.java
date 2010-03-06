@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,9 +28,6 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 {
 	private static final int NEW_MENU_ITEM_ID = 0;
 	
-	private PRemoteDroid application;
-	private SharedPreferences preferences;
-	
 	private ConnectionList connections;
 	
 	private ConnectionListAdapter adapter;
@@ -46,11 +42,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		super.onCreate(savedInstanceState);
 		
-		this.application = (PRemoteDroid) this.getApplication();
-		
-		this.preferences = this.application.getPreferences();
-		
-		this.connections = new ConnectionList(this.preferences);
+		this.connections = ((PRemoteDroid) this.getApplication()).getConnections();
 		
 		this.adapter = new ConnectionListAdapter(this, this.connections);
 		
@@ -60,9 +52,7 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		
 		this.getListView().setOnItemLongClickListener(this);
 		
-		this.initAlertDialogNew();
-		
-		this.initAlertDialogItemLongClick();
+		this.init();
 	}
 	
 	protected void onResume()
@@ -167,6 +157,13 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		this.connections.sort();
 		this.adapter.notifyDataSetChanged();
+	}
+	
+	private void init()
+	{
+		this.initAlertDialogNew();
+		
+		this.initAlertDialogItemLongClick();
 	}
 	
 	private void initAlertDialogNew()
@@ -279,6 +276,14 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			}
 			
 			holder.name.setText(connection.getName());
+			if (position == this.connectionUsedPosition)
+			{
+				holder.name.setTextSize(30);
+			}
+			else
+			{
+				holder.name.setTextSize(20);
+			}
 			
 			switch (type)
 			{

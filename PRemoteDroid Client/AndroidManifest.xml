@@ -35,6 +35,7 @@
 <activity android:name=".activity.ConnectionEditActivity"></activity>
 <activity android:name=".activity.ConnectionWifiEditActivity"></activity>
 <activity android:name=".activity.ConnectionBluetoothEditActivity"></activity>
+<activity android:name=".activity.BluetoothDevicesActivity"></activity>
 </application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>

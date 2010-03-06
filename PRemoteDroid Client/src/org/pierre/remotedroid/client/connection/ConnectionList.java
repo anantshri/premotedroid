@@ -76,6 +76,11 @@ public class ConnectionList
 		
 		this.connections.add(connection);
 		
+		if (this.connections.size() == 1)
+		{
+			this.used = connection;
+		}
+		
 		return connection;
 	}
 	
