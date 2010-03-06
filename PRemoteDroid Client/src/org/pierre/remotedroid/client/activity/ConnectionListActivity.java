@@ -4,7 +4,9 @@ import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.client.connection.Connection;
+import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 import org.pierre.remotedroid.client.connection.ConnectionList;
+import org.pierre.remotedroid.client.connection.ConnectionWifi;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -249,8 +252,9 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 				
 				convertView = this.layoutInflater.inflate(R.layout.connection, null);
 				
-				holder.name = (TextView) convertView.findViewById(R.id.name);
 				holder.use = (RadioButton) convertView.findViewById(R.id.use);
+				holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+				holder.name = (TextView) convertView.findViewById(R.id.name);
 				
 				convertView.setTag(holder);
 			}
@@ -261,8 +265,18 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			
 			Connection connection = this.connections.get(position);
 			
-			holder.name.setText(connection.getName());
 			holder.use.setChecked(position == this.connectionUsedPosition);
+			
+			if (connection instanceof ConnectionWifi)
+			{
+				holder.icon.setImageResource(R.drawable.wifi);
+			}
+			else if (connection instanceof ConnectionBluetooth)
+			{
+				holder.icon.setImageResource(R.drawable.bluetooth);
+			}
+			
+			holder.name.setText(connection.getName());
 			
 			return convertView;
 		}
@@ -270,7 +284,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	private class ConnectionViewHolder
 	{
-		public TextView name;
 		public RadioButton use;
+		public ImageView icon;
+		public TextView name;
 	}
 }
