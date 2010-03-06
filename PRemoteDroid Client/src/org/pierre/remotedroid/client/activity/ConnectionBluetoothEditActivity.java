@@ -49,6 +49,8 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 	
 	public void onClick(View v)
 	{
+		super.onClick(v);
+		
 		if (v == this.edit)
 		{
 			this.startActivityForResult(new Intent(this, BluetoothDevicesActivity.class), ADDRESS_REQUEST_CODE);
