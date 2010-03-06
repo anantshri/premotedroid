@@ -17,14 +17,6 @@
 	<string
 		name="text_explore_roots">Explore root(s)</string>
 	<string
-		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi!\n\nMain features :\n - Mouse control (move, click and wheel)\n - Keyboard control\n - File explorer (view directories and launch files)\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n</string>
-	<string
-		name="text_help_usage_content">Press, drag and hold the screen to move the mouse.\n\nTo click, just press briefly the screen.\n\nTo hold your click, press and hold the screen (do not move!).\nAfter the vibration, you can move.\nTo release your click, do a simple click.\n\nManual click buttons are available around the screen.\nHold a button one second, and it will stay pressed.\n\nTo use the mouse wheel, slide the right part of the screen (up and down).\n</string>
-	<string
-		name="text_help_install_content_1">Press the \"Get server\" button to get the server on your computer.\nPress the \"Settings\" button to configure the connection (host, port) and your preferences (sensitivity, acceleration, ... ).\n</string>
-	<string
-		name="text_help_install_content_2">\nNow, read the usage instructions below.\nThen press the \"Back\" button on your phone to start using PRemoteDroid.\n</string>
-	<string
 		name="text_help_description">Description :</string>
 	<string
 		name="text_help_usage">Usage :</string>
@@ -33,9 +25,13 @@
 	<string
 		name="text_help_contact">Contact :</string>
 	<string
-		name="text_help_contact_content">Website : http://code.google.com/p/premotedroid/\nGroup / forum : http://groups.google.com/group/premotedroid\nTwitter : @premotedroid\nEmail : pierredurand@gmail.com (dev)</string>
+		name="text_help_description_content">Use your phone as a remote control device for your computer over Wifi and Bluetooth !\n\nMain features :\n - Mouse control (move, click and wheel)\n - Keyboard control\n - File explorer (view directories and launch files)\n - Secure (password) connection\n - Screen capture (but it is NOT a VNC viewer)\n</string>
 	<string
-		name="text_get_server_content">You must download and install the server part of PRemoteDroid on your PC.\n\nOpen your web browser on your computer and type this URL :\n\nhttp://code.google.com/p/premotedroid/\n\nGo into the \"Downloads\" tab, and download the server file.\nUnzip the file in a folder.\n\nRun the server (PRemoteDroid-Server.exe on Windows, or PRemoteDroid-Server.jar on Linux and Mac OS).\n\nThe icon in the system tray allows you to configure the server (password and port).\n\nPress the \"back\" button on your phone to go back to the previous screen.</string>
+		name="text_help_install_content">Download the server on :\nhttp://www.premotedroid.com\n</string>
+	<string
+		name="text_help_usage_content">Press, drag and hold the screen to move the mouse.\n\nTo click, just press briefly the screen.\n\nTo hold your click, press and hold the screen (do not move!).\nAfter the vibration, you can move.\nTo release your click, do a simple click.\n\nManual click buttons are available around the screen.\nHold a button one second, and it will stay pressed.\n\nTo use the mouse wheel, slide the right part of the screen (up and down).\n</string>
+	<string
+		name="text_help_contact_content">Website : http://www.premotedroid.com\nGroup / forum : http://group.premotedroid.com\nTwitter : @premotedroid\nEmail : pierredurand@gmail.com (dev)</string>
 	<string
 		name="text_connection">Connection</string>
 	<string
@@ -121,7 +117,11 @@
 	<string
 		name="text_first_run_dialog">It is the first time you launch PRemoteDroid.\nDo you want to read the help?</string>
 	<string
-		name="text_new_version_dialog">It is a new version of PRemoteDroid.\nYou should download the server again.</string>
+		name="text_new_version_dialog">It is a new version of PRemoteDroid.\nYou should download the server again on http://www.premotedroid.com</string>
+	<string
+		name="text_no_connection">No connection\nPress the \"Menu\" button to add a new one</string>
+	<string
+		name="text_no_connection_selected">No connection selected\nPress the \"Menu\" button\nSelect \"Settings\", then \"Connections\"</string>
 	<string
 		name="text_yes">Yes</string>
 	<string

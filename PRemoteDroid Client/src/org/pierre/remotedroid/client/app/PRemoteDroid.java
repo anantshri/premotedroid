@@ -130,6 +130,10 @@ public class PRemoteDroid extends Application implements Runnable
 				}
 			}
 		}
+		else
+		{
+			this.showInternalToast(R.string.text_no_connection_selected);
+		}
 	}
 	
 	public void sendAction(PRemoteDroidAction action)
