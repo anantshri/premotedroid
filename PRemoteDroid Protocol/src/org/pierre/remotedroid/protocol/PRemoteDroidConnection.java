@@ -40,6 +40,7 @@ public abstract class PRemoteDroidConnection
 		synchronized (this.outputStream)
 		{
 			this.outputStream.write(baos.toByteArray());
+			this.outputStream.flush();
 		}
 	}
 	
