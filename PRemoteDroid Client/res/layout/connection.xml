@@ -3,10 +3,8 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
-	<include
-		layout="@layout/connectioncommon" />
 	<TextView
-		android:id="@+id/hostPort"
+		android:id="@+id/name"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />
 </LinearLayout>

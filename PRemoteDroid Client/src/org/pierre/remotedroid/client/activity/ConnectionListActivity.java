@@ -3,9 +3,7 @@ package org.pierre.remotedroid.client.activity;
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.connection.Connection;
-import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 import org.pierre.remotedroid.client.connection.ConnectionList;
-import org.pierre.remotedroid.client.connection.ConnectionWifi;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -206,27 +204,6 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			this.connectionUsedPosition = this.connections.getUsedPosition();
 		}
 		
-		public int getItemViewType(int position)
-		{
-			Connection connection = this.connections.get(position);
-			
-			if (connection instanceof ConnectionWifi)
-			{
-				return Connection.WIFI;
-			}
-			else if (connection instanceof ConnectionBluetooth)
-			{
-				return Connection.BLUETOOTH;
-			}
-			
-			return IGNORE_ITEM_VIEW_TYPE;
-		}
-		
-		public int getViewTypeCount()
-		{
-			return Connection.TYPE_COUNT;
-		}
-		
 		public int getCount()
 		{
 			return this.connections.getCount();
@@ -246,25 +223,11 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		{
 			ConnectionViewHolder holder;
 			
-			Connection connection = this.connections.get(position);
-			
-			int type = this.getItemViewType(position);
-			
 			if (convertView == null)
 			{
 				holder = new ConnectionViewHolder();
 				
-				switch (type)
-				{
-					case Connection.WIFI:
-						convertView = this.layoutInflater.inflate(R.layout.connectionwifi, null);
-						holder.hostPort = (TextView) convertView.findViewById(R.id.hostPort);
-						break;
-					case Connection.BLUETOOTH:
-						convertView = this.layoutInflater.inflate(R.layout.connectionbluetooth, null);
-						holder.address = (TextView) convertView.findViewById(R.id.address);
-						break;
-				}
+				convertView = this.layoutInflater.inflate(R.layout.connection, null);
 				
 				holder.name = (TextView) convertView.findViewById(R.id.name);
 				
@@ -274,6 +237,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			{
 				holder = (ConnectionViewHolder) convertView.getTag();
 			}
+			
+			Connection connection = this.connections.get(position);
 			
 			holder.name.setText(connection.getName());
 			if (position == this.connectionUsedPosition)
@@ -285,18 +250,6 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 				holder.name.setTextSize(20);
 			}
 			
-			switch (type)
-			{
-				case Connection.WIFI:
-					ConnectionWifi connectionWifi = (ConnectionWifi) connection;
-					holder.hostPort.setText(connectionWifi.getHost() + ":" + connectionWifi.getPort());
-					break;
-				case Connection.BLUETOOTH:
-					ConnectionBluetooth connectionBluetooth = (ConnectionBluetooth) connection;
-					holder.address.setText(connectionBluetooth.getAddress());
-					break;
-			}
-			
 			return convertView;
 		}
 	}
@@ -304,7 +257,5 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	private class ConnectionViewHolder
 	{
 		public TextView name;
-		public TextView hostPort;
-		public TextView address;
 	}
 }
