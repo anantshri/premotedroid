@@ -20,7 +20,7 @@ public class ConnectionWifi extends Connection
 	{
 		super();
 		
-		this.host = "192.168.0.1";
+		this.host = "";
 		this.port = PRemoteDroidConnectionTcp.DEFAULT_PORT;
 	}
 	

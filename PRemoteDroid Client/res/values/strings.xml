@@ -156,4 +156,6 @@
 		name="text_save">Save</string>
 	<string
 		name="text_new_connection">New connection</string>
+	<string
+		name="text_hint_host">192.168.x.x</string>
 </resources>
