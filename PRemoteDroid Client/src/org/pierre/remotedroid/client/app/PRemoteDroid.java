@@ -9,6 +9,7 @@ import org.pierre.remotedroid.client.connection.ConnectionList;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.action.AuthentificationAction;
+import org.pierre.remotedroid.protocol.action.AuthentificationResponseAction;
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
 
 import android.app.Application;
@@ -202,6 +203,23 @@ public class PRemoteDroid extends Application implements Runnable
 			{
 				actionReceiver.receiveAction(action);
 			}
+		}
+		
+		if (action instanceof AuthentificationResponseAction)
+		{
+			this.receiveAuthentificationResponseAction((AuthentificationResponseAction) action);
+		}
+	}
+	
+	private void receiveAuthentificationResponseAction(AuthentificationResponseAction action)
+	{
+		if (action.authentificated)
+		{
+			this.showInternalToast(R.string.text_authentificated);
+		}
+		else
+		{
+			this.showInternalToast(R.string.text_not_authentificated);
 		}
 	}
 	

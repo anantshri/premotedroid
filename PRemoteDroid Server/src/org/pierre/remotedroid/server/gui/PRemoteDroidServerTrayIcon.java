@@ -25,7 +25,6 @@ import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 import org.pierre.remotedroid.server.PRemoteDroidServerApp;
-import org.pierre.remotedroid.server.connection.PRemoteDroidServer;
 
 public class PRemoteDroidServerTrayIcon
 {
@@ -37,7 +36,7 @@ public class PRemoteDroidServerTrayIcon
 	{
 		this.application = application;
 		
-		this.preferences = Preferences.userNodeForPackage(PRemoteDroidServer.class);
+		this.preferences = this.application.getPreferences();
 		
 		this.initTrayIcon();
 	}
