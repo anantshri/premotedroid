@@ -31,25 +31,32 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 		{
 			if (adapter.isEnabled())
 			{
-				BluetoothDevice device = adapter.getRemoteDevice(address);
-				
-				if (device != null)
+				try
 				{
-					try
+					BluetoothDevice device = adapter.getRemoteDevice(address);
+					
+					if (device != null)
 					{
-						BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
-						socket.connect();
-						
-						PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
-						
-						return connection;
+						try
+						{
+							BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
+							socket.connect();
+							
+							PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
+							
+							return connection;
+						}
+						catch (IOException e)
+						{
+							throw e;
+						}
 					}
-					catch (IOException e)
+					else
 					{
-						throw e;
+						throw new IOException();
 					}
 				}
-				else
+				catch (IllegalArgumentException e)
 				{
 					throw new IOException();
 				}
