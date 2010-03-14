@@ -44,5 +44,9 @@ public abstract class PRemoteDroidConnection
 		}
 	}
 	
-	public abstract void close() throws IOException;
+	public void close() throws IOException
+	{
+		this.dataInputStream.close();
+		this.outputStream.close();
+	}
 }

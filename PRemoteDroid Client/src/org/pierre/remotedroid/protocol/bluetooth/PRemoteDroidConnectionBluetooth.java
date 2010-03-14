@@ -75,5 +75,6 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 	public void close() throws IOException
 	{
 		this.socket.close();
+		super.close();
 	}
 }
