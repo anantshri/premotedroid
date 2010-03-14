@@ -46,9 +46,9 @@ public class PRemoteDroidConnectionTcp extends PRemoteDroidConnection
 	
 	public void close() throws IOException
 	{
-		this.socket.close();
 		this.socket.shutdownInput();
 		this.socket.shutdownOutput();
 		super.close();
+		this.socket.close();
 	}
 }
