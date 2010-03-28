@@ -34,10 +34,11 @@ import android.widget.LinearLayout;
 
 public class ControlActivity extends Activity implements PRemoteDroidActionReceiver
 {
-	private static final int KEYBOARD_MENU_ITEM_ID = 0;
-	private static final int FILE_EXPLORER_MENU_ITEM_ID = 1;
-	private static final int SETTINGS_MENU_ITEM_ID = 2;
-	private static final int HELP_MENU_ITEM_ID = 3;
+	private static final int FILE_EXPLORER_MENU_ITEM_ID = 0;
+	private static final int KEYBOARD_MENU_ITEM_ID = 1;
+	private static final int CONNECTIONS_MENU_ITEM_ID = 2;
+	private static final int SETTINGS_MENU_ITEM_ID = 3;
+	private static final int HELP_MENU_ITEM_ID = 4;
 	
 	private PRemoteDroid application;
 	private SharedPreferences preferences;
@@ -106,8 +107,9 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
 		menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_file_explorer));
+		menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
+		menu.add(Menu.NONE, CONNECTIONS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_connections));
 		menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_settings));
 		menu.add(Menu.NONE, HELP_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
 		
@@ -118,11 +120,14 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	{
 		switch (item.getItemId())
 		{
+			case FILE_EXPLORER_MENU_ITEM_ID:
+				this.startActivity(new Intent(this, FileExplorerActivity.class));
+				break;
 			case KEYBOARD_MENU_ITEM_ID:
 				this.toggleKeyboard();
 				break;
-			case FILE_EXPLORER_MENU_ITEM_ID:
-				this.startActivity(new Intent(this, FileExplorerActivity.class));
+			case CONNECTIONS_MENU_ITEM_ID:
+				this.startActivity(new Intent(this, ConnectionListActivity.class));
 				break;
 			case SETTINGS_MENU_ITEM_ID:
 				this.startActivity(new Intent(this, SettingsActivity.class));
