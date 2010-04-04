@@ -3,7 +3,7 @@ package org.pierre.remotedroid.client.connection;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.pierre.remotedroid.client.activity.ConnectionEditActivity;
+import org.pierre.remotedroid.client.activity.connection.ConnectionEditActivity;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 import android.content.Context;

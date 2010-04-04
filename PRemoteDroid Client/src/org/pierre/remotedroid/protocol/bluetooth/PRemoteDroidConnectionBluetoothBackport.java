@@ -5,23 +5,23 @@ import java.util.UUID;
 
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.os.Looper;
+import backport.android.bluetooth.BluetoothAdapter;
+import backport.android.bluetooth.BluetoothDevice;
+import backport.android.bluetooth.BluetoothSocket;
 
-public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
+public class PRemoteDroidConnectionBluetoothBackport extends PRemoteDroidConnection
 {
 	private BluetoothSocket socket;
 	
-	public PRemoteDroidConnectionBluetooth(BluetoothSocket socket) throws IOException
+	public PRemoteDroidConnectionBluetoothBackport(BluetoothSocket socket) throws IOException
 	{
 		super(socket.getInputStream(), socket.getOutputStream());
 		
 		this.socket = socket;
 	}
 	
-	public static PRemoteDroidConnectionBluetooth create(String address) throws IOException
+	public static PRemoteDroidConnectionBluetoothBackport create(String address) throws IOException
 	{
 		Looper.prepare();
 		
@@ -40,7 +40,7 @@ public class PRemoteDroidConnectionBluetooth extends PRemoteDroidConnection
 						BluetoothSocket socket = device.createRfcommSocketToServiceRecord(UUID.fromString(PRemoteDroidConnection.BLUETOOTH_UUID));
 						socket.connect();
 						
-						PRemoteDroidConnectionBluetooth connection = new PRemoteDroidConnectionBluetooth(socket);
+						PRemoteDroidConnectionBluetoothBackport connection = new PRemoteDroidConnectionBluetoothBackport(socket);
 						
 						return connection;
 					}

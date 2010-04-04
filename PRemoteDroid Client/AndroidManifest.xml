@@ -2,7 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.pierre.remotedroid.client"
-	android:versionName="2010-03-14" android:versionCode="45">
+	android:versionName="2010-03-14"
+	android:versionCode="45">
 	<uses-sdk
 		android:minSdkVersion="3" />
 	<application
@@ -22,19 +23,87 @@
 		<activity
 			android:name=".activity.SettingsActivity"
 			android:label="@string/text_settings"></activity>
-		
 		<activity
 			android:name=".activity.HelpActivity"
 			android:label="@string/text_help"></activity>
 		<activity
 			android:name=".activity.FileExplorerActivity"
 			android:label="@string/text_file_explorer"></activity>
-	<activity android:label="@string/text_connections" android:name=".activity.ConnectionListActivity"></activity>
-
-<activity android:name=".activity.ConnectionWifiEditActivity" android:label="@string/text_wifi"></activity>
-<activity android:name=".activity.ConnectionBluetoothEditActivity" android:label="@string/text_bluetooth"></activity>
-<activity android:name=".activity.BluetoothDevicesActivity" android:label="@string/text_bluetooth"></activity>
-</application>
+		<activity
+			android:label="@string/text_connections"
+			android:name=".activity.connection.ConnectionListActivity"></activity>
+		<activity
+			android:name=".activity.connection.ConnectionWifiEditActivity"
+			android:label="@string/text_wifi"></activity>
+		<activity
+			android:name=".activity.connection.ConnectionBluetoothEditActivity"
+			android:label="@string/text_bluetooth"></activity>
+		<activity
+			android:name=".activity.connection.BluetoothDevicesActivity"
+			android:label="@string/text_bluetooth_devices"></activity>
+		<activity
+			android:name=".activity.connection.BluetoothBackportDevicesActivity"
+			android:label="@string/text_bluetooth_devices"></activity>
+		<activity
+			android:name="backport.android.bluetooth.RequestEnableActivity"
+			android:label="Bluetooth Permission Request"
+			android:noHistory="true"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action
+					android:name="org.pierre.remotedroid.client.action.REQUEST_ENABLE" />
+				<category
+					android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name="backport.android.bluetooth.RequestDiscoverableActivity"
+			android:label="Bluetooth Permission Request"
+			android:noHistory="true"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action
+					android:name="org.pierre.remotedroid.client.action.REQUEST_DISCOVERABLE" />
+				<category
+					android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<receiver
+			android:name="backport.android.bluetooth.BluetoothIntentRedirector">
+			<intent-filter>
+				<action
+					android:name="android.bluetooth.intent.action.DISCOVERY_COMPLETED" />
+				<action
+					android:name="android.bluetooth.intent.action.DISCOVERY_STARTED" />
+				<action
+					android:name="android.bluetooth.intent.action.NAME_CHANGED" />
+				<action
+					android:name="android.bluetooth.intent.action.SCAN_MODE_CHANGED" />
+				<action
+					android:name="android.bluetooth.intent.action.BLUETOOTH_STATE_CHANGED" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_CONNECTED" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECTED" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECT_REQUESTED" />
+				<action
+					android:name="android.bluetooth.intent.action.BOND_STATE_CHANGED" />
+				<action
+					android:name="android.bluetooth.intent.action.PAIRING_REQUEST" />
+				<action
+					android:name="android.bluetooth.intent.action.PAIRING_CANCEL" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_CLASS_UPDATED" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_FOUND" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_NAME_UPDATED" />
+			</intent-filter>
+		</receiver>
+	</application>
 	<uses-permission
 		android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission
@@ -45,7 +114,10 @@
 		android:normalScreens="true"
 		android:resizeable="true"
 		android:largeScreens="true"></supports-screens>
-
-<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+	<uses-permission
+		android:name="android.permission.BLUETOOTH"></uses-permission>
+	<uses-permission
+		android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+	<uses-permission
+		android:name="org.pierre.remotedroid.client.PERMISSION"></uses-permission>
 </manifest>

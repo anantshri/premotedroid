@@ -1,8 +1,7 @@
-package org.pierre.remotedroid.client.activity;
+package org.pierre.remotedroid.client.activity.connection;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.client.connection.Connection;
 import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 import org.pierre.remotedroid.client.connection.ConnectionList;
@@ -118,31 +117,15 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	{
 		if (dialog == this.alertDialogNew)
 		{
-			this.onClickAlertDialogNew(which);
+			this.addConnection(which);
 		}
 		else if (dialog == this.alertDialogItemLongClick)
 		{
-			this.onClickAlertDialogItemLongClick(which);
+			this.menu(which);
 		}
 	}
 	
-	private void onClickAlertDialogNew(int which)
-	{
-		if (which == Connection.BLUETOOTH && !BluetoothChecker.isBluetoohAvailable())
-		{
-			this.application.showToast(R.string.text_bluetooth_not_available_version);
-		}
-		else
-		{
-			Connection connection = this.connections.add(which);
-			
-			this.refresh();
-			
-			connection.edit(this);
-		}
-	}
-	
-	private void onClickAlertDialogItemLongClick(int which)
+	private void menu(int which)
 	{
 		Connection connection = this.connections.get(this.itemLongClickPosition);
 		
@@ -158,6 +141,15 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 				this.removeConnection();
 				break;
 		}
+	}
+	
+	private void addConnection(int which)
+	{
+		Connection connection = this.connections.add(which);
+		
+		this.refresh();
+		
+		connection.edit(this);
 	}
 	
 	private void useConnection(int position)
@@ -199,10 +191,8 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 	
 	private void initAlertDialogItemLongClick()
 	{
-		String[] connectionActionName = this.getResources().getStringArray(R.array.connection_action_name);
-		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setItems(connectionActionName, this);
+		builder.setItems(R.array.connection_action_name, this);
 		this.alertDialogItemLongClick = builder.create();
 	}
 	
@@ -282,12 +272,12 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 			
 			return convertView;
 		}
-	}
-	
-	private class ConnectionViewHolder
-	{
-		public RadioButton use;
-		public ImageView icon;
-		public TextView name;
+		
+		private class ConnectionViewHolder
+		{
+			public RadioButton use;
+			public ImageView icon;
+			public TextView name;
+		}
 	}
 }

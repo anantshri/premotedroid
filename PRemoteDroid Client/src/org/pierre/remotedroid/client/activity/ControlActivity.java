@@ -1,6 +1,7 @@
 package org.pierre.remotedroid.client.activity;
 
 import org.pierre.remotedroid.client.R;
+import org.pierre.remotedroid.client.activity.connection.ConnectionListActivity;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.view.ControlView;
 import org.pierre.remotedroid.protocol.PRemoteDroidActionReceiver;

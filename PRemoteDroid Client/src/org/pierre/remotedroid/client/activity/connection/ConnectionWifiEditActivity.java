@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.client.activity;
+package org.pierre.remotedroid.client.activity.connection;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.connection.ConnectionWifi;

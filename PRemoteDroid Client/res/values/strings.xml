@@ -105,8 +105,6 @@
 	<string
 		name="text_not_authentificated">Not authentificated (wrong password)</string>
 	<string
-		name="text_bluetooth_not_available_version">Bluetooth is not available on your phone (only Android 2.0+)</string>
-	<string
 		name="text_bluetooth_not_available">Bluetooth is not available</string>
 	<string
 		name="text_bluetooth_not_enabled">Bluetooth is not enabled</string>
@@ -122,6 +120,12 @@
 		name="text_no_connection">No connection\nPress the \"Menu\" button to add a new one</string>
 	<string
 		name="text_no_connection_selected">No connection selected\nPress the \"Menu\" button\nSelect \"Settings\", then \"Connections\"</string>
+	<string
+		name="text_bluetooth_discovery_started">Bluetooth discovery started</string>
+	<string
+		name="text_bluetooth_discovery_finished">Bluetooth discovery finished</string>
+	<string
+		name="text_bluetooth_device_not_paired">Bluetooth device not paired\nYou should pair it manually</string>
 	<string
 		name="text_yes">Yes</string>
 	<string
@@ -142,6 +146,8 @@
 		name="text_wifi">Wifi</string>
 	<string
 		name="text_bluetooth">Bluetooth</string>
+	<string
+		name="text_bluetooth_devices">Bluetooth devices</string>
 	<string
 		name="text_name">Name : </string>
 	<string

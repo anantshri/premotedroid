@@ -2,7 +2,7 @@ package org.pierre.remotedroid.client.connection;
 
 import java.io.IOException;
 
-import org.pierre.remotedroid.client.activity.ConnectionWifiEditActivity;
+import org.pierre.remotedroid.client.activity.connection.ConnectionWifiEditActivity;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 

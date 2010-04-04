@@ -1,4 +1,4 @@
-package org.pierre.remotedroid.client.activity;
+package org.pierre.remotedroid.client.activity.connection;
 
 import org.pierre.remotedroid.client.R;
 import org.pierre.remotedroid.client.connection.Connection;
@@ -45,8 +45,6 @@ public class ConnectionEditActivity extends Activity implements OnClickListener
 	protected void onPause()
 	{
 		super.onPause();
-		
-		System.out.println(this.name.getText().toString());
 		
 		this.connection.setName(this.name.getText().toString());
 		this.connection.setPassword(this.password.getText().toString());

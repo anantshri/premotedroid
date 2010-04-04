@@ -2,17 +2,24 @@ package org.pierre.remotedroid.client.bluetooth;
 
 public class BluetoothChecker
 {
-	public static boolean isBluetoohAvailable()
+	private static boolean available;
+	
+	static
 	{
 		try
 		{
 			Class.forName("android.bluetooth.BluetoothAdapter");
 			
-			return true;
+			available = true;
 		}
 		catch (ClassNotFoundException e)
 		{
-			return false;
+			available = false;
 		}
+	}
+	
+	public static boolean isBluetoohAvailable()
+	{
+		return available;
 	}
 }
