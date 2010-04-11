@@ -3,6 +3,7 @@ package org.pierre.remotedroid.client.connection;
 import java.io.IOException;
 
 import org.pierre.remotedroid.client.activity.connection.ConnectionBluetoothEditActivity;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
@@ -48,15 +49,15 @@ public class ConnectionBluetooth extends Connection
 		this.edit(context, intent);
 	}
 	
-	public PRemoteDroidConnection connect() throws IOException
+	public PRemoteDroidConnection connect(PRemoteDroid application) throws IOException
 	{
 		if (BluetoothChecker.isBluetoohAvailable())
 		{
-			return PRemoteDroidConnectionBluetooth.create(this.address);
+			return PRemoteDroidConnectionBluetooth.create(application, this.address);
 		}
 		else
 		{
-			return PRemoteDroidConnectionBluetoothBackport.create(this.address);
+			return PRemoteDroidConnectionBluetoothBackport.create(application, this.address);
 		}
 	}
 	

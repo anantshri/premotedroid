@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import org.pierre.remotedroid.client.activity.connection.ConnectionEditActivity;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
 import android.content.Context;
@@ -57,7 +58,7 @@ public abstract class Connection implements Comparable<Connection>, Serializable
 		editor.putString("connection_" + position + "_password", this.password);
 	}
 	
-	public abstract PRemoteDroidConnection connect() throws IOException;
+	public abstract PRemoteDroidConnection connect(PRemoteDroid application) throws IOException;
 	
 	public abstract void edit(Context context);
 	

@@ -3,8 +3,10 @@ package org.pierre.remotedroid.protocol.bluetooth;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 
+import android.content.Intent;
 import android.os.Looper;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.BluetoothDevice;
@@ -21,7 +23,7 @@ public class PRemoteDroidConnectionBluetoothBackport extends PRemoteDroidConnect
 		this.socket = socket;
 	}
 	
-	public static PRemoteDroidConnectionBluetoothBackport create(String address) throws IOException
+	public static PRemoteDroidConnectionBluetoothBackport create(PRemoteDroid application, String address) throws IOException
 	{
 		Looper.prepare();
 		
@@ -48,6 +50,15 @@ public class PRemoteDroidConnectionBluetoothBackport extends PRemoteDroidConnect
 				catch (IllegalArgumentException e)
 				{
 					throw new IOException();
+				}
+			}
+			else
+			{
+				if (application.requestEnableBluetooth())
+				{
+					Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					application.startActivity(intent);
 				}
 			}
 		}

@@ -38,6 +38,8 @@ public class PRemoteDroid extends Application implements Runnable
 	
 	private ConnectionList connections;
 	
+	private boolean requestEnableBluetooth;
+	
 	public void onCreate()
 	{
 		super.onCreate();
@@ -56,6 +58,8 @@ public class PRemoteDroid extends Application implements Runnable
 		this.closeConnectionScheduler = new CloseConnectionScheduler();
 		
 		this.connections = new ConnectionList(this.preferences);
+		
+		this.requestEnableBluetooth = true;
 	}
 	
 	public SharedPreferences getPreferences()
@@ -76,6 +80,15 @@ public class PRemoteDroid extends Application implements Runnable
 		}
 	}
 	
+	public boolean requestEnableBluetooth()
+	{
+		boolean b = this.requestEnableBluetooth;
+		
+		this.requestEnableBluetooth = false;
+		
+		return b;
+	}
+	
 	public synchronized void run()
 	{
 		Connection co = this.connections.getUsed();
@@ -86,7 +99,7 @@ public class PRemoteDroid extends Application implements Runnable
 			
 			try
 			{
-				c = co.connect();
+				c = co.connect(this);
 				
 				synchronized (this.connection)
 				{

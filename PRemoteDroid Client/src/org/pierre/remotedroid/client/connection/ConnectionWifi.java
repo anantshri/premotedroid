@@ -3,6 +3,7 @@ package org.pierre.remotedroid.client.connection;
 import java.io.IOException;
 
 import org.pierre.remotedroid.client.activity.connection.ConnectionWifiEditActivity;
+import org.pierre.remotedroid.client.app.PRemoteDroid;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.tcp.PRemoteDroidConnectionTcp;
 
@@ -52,7 +53,7 @@ public class ConnectionWifi extends Connection
 		this.edit(context, intent);
 	}
 	
-	public PRemoteDroidConnection connect() throws IOException
+	public PRemoteDroidConnection connect(PRemoteDroid application) throws IOException
 	{
 		return PRemoteDroidConnectionTcp.create(this.host, this.port);
 	}
