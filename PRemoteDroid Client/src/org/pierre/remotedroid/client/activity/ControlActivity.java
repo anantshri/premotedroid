@@ -178,8 +178,11 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	
 	private void playSound(MediaPlayer mp)
 	{
-		mp.seekTo(0);
-		mp.start();
+		if (mp != null)
+		{
+			mp.seekTo(0);
+			mp.start();
+		}
 	}
 	
 	private void toggleKeyboard()
