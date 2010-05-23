@@ -143,6 +143,12 @@ public class PRemoteDroid extends Application implements Runnable
 					this.showInternalToast(R.string.text_connection_closed);
 				}
 			}
+			catch (IllegalArgumentException e)
+			{
+				this.debug(e);
+				
+				this.showInternalToast(R.string.text_illegal_connection_parameter);
+			}
 		}
 		else
 		{

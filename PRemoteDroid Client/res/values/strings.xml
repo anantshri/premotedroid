@@ -101,6 +101,8 @@
 	<string
 		name="text_connection_refused">Connection refused</string>
 	<string
+		name="text_illegal_connection_parameter">Illegal connection parameter</string>
+	<string
 		name="text_authentificated">Authentificated</string>
 	<string
 		name="text_not_authentificated">Not authentificated (wrong password)</string>
