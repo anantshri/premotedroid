@@ -1,7 +1,6 @@
 package org.pierre.remotedroid.client.activity.connection;
 
 import org.pierre.remotedroid.client.R;
-import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.client.connection.ConnectionBluetooth;
 
 import android.content.Intent;
@@ -54,14 +53,7 @@ public class ConnectionBluetoothEditActivity extends ConnectionEditActivity impl
 		
 		if (v == this.edit)
 		{
-			if (BluetoothChecker.isBluetoohAvailable())
-			{
-				this.startActivityForResult(new Intent(this, BluetoothDevicesActivity.class), ADDRESS_REQUEST_CODE);
-			}
-			else
-			{
-				this.startActivityForResult(new Intent(this, BluetoothBackportDevicesActivity.class), ADDRESS_REQUEST_CODE);
-			}
+			this.startActivityForResult(new Intent(this, BluetoothDevicesActivity.class), ADDRESS_REQUEST_CODE);
 		}
 	}
 	

@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import org.pierre.remotedroid.client.activity.connection.ConnectionBluetoothEditActivity;
 import org.pierre.remotedroid.client.app.PRemoteDroid;
-import org.pierre.remotedroid.client.bluetooth.BluetoothChecker;
 import org.pierre.remotedroid.protocol.PRemoteDroidConnection;
 import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetooth;
-import org.pierre.remotedroid.protocol.bluetooth.PRemoteDroidConnectionBluetoothBackport;
 
 import android.content.Context;
 import android.content.Intent;
@@ -51,14 +49,7 @@ public class ConnectionBluetooth extends Connection
 	
 	public PRemoteDroidConnection connect(PRemoteDroid application) throws IOException
 	{
-		if (BluetoothChecker.isBluetoohAvailable())
-		{
-			return PRemoteDroidConnectionBluetooth.create(application, this.address);
-		}
-		else
-		{
-			return PRemoteDroidConnectionBluetoothBackport.create(application, this.address);
-		}
+		return PRemoteDroidConnectionBluetooth.create(application, this.address);
 	}
 	
 	public String getAddress()
