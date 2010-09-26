@@ -21,7 +21,14 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 		String uuid = PRemoteDroidConnection.BLUETOOTH_UUID.replaceAll("-", "");
 		this.streamConnectionNotifier = (StreamConnectionNotifier) Connector.open("btspp://localhost:" + uuid + ";name=PRemoteDroid");
 		
-		(new Thread(this)).start();
+		if (this.streamConnectionNotifier != null)
+		{
+			(new Thread(this)).start();
+		}
+		else
+		{
+			throw new IOException();
+		}
 	}
 	
 	public void run()
