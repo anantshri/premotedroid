@@ -3,6 +3,7 @@ package org.pierre.remotedroid.server.connection;
 import java.awt.Desktop;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -156,10 +157,19 @@ public class PRemoteDroidServerConnection implements Runnable
 	
 	private void moveMouse(MouseMoveAction action)
 	{
-		Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-		int x = mouseLocation.x + action.moveX;
-		int y = mouseLocation.y + action.moveY;
-		this.application.getRobot().mouseMove(x, y);
+		PointerInfo pointerInfo = MouseInfo.getPointerInfo();
+		
+		if (pointerInfo != null)
+		{
+			Point mouseLocation = pointerInfo.getLocation();
+			
+			if (mouseLocation != null)
+			{
+				int x = mouseLocation.x + action.moveX;
+				int y = mouseLocation.y + action.moveY;
+				this.application.getRobot().mouseMove(x, y);
+			}
+		}
 	}
 	
 	private void mouseClick(MouseClickAction action)
