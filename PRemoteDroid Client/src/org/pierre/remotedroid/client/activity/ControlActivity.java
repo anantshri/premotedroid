@@ -88,6 +88,18 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		
 		this.application.unregisterActionReceiver(this);
 	}
+	public boolean onKeyUP(int KeyCode, KeyEvent event)
+	{
+		if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)
+		{
+			return true;
+		}
+		if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN)
+		{
+			return true;
+		}
+		return false;		
+	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
@@ -102,7 +114,18 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		{
 			this.application.sendAction(new KeyboardAction(unicode));
 		}
-		
+		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+		{
+			this.application.sendAction(new KeyboardAction(92));
+			//Log.d("Key captured", "Volume UP");
+			return true;
+		}
+		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+		{
+			this.application.sendAction(new KeyboardAction(93));
+			//Log.d("Key captured", "Volume DOWN");
+			return true;
+		}		
 		return super.onKeyDown(keyCode, event);
 	}
 	

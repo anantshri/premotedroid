@@ -17,7 +17,12 @@ public class UnicodeToSwingKeyCodeConverter
 	                KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE
 	        }, {
 	                32, KeyEvent.VK_SPACE
-	        }
+	        }, {
+	                92, KeyEvent.VK_PAGE_UP
+	        }, {
+	                93, KeyEvent.VK_PAGE_DOWN
+ 	        }
+		
 	};
 	
 	static
