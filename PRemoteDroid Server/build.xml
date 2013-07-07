@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="PRemoteDroid Server" default="build">
-	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="../launch4j/launch4j.jar:../launch4j/lib/xstream.jar" />
 
 	<target name="build">
 		<antcall target="export" />
@@ -12,8 +11,6 @@
 
 		<antcall target="libraries" />
 		<antcall target="jar" />
-		<antcall target="windows-exe" />
-		<antcall target="windows-exe-debug" />
 		<antcall target="zip" />
 	</target>
 
@@ -34,21 +31,6 @@
 		</jar>
 	</target>
 
-	<target name="windows-exe">
-		<launch4j>
-			<config outfile="export\PRemoteDroid-Server\PRemoteDroid-Server.exe" headertype="gui" jarpath="PRemoteDroid-Server.jar" dontwrapjar="true" downloadurl="http://java.com/download">
-				<jre minVersion="1.6.0" />
-			</config>
-		</launch4j>
-	</target>
-
-	<target name="windows-exe-debug">
-		<launch4j>
-			<config outfile="export\PRemoteDroid-Server\PRemoteDroid-Server-debug.exe" headertype="console" jarpath="PRemoteDroid-Server.jar" dontwrapjar="true" downloadurl="http://java.com/download">
-				<jre minVersion="1.6.0" />
-			</config>
-		</launch4j>
-	</target>
 
 	<target name="zip">
 		<zip destfile="export/PRemoteDroid-Server.zip" basedir="export" includes="PRemoteDroid-Server/*" />
