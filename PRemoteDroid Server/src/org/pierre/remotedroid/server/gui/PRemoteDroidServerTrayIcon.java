@@ -55,7 +55,7 @@ public class PRemoteDroidServerTrayIcon
 			message = "Bluetooth";
 		}
 		
-		this.trayIcon.displayMessage("PRemoteDroid", "New connection : " + message, MessageType.INFO);
+		this.trayIcon.displayMessage("PRemoteDroid", (connection.active ? "New connection : " : "Device Disconnected: ") + message, MessageType.INFO);
 	}
 	
 	public void notifyProtocolProblem()

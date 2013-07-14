@@ -20,6 +20,8 @@ public abstract class PRemoteDroidAction
 	
 	public static PRemoteDroidAction parse(DataInputStream dis) throws IOException
 	{
+		// This method shouldn't be called in the Client anymore. It's for the
+		// Server portion only
 		byte type = dis.readByte();
 		
 		switch (type)
@@ -46,6 +48,41 @@ public abstract class PRemoteDroidAction
 				return FileExploreResponseAction.parse(dis);
 			default:
 				throw new ProtocolException();
+		}
+	}
+	
+	public static PRemoteDroidAction parse(DataInputStream dis, byte type) throws IOException
+	{
+		// byte type = dis.readByte();
+		
+		switch (type)
+		{
+			case MOUSE_MOVE:
+				return MouseMoveAction.parse(dis);
+			case MOUSE_CLICK:
+				return MouseClickAction.parse(dis);
+			case MOUSE_WHEEL:
+				return MouseWheelAction.parse(dis);
+			case KEYBOARD:
+				return KeyboardAction.parse(dis);
+			case AUTHENTIFICATION:
+				return AuthentificationAction.parse(dis);
+			case AUTHENTIFICATION_RESPONSE:
+				return AuthentificationResponseAction.parse(dis);
+			case SCREEN_CAPTURE_REQUEST:
+				return ScreenCaptureRequestAction.parse(dis);
+			case SCREEN_CAPTURE_RESPONSE:
+				// This should never happen anymore
+				// return ScreenCaptureResponseAction.parse(dis);
+				return new ScreenCaptureResponseAction(new byte[0]);
+			case FILE_EXPLORE_REQUEST:
+				return FileExploreRequestAction.parse(dis);
+			case FILE_EXPLORE_RESPONSE:
+				return FileExploreResponseAction.parse(dis);
+			default:
+				// Ignore protocol errors for now.
+				return new ScreenCaptureResponseAction(new byte[0]);
+				// throw new ProtocolException();
 		}
 	}
 	

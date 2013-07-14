@@ -19,15 +19,25 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 		super(application);
 		
 		String uuid = PRemoteDroidConnection.BLUETOOTH_UUID.replaceAll("-", "");
-		this.streamConnectionNotifier = (StreamConnectionNotifier) Connector.open("btspp://localhost:" + uuid + ";name=PRemoteDroid");
 		
-		if (this.streamConnectionNotifier != null)
+		try
 		{
-			(new Thread(this)).start();
+			this.streamConnectionNotifier = (StreamConnectionNotifier) Connector.open("btspp://localhost:" + uuid + ";name=PRemoteDroid");
+			
+			if (this.streamConnectionNotifier != null)
+			{
+				(new Thread(this)).start();
+			}
+			else
+			{
+				throw new IOException();
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			throw new IOException();
+			// Could not start Bluetooth services.
+			// TODO: Do something here to disable the bluetooth option, or
+			// provide a nice error message.
 		}
 	}
 	

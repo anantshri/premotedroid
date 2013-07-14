@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.pierre.remotedroid.protocol.action.PRemoteDroidAction;
+import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 public abstract class PRemoteDroidConnection
 {
@@ -16,6 +17,8 @@ public abstract class PRemoteDroidConnection
 	
 	private DataInputStream dataInputStream;
 	private OutputStream outputStream;
+	private PRemoteDroidAction capAction = new org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction(new byte[3000000]);
+	public boolean active = true;
 	
 	public PRemoteDroidConnection(InputStream inputStream, OutputStream outputStream)
 	{
@@ -27,8 +30,28 @@ public abstract class PRemoteDroidConnection
 	{
 		synchronized (this.dataInputStream)
 		{
-			PRemoteDroidAction action = PRemoteDroidAction.parse(this.dataInputStream);
-			return action;
+			try
+			{
+				byte type = this.dataInputStream.readByte();
+				
+				// SCREEN_CAPTURE_RESPONSE
+				if (type == 7)
+				{
+					return ((ScreenCaptureResponseAction) capAction).parse_(dataInputStream);
+				}
+				else
+				{
+					PRemoteDroidAction action = PRemoteDroidAction.parse(this.dataInputStream, type);
+					return action;
+				}
+			}
+			catch (IOException e)
+			{
+				// Problem with connection (Usually the device disconnected
+				active = false;
+				throw e;
+			}
+			
 		}
 	}
 	

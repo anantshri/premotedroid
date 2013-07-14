@@ -78,6 +78,43 @@
 		<item>JPG</item>
 		<item>PNG</item>
 	</string-array>
+	<string-array name="screenCapture_scaling">
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	    <item>5</item>
+	</string-array>
+	<string-array name="screenCapture_zoom_id">
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	    <item>5</item>
+	</string-array>
+	<string-array name="screenCapture_zoom_name">
+	    <item>1x</item>
+	    <item>2x</item>
+	    <item>3x</item>
+	    <item>4x</item>
+	    <item>5x</item>
+	</string-array>
+	<string-array name="screenCapture_fps_name">
+	    <item>Max</item>
+	    <item>4 FPS</item>
+	    <item>2 FPS</item>
+	    <item>1 FPS</item>
+	    <item>1/2 FPS</item>
+	    <item>1/4 FPS</item>
+	</string-array>
+	<string-array name="screenCapture_fps_id">
+	    <item>10</item>
+	    <item>250</item>
+	    <item>500</item>
+	    <item>1000</item>
+	    <item>2000</item>
+	    <item>5000</item>
+	</string-array>
 	<string
 		name="text_cursor_enabled">Cursor enabled</string>
 	<string
@@ -168,4 +205,8 @@
 		name="text_new_connection">New connection</string>
 	<string
 		name="text_hint_host">192.168.x.x</string>
+	<string name="text_screen_capture_zoom">Zoom Level</string>
+	<string name="text_screen_capture_fps">Frames Per Second</string>
+	<string name="text_hint_debug">Put extra information in the catlog</string>
+	<string name="text_screen_capture_scale">Scaling</string>
 </resources>

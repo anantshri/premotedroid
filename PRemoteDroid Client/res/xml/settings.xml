@@ -86,6 +86,9 @@
 				android:inputType="numberDecimal"
 				android:defaultValue="3"
 				android:title="@string/text_cursor_size" />
+			<ListPreference android:key="screenCapture_zoom" android:title="@string/text_screen_capture_zoom" android:entryValues="@array/screenCapture_zoom_id" android:entries="@array/screenCapture_zoom_name" android:defaultValue="3" android:summary="Lower values may degrade performance!"/>
+			<ListPreference android:key="screenCapture_scale" android:title="@string/text_screen_capture_scale" android:entryValues="@array/screenCapture_scaling" android:entries="@array/screenCapture_scaling" android:defaultValue="1" android:summary="Increase this if the the app crashes after enabling Capture"/>
+			<ListPreference android:entryValues="@array/screenCapture_fps_id" android:key="screenCapture_fps" android:entries="@array/screenCapture_fps_name" android:title="@string/text_screen_capture_fps" android:defaultValue="250"/>
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
@@ -93,6 +96,6 @@
 		<CheckBoxPreference
 			android:key="debug_enabled"
 			android:defaultValue="false"
-			android:title="@string/text_debug" />
+			android:title="@string/text_debug" android:summary="@string/text_hint_debug"/>
 	</PreferenceCategory>
 </PreferenceScreen>

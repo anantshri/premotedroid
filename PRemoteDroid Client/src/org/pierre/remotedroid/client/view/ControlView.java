@@ -9,12 +9,12 @@ import org.pierre.remotedroid.protocol.action.ScreenCaptureResponseAction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
@@ -26,15 +26,18 @@ public class ControlView extends ImageView
 	private ControlActivity controlActivity;
 	private SharedPreferences preferences;
 	
-	private Bitmap currentBitmap;
-	private Bitmap newBitmap;
-	
 	private Paint paint;
+	private Paint paint2;
 	
 	private boolean screenCaptureEnabled;
 	private byte screenCaptureFormat;
 	private boolean screenCaptureCursorEnabled;
 	private float screenCaptureCursorSize;
+	private boolean debugging;
+	
+	private int zoom;
+	private int fps;
+	private int scale;
 	
 	private ClickView leftClickView;
 	
@@ -75,6 +78,10 @@ public class ControlView extends ImageView
 		this.paint = new Paint();
 		this.paint.setColor(Color.BLACK);
 		this.paint.setAntiAlias(true);
+		// for the outer ring in the cursor dot
+		this.paint2 = new Paint();
+		this.paint2.setColor(Color.WHITE);
+		this.paint2.setAntiAlias(true);
 	}
 	
 	protected void onAttachedToWindow()
@@ -91,16 +98,11 @@ public class ControlView extends ImageView
 		if (visibility == VISIBLE)
 		{
 			this.reloadPreferences();
+			this.screenCaptureRequest();
 		}
 		else
 		{
 			this.setImageBitmap(null);
-			
-			if (this.currentBitmap != null)
-			{
-				this.currentBitmap.recycle();
-				this.currentBitmap = null;
-			}
 		}
 	}
 	
@@ -108,7 +110,8 @@ public class ControlView extends ImageView
 	{
 		super.onSizeChanged(w, h, oldw, oldh);
 		
-		this.screenCaptureRequest();
+		// Commented out since we're going to be in a loop
+		// this.screenCaptureRequest();
 	}
 	
 	public boolean onTouchEvent(MotionEvent event)
@@ -120,20 +123,21 @@ public class ControlView extends ImageView
 				this.onTouchMove(event);
 				break;
 			}
-				
+			
 			case MotionEvent.ACTION_DOWN:
 			{
 				this.onTouchDown(event);
 				break;
 			}
-				
+			
 			case MotionEvent.ACTION_UP:
 			{
 				this.onTouchUp(event);
-				this.screenCaptureRequest();
+				// Commented out since we're going to be in a loop
+				// this.screenCaptureRequest();
 				break;
 			}
-				
+			
 			default:
 				break;
 		}
@@ -302,43 +306,63 @@ public class ControlView extends ImageView
 		
 		if (this.screenCaptureEnabled && this.screenCaptureCursorEnabled)
 		{
-			canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, this.screenCaptureCursorSize, this.paint);
+			canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, this.screenCaptureCursorSize, this.paint2);
+			canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, this.screenCaptureCursorSize - 1, this.paint);
 		}
 	}
 	
-	public synchronized void receiveAction(ScreenCaptureResponseAction action)
+	private BitmapFactory.Options bitmapOpts = new BitmapFactory.Options();
+	
+	public synchronized void receiveAction(final ScreenCaptureResponseAction action)
 	{
-		if (this.newBitmap != null)
-		{
-			this.newBitmap.recycle();
-		}
+		bitmapOpts.inSampleSize = this.scale;
+		if (this.debugging)
+			Log.d("Note", "Recieved an image of size " + action.dataSize + " which resulted in SampleSize of " + bitmapOpts.inSampleSize);
 		
-		this.newBitmap = BitmapFactory.decodeByteArray(action.data, 0, action.data.length);
+		// this.newBitmap = BitmapFactory.decodeByteArray(action.data, 0,
+		// action.data.length);
 		
-		this.post(new Runnable()
+		this.postDelayed(new Runnable()
 		{
 			public void run()
 			{
-				ControlView controlView = ControlView.this;
+				ControlView.this.setImageBitmap(BitmapFactory.decodeByteArray(action.data, 0, action.dataSize, bitmapOpts));
 				
-				if (controlView.currentBitmap != null)
+				// ControlView controlView = ControlView.this;
+				
+				// if (controlView.currentBitmap != null)
 				{
-					controlView.currentBitmap.recycle();
+					// Pointless garbage collect, spams the logcat when
+					// screencap is on.
+					// controlView.currentBitmap.recycle();
 				}
 				
-				controlView.currentBitmap = controlView.newBitmap;
-				controlView.newBitmap = null;
+				// controlView.currentBitmap = controlView.newBitmap;
+				// controlView.newBitmap = null;
 				
-				controlView.setImageBitmap(controlView.currentBitmap);
+				// controlView.setImageBitmap(controlView.currentBitmap);
+				
+				// Redo this all over again
+				application.sendAction(new ScreenCaptureRequestAction((short) (getWidth() / zoom), (short) (getHeight() / zoom), screenCaptureFormat));
 			}
-		});
+		}, this.fps);
+		
 	}
 	
 	private void screenCaptureRequest()
 	{
 		if (this.screenCaptureEnabled)
 		{
-			this.application.sendAction(new ScreenCaptureRequestAction((short) this.getWidth(), (short) this.getHeight(), this.screenCaptureFormat));
+			try
+			{
+				this.wait(200);
+			}
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			application.sendAction(new ScreenCaptureRequestAction((short) (getWidth() / this.zoom), (short) (getHeight() / this.zoom), screenCaptureFormat));
 		}
 	}
 	
@@ -385,5 +409,11 @@ public class ControlView extends ImageView
 		this.screenCaptureCursorSize *= screenDensity;
 		
 		this.setKeepScreenOn(this.preferences.getBoolean("keep_screen_on", false));
+		this.debugging = this.preferences.getBoolean("debug_enabled", false);
+		
+		this.zoom = Integer.parseInt(this.preferences.getString("screenCapture_zoom", "4"));
+		this.fps = Integer.parseInt(this.preferences.getString("screenCapture_fps", "1000"));
+		this.scale = Integer.parseInt(this.preferences.getString("screenCapture_scale", "4"));
+		
 	}
 }

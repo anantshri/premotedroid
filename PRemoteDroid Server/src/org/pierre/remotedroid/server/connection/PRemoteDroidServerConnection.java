@@ -76,6 +76,11 @@ public class PRemoteDroidServerConnection implements Runnable
 					this.action(action);
 				}
 			}
+			catch (IOException e)
+			{
+				// Happens when the client disconnects
+				this.application.getTrayIcon().notifyConnection(this.connection);
+			}
 			finally
 			{
 				this.connection.close();
@@ -213,8 +218,9 @@ public class PRemoteDroidServerConnection implements Runnable
 		{
 			Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 			Rectangle r = new Rectangle(mouseLocation.x - (action.width / 2), mouseLocation.y - (action.height / 2), action.width, action.height);
-			BufferedImage capture = this.application.getRobot().createScreenCapture(r);
-			
+			BufferedImage capture = new BufferedImage(1, 1, 12);
+			if (r.width + r.height > 0)
+				capture = this.application.getRobot().createScreenCapture(r);
 			String format = null;
 			if (action.format == ScreenCaptureRequestAction.FORMAT_PNG)
 			{
