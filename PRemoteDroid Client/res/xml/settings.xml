@@ -62,6 +62,7 @@
 			android:key="keep_screen_on"
 			android:defaultValue="false"
 			android:title="@string/text_keep_screen_on" />
+		<CheckBoxPreference android:key="useEditText" android:title="@string/text_useEditText" android:summaryOn="Will show a text feld to type in" android:summaryOff="Will take things one letter at a time"/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/text_screen_capture">

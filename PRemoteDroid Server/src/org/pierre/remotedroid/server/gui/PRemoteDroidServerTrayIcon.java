@@ -52,6 +52,7 @@ public class PRemoteDroidServerTrayIcon
 		}
 		else if (connection instanceof PRemoteDroidConnectionBluetooth)
 		{
+			
 			message = "Bluetooth";
 		}
 		
@@ -110,7 +111,7 @@ public class PRemoteDroidServerTrayIcon
 			{
 				StringBuilder message = new StringBuilder();
 				
-				if (PRemoteDroidServerTrayIcon.this.application.getServerTcp() != null)
+				if (PRemoteDroidServerTrayIcon.this.getTcpListenAddresses() != null)
 				{
 					message.append("Wifi server is listening on :\n");
 					message.append(PRemoteDroidServerTrayIcon.this.getTcpListenAddresses());

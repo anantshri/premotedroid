@@ -16,9 +16,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -28,10 +28,13 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class ControlActivity extends Activity implements PRemoteDroidActionReceiver
 {
@@ -45,6 +48,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	private SharedPreferences preferences;
 	
 	private ControlView controlView;
+	private boolean debugging;
 	
 	private MediaPlayer mpClickOn;
 	private MediaPlayer mpClickOff;
@@ -70,6 +74,8 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		this.mpClickOn = MediaPlayer.create(this, R.raw.clickon);
 		this.mpClickOff = MediaPlayer.create(this, R.raw.clickoff);
 		
+		this.debugging = this.preferences.getBoolean("debug_enabled", false);
+		
 		this.checkOnCreate();
 	}
 	
@@ -80,6 +86,49 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		this.application.registerActionReceiver(this);
 		
 		this.feedbackSound = this.preferences.getBoolean("feedback_sound", false);
+		
+		// This probably won't get called since the editText is set to MultiLine
+		((android.widget.EditText) findViewById(R.id.textline)).setOnEditorActionListener(new OnEditorActionListener()
+		{
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+			{
+				boolean handled = false;
+				if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEND)
+				{
+					sendMessage(v.getText().toString());
+					v.setText("");
+					handled = true;
+				}
+				return handled;
+			}
+			
+		});
+		((android.widget.Button) findViewById(R.id.inputSend)).setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				// Do something in response to button click
+				sendMessage(((android.widget.EditText) findViewById(R.id.textline)).getText().toString());
+				((android.widget.EditText) findViewById(R.id.textline)).setText("");
+			}
+		});
+		((android.widget.Button) findViewById(R.id.inputBackspace)).setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				// Do something in response to button click
+				application.sendAction(new KeyboardAction(-1));
+			}
+		});
+	}
+	
+	protected void sendMessage(String s)
+	{
+		
+		if (debugging)
+			android.util.Log.d("Note", "Sending string: " + s);
+		for (int i = 0; i < s.length(); i++)
+			this.application.sendAction(new KeyboardAction(s.charAt(i)));
 	}
 	
 	protected void onPause()
@@ -88,6 +137,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		
 		this.application.unregisterActionReceiver(this);
 	}
+	
 	public boolean onKeyUP(int KeyCode, KeyEvent event)
 	{
 		if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)
@@ -98,34 +148,48 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		{
 			return true;
 		}
-		return false;		
+		return false;
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		int unicode = event.getUnicodeChar();
 		
-		if (unicode == 0 && event.getKeyCode() == KeyEvent.KEYCODE_DEL)
-		{
-			unicode = KeyboardAction.UNICODE_BACKSPACE;
-		}
-		
+		if (debugging)
+			android.util.Log.d("Note", "Key Captured with keycode [" + keyCode + "] and unicode [" + unicode + "]");
+		if (unicode == 0)
+			switch (event.getKeyCode())
+			{
+				case KeyEvent.KEYCODE_DEL:
+					unicode = KeyboardAction.UNICODE_BACKSPACE;
+					break;
+				case KeyEvent.KEYCODE_VOLUME_UP:
+					unicode = KeyboardAction.UNICODE_PAGEUP;
+					break;
+				case KeyEvent.KEYCODE_VOLUME_DOWN:
+					unicode = KeyboardAction.UNICODE_PAGEDN;
+					break;
+				case KeyEvent.KEYCODE_TAB:
+					unicode = KeyboardAction.UNICODE_TAB;
+					break;
+				case KeyEvent.KEYCODE_DPAD_UP:
+					unicode = KeyboardAction.UNICODE_ARROW_UP;
+					break;
+				case KeyEvent.KEYCODE_DPAD_DOWN:
+					unicode = KeyboardAction.UNICODE_ARROW_DOWN;
+					break;
+				case KeyEvent.KEYCODE_DPAD_LEFT:
+					unicode = KeyboardAction.UNICODE_ARROW_LEFT;
+					break;
+				case KeyEvent.KEYCODE_DPAD_RIGHT:
+					unicode = KeyboardAction.UNICODE_ARROW_RIGHT;
+					break;
+			
+			}
 		if (unicode != 0)
 		{
 			this.application.sendAction(new KeyboardAction(unicode));
 		}
-		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-		{
-			this.application.sendAction(new KeyboardAction(92));
-			//Log.d("Key captured", "Volume UP");
-			return true;
-		}
-		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
-		{
-			this.application.sendAction(new KeyboardAction(93));
-			//Log.d("Key captured", "Volume DOWN");
-			return true;
-		}		
 		return super.onKeyDown(keyCode, event);
 	}
 	
@@ -212,6 +276,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	{
 		InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(0, 0);
+		
 	}
 	
 	private void checkFullscreen()
@@ -226,6 +291,7 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 	private void setButtonsSize()
 	{
 		LinearLayout clickLayout = (LinearLayout) this.findViewById(R.id.clickLayout);
+		LinearLayout inputLayout = (LinearLayout) this.findViewById(R.id.inputLayout);
 		
 		int orientation = this.getResources().getConfiguration().orientation;
 		
@@ -234,10 +300,12 @@ public class ControlActivity extends Activity implements PRemoteDroidActionRecei
 		if (orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 			clickLayout.getLayoutParams().height = (int) size;
+			inputLayout.setTranslationY((int) size);
 		}
 		else if (orientation == Configuration.ORIENTATION_LANDSCAPE)
 		{
 			clickLayout.getLayoutParams().width = (int) size;
+			inputLayout.setPadding((int) size, 0, 0, 0);
 		}
 	}
 	

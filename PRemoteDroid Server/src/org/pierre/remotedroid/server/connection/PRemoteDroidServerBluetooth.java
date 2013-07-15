@@ -38,6 +38,7 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 			// Could not start Bluetooth services.
 			// TODO: Do something here to disable the bluetooth option, or
 			// provide a nice error message.
+			
 		}
 	}
 	
@@ -62,7 +63,8 @@ public class PRemoteDroidServerBluetooth extends PRemoteDroidServer implements R
 	{
 		try
 		{
-			this.streamConnectionNotifier.close();
+			if (this.streamConnectionNotifier != null)
+				this.streamConnectionNotifier.close();
 		}
 		catch (IOException e)
 		{

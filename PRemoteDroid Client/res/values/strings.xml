@@ -172,7 +172,9 @@
 	<string
 		name="text_no">No</string>
 	<string
-		name="text_ok">Ok</string>
+		name="text_ok">OK</string>
+	<string
+		name="text_send">Send</string>
 	<string
 		name="text_new">New</string>
 	<string
@@ -209,4 +211,6 @@
 	<string name="text_screen_capture_fps">Frames Per Second</string>
 	<string name="text_hint_debug">Put extra information in the catlog</string>
 	<string name="text_screen_capture_scale">Scaling</string>
+	<string name="text_useEditText">Use a Text Field</string>
+	<string name="text_backspace">BS</string>
 </resources>

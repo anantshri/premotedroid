@@ -34,7 +34,8 @@ public class PRemoteDroidServerTcp extends PRemoteDroidServer implements Runnabl
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			System.out.println("LAN connection broke. This is normal if the server is shutting down.");
+			// e.printStackTrace();
 		}
 	}
 	
@@ -42,10 +43,12 @@ public class PRemoteDroidServerTcp extends PRemoteDroidServer implements Runnabl
 	{
 		try
 		{
-			this.serverSocket.close();
+			if (this.serverSocket != null)
+				this.serverSocket.close();
 		}
 		catch (IOException e)
 		{
+			System.out.println("Couldn't close the LAN connection. :/ ");
 			e.printStackTrace();
 		}
 	}

@@ -40,6 +40,20 @@ public class PRemoteDroidServerConnection implements Runnable
 	                KeyboardAction.UNICODE_BACKSPACE, KeyEvent.VK_BACK_SPACE
 	        }, {
 	                10, KeyEvent.VK_ENTER
+	        }, {
+	                KeyboardAction.UNICODE_PAGEDN, KeyEvent.VK_PAGE_DOWN
+	        }, {
+	                KeyboardAction.UNICODE_PAGEUP, KeyEvent.VK_PAGE_UP
+	        }, {
+	                KeyboardAction.UNICODE_TAB, KeyEvent.VK_TAB
+	        }, {
+	                KeyboardAction.UNICODE_ARROW_DOWN, KeyEvent.VK_DOWN
+	        }, {
+	                KeyboardAction.UNICODE_ARROW_UP, KeyEvent.VK_UP
+	        }, {
+	                KeyboardAction.UNICODE_ARROW_LEFT, KeyEvent.VK_LEFT
+	        }, {
+	                KeyboardAction.UNICODE_ARROW_RIGHT, KeyEvent.VK_RIGHT
 	        }
 	};
 	
@@ -413,6 +427,9 @@ public class PRemoteDroidServerConnection implements Runnable
 		
 		if (!exception)
 		{
+			// System.out.println("Now pressing key of unicode: " +
+			// action.unicode);
+			
 			this.application.getRobot().keyPress(KeyEvent.VK_ALT);
 			
 			String unicodeString = Integer.toString(action.unicode);
@@ -432,7 +449,7 @@ public class PRemoteDroidServerConnection implements Runnable
 	private void keyboardClassic(KeyboardAction action)
 	{
 		int keycode = UnicodeToSwingKeyCodeConverter.convert(action.unicode);
-		
+		// System.out.println("Now pressing key of code: " + keycode);
 		if (keycode != UnicodeToSwingKeyCodeConverter.NO_SWING_KEYCODE)
 		{
 			boolean useShift = UnicodeToSwingKeyCodeConverter.useShift(action.unicode);

@@ -34,6 +34,7 @@ public class ControlView extends ImageView
 	private boolean screenCaptureCursorEnabled;
 	private float screenCaptureCursorSize;
 	private boolean debugging;
+	private boolean useEditText;
 	
 	private int zoom;
 	private int fps;
@@ -99,6 +100,8 @@ public class ControlView extends ImageView
 		{
 			this.reloadPreferences();
 			this.screenCaptureRequest();
+			// Show or hide the input line
+			((android.widget.LinearLayout) this.controlActivity.findViewById(R.id.inputLayout)).setVisibility(this.useEditText ? android.view.View.VISIBLE : android.view.View.GONE);
 		}
 		else
 		{
@@ -327,22 +330,6 @@ public class ControlView extends ImageView
 			public void run()
 			{
 				ControlView.this.setImageBitmap(BitmapFactory.decodeByteArray(action.data, 0, action.dataSize, bitmapOpts));
-				
-				// ControlView controlView = ControlView.this;
-				
-				// if (controlView.currentBitmap != null)
-				{
-					// Pointless garbage collect, spams the logcat when
-					// screencap is on.
-					// controlView.currentBitmap.recycle();
-				}
-				
-				// controlView.currentBitmap = controlView.newBitmap;
-				// controlView.newBitmap = null;
-				
-				// controlView.setImageBitmap(controlView.currentBitmap);
-				
-				// Redo this all over again
 				application.sendAction(new ScreenCaptureRequestAction((short) (getWidth() / zoom), (short) (getHeight() / zoom), screenCaptureFormat));
 			}
 		}, this.fps);
@@ -410,6 +397,7 @@ public class ControlView extends ImageView
 		
 		this.setKeepScreenOn(this.preferences.getBoolean("keep_screen_on", false));
 		this.debugging = this.preferences.getBoolean("debug_enabled", false);
+		this.useEditText = this.preferences.getBoolean("useEditText", false);
 		
 		this.zoom = Integer.parseInt(this.preferences.getString("screenCapture_zoom", "4"));
 		this.fps = Integer.parseInt(this.preferences.getString("screenCapture_fps", "1000"));
