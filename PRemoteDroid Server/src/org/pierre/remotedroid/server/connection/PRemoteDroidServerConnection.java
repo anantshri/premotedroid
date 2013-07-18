@@ -427,31 +427,17 @@ public class PRemoteDroidServerConnection implements Runnable
 		
 		if (!exception)
 		{
-			// System.out.println("Now pressing key of unicode: " +
-			// action.unicode);
-			
-			this.application.getRobot().keyPress(KeyEvent.VK_ALT);
-			
-			String unicodeString = Integer.toString(action.unicode);
-			
-			for (int i = 0; i < unicodeString.length(); i++)
-			{
-				int digit = Integer.parseInt(unicodeString.substring(i, i + 1));
-				int keycode = digit + KeyEvent.VK_NUMPAD0;
-				this.application.getRobot().keyPress(keycode);
-				this.application.getRobot().keyRelease(keycode);
-			}
-			
-			this.application.getRobot().keyRelease(KeyEvent.VK_ALT);
+			pressUnicode(this.application.getRobot(), action.unicode);
 		}
 	}
 	
 	private void keyboardClassic(KeyboardAction action)
 	{
 		int keycode = UnicodeToSwingKeyCodeConverter.convert(action.unicode);
-		// System.out.println("Now pressing key of code: " + keycode);
 		if (keycode != UnicodeToSwingKeyCodeConverter.NO_SWING_KEYCODE)
 		{
+			// System.out.println("Now pressing key of code: " + keycode);
+			
 			boolean useShift = UnicodeToSwingKeyCodeConverter.useShift(action.unicode);
 			
 			if (useShift)
@@ -467,6 +453,45 @@ public class PRemoteDroidServerConnection implements Runnable
 				this.application.getRobot().keyRelease(KeyEvent.VK_SHIFT);
 			}
 		}
+		else
+		{
+			// Not normal character, use Unicode
+			pressUnicode(this.application.getRobot(), action.unicode);
+		}
+	}
+	
+	public static void pressUnicode(java.awt.Robot r, int key_code)
+	{
+		r.keyPress(KeyEvent.VK_ALT);
+		boolean useHexKeypad = false;
+		if (!useHexKeypad)
+		{
+			String s = String.format("%04d", key_code);
+			// System.out.println("Now pressing key of dec unicode: " + s);
+			for (int i = 0; i < s.length(); i++)
+			{
+				char c = s.charAt(i);
+				int keycode = c - '0' + KeyEvent.VK_NUMPAD0;
+				
+				r.keyPress(keycode);
+				r.keyRelease(keycode);
+			}
+		}
+		else
+		{
+			String s = Integer.toHexString(key_code);
+			// System.out.println("Now pressing key of hex unicode: " + s);
+			r.keyPress(0x6b);
+			r.keyRelease(0x6b);
+			for (int i = 0; i < s.length(); i++)
+			{
+				int keycode = UnicodeToSwingKeyCodeConverter.convert(s.charAt(i));
+				
+				r.keyPress(keycode);
+				r.keyRelease(keycode);
+			}
+		}
+		r.keyRelease(KeyEvent.VK_ALT);
 	}
 	
 	private void sendAction(PRemoteDroidAction action)
