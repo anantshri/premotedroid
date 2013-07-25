@@ -35,6 +35,7 @@ public class ControlView extends ImageView
 	private float screenCaptureCursorSize;
 	private boolean debugging;
 	private boolean useEditText;
+	private int orientation;
 	
 	private int zoom;
 	private int fps;
@@ -88,8 +89,8 @@ public class ControlView extends ImageView
 	protected void onAttachedToWindow()
 	{
 		super.onAttachedToWindow();
-		
 		this.leftClickView = (ClickView) this.controlActivity.findViewById(R.id.leftClickView);
+		
 	}
 	
 	protected synchronized void onWindowVisibilityChanged(int visibility)
@@ -102,6 +103,23 @@ public class ControlView extends ImageView
 			this.screenCaptureRequest();
 			// Show or hide the input line
 			((android.widget.LinearLayout) this.controlActivity.findViewById(R.id.inputLayout)).setVisibility(this.useEditText ? android.view.View.VISIBLE : android.view.View.GONE);
+			// Set orientation
+			if (debugging)
+				Log.d("Note", "Orientation: " + orientation);
+			
+			switch (orientation)
+			{
+				case 0: // Automatic //
+					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+					break;
+				case 1: // Portrait
+					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+					break;
+				case 2: // Landscape
+					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+					break;
+			}
+			
 		}
 		else
 		{
@@ -402,6 +420,7 @@ public class ControlView extends ImageView
 		this.zoom = Integer.parseInt(this.preferences.getString("screenCapture_zoom", "4"));
 		this.fps = Integer.parseInt(this.preferences.getString("screenCapture_fps", "1000"));
 		this.scale = Integer.parseInt(this.preferences.getString("screenCapture_scale", "4"));
+		this.orientation = Integer.parseInt(this.preferences.getString("orientation", "0"));
 		
 	}
 }

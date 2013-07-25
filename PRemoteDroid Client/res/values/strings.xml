@@ -213,4 +213,15 @@
 	<string name="text_screen_capture_scale">Scaling</string>
 	<string name="text_useEditText">Use a Text Field</string>
 	<string name="text_backspace">BS</string>
+	<string-array name="orientations">
+		<item >0</item>
+		<item >1</item>
+		<item >2</item>
+	</string-array>
+	<string-array name="text_orientations">
+		<item >Automatic</item>
+		<item >Portrait</item>
+		<item >Landscape</item>
+	</string-array>
+	<string name="text_orientation">Set Screen Orientation</string>
 </resources>

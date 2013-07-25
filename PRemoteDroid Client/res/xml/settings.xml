@@ -63,6 +63,7 @@
 			android:defaultValue="false"
 			android:title="@string/text_keep_screen_on" />
 		<CheckBoxPreference android:key="useEditText" android:title="@string/text_useEditText" android:summaryOn="Will show a text feld to type in" android:summaryOff="Will take things one letter at a time"/>
+		<ListPreference android:entryValues="@array/orientations" android:entries="@array/text_orientations" android:title="@string/text_orientation" android:defaultValue="0" android:key="orientation"/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/text_screen_capture">
