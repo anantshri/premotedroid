@@ -1,12 +1,5 @@
 package com.ControllerDroid.client.view;
 
-import com.ControllerDroid.client.R;
-import com.ControllerDroid.client.activity.ControlActivity;
-import com.ControllerDroid.client.app.ControllerDroid;
-import com.ControllerDroid.protocol.action.MouseClickAction;
-import com.ControllerDroid.protocol.action.ScreenCaptureRequestAction;
-import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -17,6 +10,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+
+import com.ControllerDroid.client.R;
+import com.ControllerDroid.client.activity.ControlActivity;
+import com.ControllerDroid.client.app.ControllerDroid;
+import com.ControllerDroid.protocol.action.MouseClickAction;
+import com.ControllerDroid.protocol.action.ScreenCaptureRequestAction;
+import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
 
 public class ControlView extends ImageView
 {
@@ -113,10 +113,20 @@ public class ControlView extends ImageView
 					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					break;
 				case 1: // Portrait
-					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+					// Froyo can't rotate both ways
+					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD)
+						this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+					else
+						this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 					break;
 				case 2: // Landscape
-					this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+					// Froyo can't rotate both ways?
+					// It's odd, as the device I tested this on rotates to
+					// reversed landscape in automatic mode...
+					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD)
+						this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+					else
+						this.controlActivity.setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 					break;
 			}
 			

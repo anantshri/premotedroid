@@ -1,17 +1,5 @@
 package com.ControllerDroid.client.activity;
 
-import com.ControllerDroid.client.R;
-import com.ControllerDroid.client.activity.connection.ConnectionListActivity;
-import com.ControllerDroid.client.app.ControllerDroid;
-import com.ControllerDroid.client.view.ControlView;
-import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
-import com.ControllerDroid.protocol.action.KeyboardAction;
-import com.ControllerDroid.protocol.action.MouseClickAction;
-import com.ControllerDroid.protocol.action.MouseMoveAction;
-import com.ControllerDroid.protocol.action.MouseWheelAction;
-import com.ControllerDroid.protocol.action.ControllerDroidAction;
-import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,6 +24,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.ControllerDroid.client.R;
+import com.ControllerDroid.client.activity.connection.ConnectionListActivity;
+import com.ControllerDroid.client.app.ControllerDroid;
+import com.ControllerDroid.client.view.ControlView;
+import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
+import com.ControllerDroid.protocol.action.ControllerDroidAction;
+import com.ControllerDroid.protocol.action.KeyboardAction;
+import com.ControllerDroid.protocol.action.MouseClickAction;
+import com.ControllerDroid.protocol.action.MouseMoveAction;
+import com.ControllerDroid.protocol.action.MouseWheelAction;
+import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
+
 public class ControlActivity extends Activity implements ControllerDroidActionReceiver
 {
 	private static final int FILE_EXPLORER_MENU_ITEM_ID = 0;
@@ -57,10 +57,10 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 	
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		
 		super.onCreate(savedInstanceState);
 		
 		this.application = (ControllerDroid) this.getApplication();
-		
 		this.preferences = this.application.getPreferences();
 		
 		this.checkFullscreen();
@@ -300,7 +300,15 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 		if (orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 			clickLayout.getLayoutParams().height = (int) size;
-			inputLayout.setTranslationY((int) size);
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+				inputLayout.setTranslationY((int) size);
+			else
+			{
+				// Fix for devices pre-3.0
+				inputLayout.setPadding(0, (int) size, 0, 0);
+				inputLayout.getLayoutParams().height += (int) size;
+				
+			}
 		}
 		else if (orientation == Configuration.ORIENTATION_LANDSCAPE)
 		{
