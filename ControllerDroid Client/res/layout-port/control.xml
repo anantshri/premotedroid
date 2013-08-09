@@ -1,0 +1,71 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<view
+		class="com.ControllerDroid.client.view.ControlView"
+		android:id="@+id/controlView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
+	<LinearLayout
+		android:id="@+id/clickLayout"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:orientation="horizontal"
+		android:focusable="false"
+		>
+		<view
+			class="com.ControllerDroid.client.view.ClickView"
+			android:id="@+id/leftClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="2"
+			android:focusable="false"
+			/>
+		<view
+			class="com.ControllerDroid.client.view.ClickView"
+			android:id="@+id/middleClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:focusable="false"
+			android:layout_weight="1" />
+		<view
+			class="com.ControllerDroid.client.view.ClickView"
+			android:id="@+id/rightClickView"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:focusable="false"
+			android:layout_weight="2" />
+		
+		
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/inputLayout"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:orientation="horizontal"
+		android:translationY="52dp"
+		android:visibility="visible"
+		>
+		<EditText android:id="@+id/textline"
+		    android:inputType="textMultiLine"
+	        android:layout_width="0dp"
+	        android:layout_height="fill_parent"
+	        android:imeOptions="actionSend"
+	        android:layout_weight="1"
+       	/>
+		<Button
+		    android:id="@+id/inputBackspace"
+		    android:layout_height="wrap_content"
+		    android:layout_width="60sp"
+		    android:text="@string/text_backspace" 
+		    />
+		<Button
+		    android:id="@+id/inputSend"
+		    android:layout_height="wrap_content"
+		    android:layout_width="80sp"
+		    android:text="@string/text_send" 
+		    />
+				
+		</LinearLayout>
+</FrameLayout>
