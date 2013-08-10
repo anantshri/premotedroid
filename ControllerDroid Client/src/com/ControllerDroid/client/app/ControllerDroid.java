@@ -3,15 +3,6 @@ package com.ControllerDroid.client.app;
 import java.io.IOException;
 import java.util.HashSet;
 
-import com.ControllerDroid.client.R;
-import com.ControllerDroid.client.connection.Connection;
-import com.ControllerDroid.client.connection.ConnectionList;
-import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
-import com.ControllerDroid.protocol.ControllerDroidConnection;
-import com.ControllerDroid.protocol.action.AuthentificationAction;
-import com.ControllerDroid.protocol.action.AuthentificationResponseAction;
-import com.ControllerDroid.protocol.action.ControllerDroidAction;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +11,15 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.ControllerDroid.client.R;
+import com.ControllerDroid.client.connection.Connection;
+import com.ControllerDroid.client.connection.ConnectionList;
+import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
+import com.ControllerDroid.protocol.ControllerDroidConnection;
+import com.ControllerDroid.protocol.action.AuthentificationAction;
+import com.ControllerDroid.protocol.action.AuthentificationResponseAction;
+import com.ControllerDroid.protocol.action.ControllerDroidAction;
 
 public class ControllerDroid extends Application implements Runnable
 {

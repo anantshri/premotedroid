@@ -224,4 +224,7 @@
 		<item >Landscape</item>
 	</string-array>
 	<string name="text_orientation">Set Screen Orientation</string>
+	<string name="text_cancel">Cancel</string>
+	<string name="text_remove">Remove</string>
+	<string name="text_edit">Edit</string>
 </resources>

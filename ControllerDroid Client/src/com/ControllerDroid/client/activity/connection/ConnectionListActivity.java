@@ -1,13 +1,5 @@
 package com.ControllerDroid.client.activity.connection;
 
-import com.ControllerDroid.client.R;
-import com.ControllerDroid.client.app.ControllerDroid;
-import com.ControllerDroid.client.bluetooth.BluetoothChecker;
-import com.ControllerDroid.client.connection.Connection;
-import com.ControllerDroid.client.connection.ConnectionBluetooth;
-import com.ControllerDroid.client.connection.ConnectionList;
-import com.ControllerDroid.client.connection.ConnectionWifi;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -15,17 +7,23 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
+
+import com.ControllerDroid.client.R;
+import com.ControllerDroid.client.app.ControllerDroid;
+import com.ControllerDroid.client.bluetooth.BluetoothChecker;
+import com.ControllerDroid.client.connection.Connection;
+import com.ControllerDroid.client.connection.ConnectionBluetooth;
+import com.ControllerDroid.client.connection.ConnectionList;
+import com.ControllerDroid.client.connection.ConnectionWifi;
 
 public class ConnectionListActivity extends ListActivity implements OnItemClickListener, OnItemLongClickListener, OnClickListener
 {
@@ -81,23 +79,40 @@ public class ConnectionListActivity extends ListActivity implements OnItemClickL
 		this.connections.save();
 	}
 	
-	public boolean onCreateOptionsMenu(Menu menu)
+	@Override
+	public boolean onCreateOptionsMenu(android.view.Menu menu)
 	{
-		menu.add(Menu.NONE, NEW_MENU_ITEM_ID, Menu.NONE, R.string.text_new);
-		
+		// Inflate the menu items for use in the action bar
+		android.view.MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.connection_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
-	public boolean onOptionsItemSelected(MenuItem item)
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item)
 	{
+		// Handle presses on the action bar items
 		switch (item.getItemId())
 		{
-			case NEW_MENU_ITEM_ID:
+			case R.id.action_new:
 				this.alertDialogNew.show();
-				break;
+				return true;
+			case R.id.action_edit:
+				// Don't try to edit non-selected activity
+				if (this.connections.getUsedPosition() < 0)
+					return true;
+				this.connections.get(this.connections.getUsedPosition()).edit(this);
+				return true;
+			case R.id.action_remove:
+				// Don't try to remove non-selected activity
+				if (this.connections.getUsedPosition() < 0)
+					return true;
+				this.connections.remove(this.connections.getUsedPosition());
+				this.refresh();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		
-		return true;
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)

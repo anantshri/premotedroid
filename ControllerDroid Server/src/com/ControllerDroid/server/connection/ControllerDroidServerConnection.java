@@ -21,13 +21,13 @@ import javax.imageio.ImageIO;
 import com.ControllerDroid.protocol.ControllerDroidConnection;
 import com.ControllerDroid.protocol.action.AuthentificationAction;
 import com.ControllerDroid.protocol.action.AuthentificationResponseAction;
+import com.ControllerDroid.protocol.action.ControllerDroidAction;
 import com.ControllerDroid.protocol.action.FileExploreRequestAction;
 import com.ControllerDroid.protocol.action.FileExploreResponseAction;
 import com.ControllerDroid.protocol.action.KeyboardAction;
 import com.ControllerDroid.protocol.action.MouseClickAction;
 import com.ControllerDroid.protocol.action.MouseMoveAction;
 import com.ControllerDroid.protocol.action.MouseWheelAction;
-import com.ControllerDroid.protocol.action.ControllerDroidAction;
 import com.ControllerDroid.protocol.action.ScreenCaptureRequestAction;
 import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
 import com.ControllerDroid.server.ControllerDroidServerApp;
@@ -312,19 +312,22 @@ public class ControllerDroidServerConnection implements Runnable
 					{
 						try
 						{
+							System.out.print("Trying to open [" + file + "]...");
 							desktop.open(file);
+							System.out.println(" OK.");
 						}
 						catch (IOException e)
 						{
-							e.printStackTrace();
+							// System.out.println("Failed that.");
+							// e.printStackTrace();
 							
 							if (ControllerDroidServerApp.IS_WINDOWS)
 							{
-								System.out.println("windows cmd fix");
+								System.out.println(" Failed. Using Windows Shell:");
 								
 								try
 								{
-									Process process = Runtime.getRuntime().exec("cmd /C " + file.getAbsolutePath());
+									Process process = Runtime.getRuntime().exec("cmd /C \"" + file.getAbsolutePath() + "\"");
 									BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 									
 									String line;
@@ -335,10 +338,12 @@ public class ControllerDroidServerConnection implements Runnable
 								}
 								catch (IOException e1)
 								{
+									System.out.println("Sorry guys, I tried, but it just didn't work out!");
 									e1.printStackTrace();
 								}
 							}
 						}
+						
 					}
 				}
 			}

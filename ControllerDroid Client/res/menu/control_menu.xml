@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_file_explorer"
+          android:icon="@drawable/action_folder"
+          android:title="@string/text_file_explorer" android:showAsAction="ifRoom"
+          android:focusable="false"
+			/>
+    <item android:id="@+id/action_keyboard"
+          android:icon="@drawable/action_keyboard"
+          android:title="@string/text_keyboard" android:showAsAction="always"
+          android:focusable="false"
+			/>
+    <item android:id="@+id/action_connections" android:icon="@drawable/action_connections" android:showAsAction="ifRoom" android:title="@string/text_connections"
+        android:focusable="false"
+			></item>
+    <item android:id="@+id/action_settings" android:icon="@drawable/action_settings" android:showAsAction="collapseActionView" android:title="@string/text_settings"
+			></item>
+    <item android:id="@+id/action_help" android:icon="@drawable/action_help" android:showAsAction="collapseActionView" android:title="@string/text_help"
+			></item>
+</menu>

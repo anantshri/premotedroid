@@ -38,11 +38,13 @@ import com.ControllerDroid.protocol.action.ScreenCaptureResponseAction;
 
 public class ControlActivity extends Activity implements ControllerDroidActionReceiver
 {
-	private static final int FILE_EXPLORER_MENU_ITEM_ID = 0;
-	private static final int KEYBOARD_MENU_ITEM_ID = 1;
-	private static final int CONNECTIONS_MENU_ITEM_ID = 2;
-	private static final int SETTINGS_MENU_ITEM_ID = 3;
-	private static final int HELP_MENU_ITEM_ID = 4;
+	/*
+	 * private static final int FILE_EXPLORER_MENU_ITEM_ID = 0; private static
+	 * final int KEYBOARD_MENU_ITEM_ID = 1; private static final int
+	 * CONNECTIONS_MENU_ITEM_ID = 2; private static final int
+	 * SETTINGS_MENU_ITEM_ID = 3; private static final int HELP_MENU_ITEM_ID =
+	 * 4;
+	 */
 	
 	private ControllerDroid application;
 	private SharedPreferences preferences;
@@ -195,34 +197,54 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_file_explorer));
-		menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_keyboard));
-		menu.add(Menu.NONE, CONNECTIONS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_connections));
-		menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_settings));
-		menu.add(Menu.NONE, HELP_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_help));
+		/*
+		 * Use Menu layout XML menu.add(Menu.NONE, FILE_EXPLORER_MENU_ITEM_ID,
+		 * Menu.NONE,
+		 * this.getResources().getString(R.string.text_file_explorer));
+		 * menu.add(Menu.NONE, KEYBOARD_MENU_ITEM_ID, Menu.NONE,
+		 * this.getResources().getString(R.string.text_keyboard));
+		 * menu.add(Menu.NONE, CONNECTIONS_MENU_ITEM_ID, Menu.NONE,
+		 * this.getResources().getString(R.string.text_connections));
+		 * menu.add(Menu.NONE, SETTINGS_MENU_ITEM_ID, Menu.NONE,
+		 * this.getResources().getString(R.string.text_settings));
+		 * menu.add(Menu.NONE, HELP_MENU_ITEM_ID, Menu.NONE,
+		 * this.getResources().getString(R.string.text_help));
+		 */
+		// Inflate the menu items for use in the action bar
+		android.view.MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.control_menu, menu);
+		return super.onCreateOptionsMenu(menu);
 		
-		return true;
+		// return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
-			case FILE_EXPLORER_MENU_ITEM_ID:
+		// Use Menu layout XML
+		// case FILE_EXPLORER_MENU_ITEM_ID:
+			case R.id.action_file_explorer:
 				this.startActivity(new Intent(this, FileExplorerActivity.class));
 				break;
-			case KEYBOARD_MENU_ITEM_ID:
+			// case KEYBOARD_MENU_ITEM_ID:
+			case R.id.action_keyboard:
 				this.toggleKeyboard();
 				break;
-			case CONNECTIONS_MENU_ITEM_ID:
+			// case CONNECTIONS_MENU_ITEM_ID:
+			case R.id.action_connections:
 				this.startActivity(new Intent(this, ConnectionListActivity.class));
 				break;
-			case SETTINGS_MENU_ITEM_ID:
+			// case SETTINGS_MENU_ITEM_ID:
+			case R.id.action_settings:
 				this.startActivity(new Intent(this, SettingsActivity.class));
 				break;
-			case HELP_MENU_ITEM_ID:
+			// case HELP_MENU_ITEM_ID:
+			case R.id.action_help:
 				this.startActivity(new Intent(this, HelpActivity.class));
 				break;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 		
 		return true;

@@ -3,13 +3,6 @@ package com.ControllerDroid.client.activity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.ControllerDroid.client.R;
-import com.ControllerDroid.client.app.ControllerDroid;
-import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
-import com.ControllerDroid.protocol.action.FileExploreRequestAction;
-import com.ControllerDroid.protocol.action.FileExploreResponseAction;
-import com.ControllerDroid.protocol.action.ControllerDroidAction;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -18,10 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.ControllerDroid.client.R;
+import com.ControllerDroid.client.app.ControllerDroid;
+import com.ControllerDroid.protocol.ControllerDroidActionReceiver;
+import com.ControllerDroid.protocol.action.ControllerDroidAction;
+import com.ControllerDroid.protocol.action.FileExploreRequestAction;
+import com.ControllerDroid.protocol.action.FileExploreResponseAction;
 
 public class FileExplorerActivity extends Activity implements ControllerDroidActionReceiver, OnItemClickListener
 {
@@ -76,22 +76,30 @@ public class FileExplorerActivity extends Activity implements ControllerDroidAct
 	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		menu.add(Menu.NONE, REFRESH_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_refresh));
-		menu.add(Menu.NONE, EXPLORE_ROOTS_MENU_ITEM_ID, Menu.NONE, this.getResources().getString(R.string.text_explore_roots));
+		// menu.add(Menu.NONE, REFRESH_MENU_ITEM_ID, Menu.NONE,
+		// this.getResources().getString(R.string.text_refresh));
+		// menu.add(Menu.NONE, EXPLORE_ROOTS_MENU_ITEM_ID, Menu.NONE,
+		// this.getResources().getString(R.string.text_explore_roots));
+		// Inflate the menu items for use in the action bar
+		android.view.MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.file_explorer_menu, menu);
+		return super.onCreateOptionsMenu(menu);
 		
-		return true;
+		// return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
-			case REFRESH_MENU_ITEM_ID:
+			case R.id.action_refresh:
 				this.refresh();
 				break;
-			case EXPLORE_ROOTS_MENU_ITEM_ID:
+			case R.id.action_explore_roots:
 				this.exploreRoots();
 				break;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 		
 		return true;

@@ -10,13 +10,16 @@
 		android:layout_height="wrap_content"
 		android:enabled="false"
 		android:focusable="false" />
+
 	<ImageView
-		android:id="@+id/icon"
-		android:layout_width="35dip"
-		android:layout_height="35dip" />
+	    android:id="@+id/icon"
+	    android:layout_width="35dip"
+	    android:layout_height="35dip"
+	    android:contentDescription="@string/text_connection_type" />
+
 	<TextView
 		android:id="@+id/name"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:textSize="25dip" />
+		android:textSize="25sp" />
 </LinearLayout>
