@@ -62,7 +62,6 @@ public class ControlView extends ImageView
 	
 	private float wheelSensitivity;
 	private float wheelAcceleration;
-	private float wheelDown;
 	private float wheelPrevious;
 	private float wheelResult;
 	private float wheelBarWidth;
@@ -203,7 +202,7 @@ public class ControlView extends ImageView
 	
 	private void onTouchDownMouseWheel(MotionEvent event)
 	{
-		this.wheelDown = this.wheelPrevious = event.getRawY();
+		this.wheelPrevious = event.getRawY();
 		this.wheelResult = 0;
 	}
 	
@@ -211,7 +210,15 @@ public class ControlView extends ImageView
 	{
 		if (this.mouseMoveOrWheel)
 		{
-			this.onTouchMoveMouseMove(event);
+			if (event.getPointerCount() == 2)
+			{
+				// a new pointer, start a wheel event
+				this.mouseMoveOrWheel = false;
+				onTouchDownMouseWheel(event);
+				this.holdPossible = false;
+			}
+			else
+				this.onTouchMoveMouseMove(event);
 		}
 		else
 		{
