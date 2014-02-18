@@ -9,6 +9,8 @@ public class KeyboardAction extends ControllerDroidAction
 	public static final int UNICODE_BACKSPACE = -1;
 	public static final int UNICODE_PAGEUP = 1;
 	public static final int UNICODE_PAGEDN = 2;
+	public static final int UNICODE_VOL_UP = 3;
+	public static final int UNICODE_VOL_DN = 4;
 	public static final int UNICODE_TAB = 9;
 	public static final int UNICODE_ARROW_UP = 19;
 	public static final int UNICODE_ARROW_DOWN = 20;

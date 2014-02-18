@@ -21,6 +21,10 @@ public class UnicodeToSwingKeyCodeConverter
 	                92, KeyEvent.VK_PAGE_UP
 	        }, {
 	                93, KeyEvent.VK_PAGE_DOWN
+	        }, {
+	                KeyboardAction.UNICODE_PAGEUP, KeyEvent.VK_PAGE_UP
+	        }, {
+	                KeyboardAction.UNICODE_PAGEDN, KeyEvent.VK_PAGE_DOWN
  	        }
 		
 	};

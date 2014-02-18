@@ -156,20 +156,25 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		int unicode = event.getUnicodeChar();
+		boolean consumeEvent = false;
 		
 		if (debugging)
 			android.util.Log.d("Note", "Key Captured with keycode [" + keyCode + "] and unicode [" + unicode + "]");
 		if (unicode == 0)
+		{
+			boolean volumeAsPaging = this.preferences.getBoolean("send_volume_as_pageupdn", false);
 			switch (event.getKeyCode())
 			{
 				case KeyEvent.KEYCODE_DEL:
 					unicode = KeyboardAction.UNICODE_BACKSPACE;
 					break;
 				case KeyEvent.KEYCODE_VOLUME_UP:
-					unicode = KeyboardAction.UNICODE_PAGEUP;
+					unicode = volumeAsPaging ? KeyboardAction.UNICODE_PAGEUP : KeyboardAction.UNICODE_VOL_UP;
+					consumeEvent = true;
 					break;
 				case KeyEvent.KEYCODE_VOLUME_DOWN:
-					unicode = KeyboardAction.UNICODE_PAGEDN;
+					unicode = volumeAsPaging ? KeyboardAction.UNICODE_PAGEDN : KeyboardAction.UNICODE_VOL_DN;
+					consumeEvent = true;
 					break;
 				case KeyEvent.KEYCODE_TAB:
 					unicode = KeyboardAction.UNICODE_TAB;
@@ -188,9 +193,14 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 					break;
 			
 			}
+		}
 		if (unicode != 0)
 		{
 			this.application.sendAction(new KeyboardAction(unicode));
+		}
+		if (consumeEvent)
+		{
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}

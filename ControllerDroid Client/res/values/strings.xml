@@ -122,6 +122,8 @@
 	<string
 		name="text_miscellaneous">Miscellaneous</string>
 	<string
+		name="send_volume_as_pageupdn">Volume for paging</string>
+	<string
 		name="text_fullscreen">Fullscreen</string>
 	<string
 		name="text_keep_screen_on">Keep screen on</string>

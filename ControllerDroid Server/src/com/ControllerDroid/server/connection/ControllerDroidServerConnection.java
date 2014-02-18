@@ -401,8 +401,39 @@ public class ControllerDroidServerConnection implements Runnable
 		}
 	}
 	
+	private void volumeKey(KeyboardAction action)
+	{
+		String command;
+		switch (action.unicode)
+		{
+			case KeyboardAction.UNICODE_VOL_UP:
+				command = this.application.getPreferences().get("volumekeyup", ControllerDroidConnection.DEFAULT_VOLUME_UP_MAPPING);
+				break;
+			case KeyboardAction.UNICODE_VOL_DN:
+				command = this.application.getPreferences().get("volumekeydown", ControllerDroidConnection.DEFAULT_VOLUME_DOWN_MAPPING);
+				break;
+			default:
+				return;
+		}
+		try
+		{
+			final Runtime rt = Runtime.getRuntime();
+			rt.exec(command);
+		}
+		catch (IOException ex)
+		{
+			this.application.getTrayIcon().notifyError("Error executing volume command: " + ex.getMessage());
+		}
+	}
+	
 	private void keyboard(KeyboardAction action)
 	{
+		if (action.unicode == KeyboardAction.UNICODE_VOL_DN || action.unicode == KeyboardAction.UNICODE_VOL_UP)
+		{
+			// special keys, volume... use actions.
+			this.volumeKey(action);
+			return;
+		}
 		if (this.useUnicodeWindowsAltTrick)
 		{
 			this.keyboardUnicodeWindowsAltTrick(action);
