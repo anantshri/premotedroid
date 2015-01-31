@@ -467,27 +467,33 @@ public class ControllerDroidServerConnection implements Runnable
 		}
 	}
 	
+	/*
+	 * 
+	 * TODO: 1. create subclass SmarterRobot with convenience methods:
+	 * 
+	 * r.pressKeys(KeySequence)
+	 * 
+	 * with KeySequence able to describe somehow these sorts of combos:
+	 * 
+	 * 'A' (press, then release) ['A','Shift','Windows'] (Win+Shift+A)
+	 * [['A','Shift','Control'], 'Q'] (Ctrl+Shift+A, Q)
+	 * 
+	 * 2. Combine UnicodeToSwingKeyCodeConverter with KeyStrokeParser and remove
+	 * dup. code (@see UNICODE_EXCEPTION). Let this new class return KeySequence
+	 * as appropriate.
+	 * 
+	 * 3. Simplify the pressUnicode etc methods to try to work on Linux /
+	 * Windows.
+	 */
+	
 	private void keyboardClassic(KeyboardAction action)
 	{
 		int keycode = UnicodeToSwingKeyCodeConverter.convert(action.unicode);
 		if (keycode != UnicodeToSwingKeyCodeConverter.NO_SWING_KEYCODE)
 		{
-			// System.out.println("Now pressing key of code: " + keycode);
-			
 			boolean useShift = UnicodeToSwingKeyCodeConverter.useShift(action.unicode);
-			
-			if (useShift)
-			{
-				this.application.getRobot().keyPress(KeyEvent.VK_SHIFT);
-			}
-			
-			this.application.getRobot().keyPress(keycode);
-			this.application.getRobot().keyRelease(keycode);
-			
-			if (useShift)
-			{
-				this.application.getRobot().keyRelease(KeyEvent.VK_SHIFT);
-			}
+			// System.out.println("Now pressing key of code: " + keycode);
+			pressKey(this.application.getRobot(), keycode, useShift);
 		}
 		else
 		{
@@ -496,7 +502,23 @@ public class ControllerDroidServerConnection implements Runnable
 		}
 	}
 	
-	public static void pressUnicode(java.awt.Robot r, int key_code)
+	protected static void pressKey(java.awt.Robot r, int keycode, boolean useShift)
+	{
+		if (useShift)
+		{
+			r.keyPress(KeyEvent.VK_SHIFT);
+		}
+		
+		r.keyPress(keycode);
+		r.keyRelease(keycode);
+		
+		if (useShift)
+		{
+			r.keyRelease(KeyEvent.VK_SHIFT);
+		}
+	}
+	
+	protected static void pressUnicodeWindows(java.awt.Robot r, int key_code)
 	{
 		r.keyPress(KeyEvent.VK_ALT);
 		boolean useHexKeypad = false;
@@ -528,6 +550,49 @@ public class ControllerDroidServerConnection implements Runnable
 			}
 		}
 		r.keyRelease(KeyEvent.VK_ALT);
+	}
+	
+	protected static void pressUnicodeLinuxCompose(java.awt.Robot r, int key_code)
+	{
+		// TODO: Need a table of compose key mappings
+		// For now we try for Ctrl+U xxxx entering.
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_SHIFT);
+		r.keyPress(KeyEvent.VK_U);
+		r.keyRelease(KeyEvent.VK_U);
+		r.keyRelease(KeyEvent.VK_SHIFT);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		
+		String s = Integer.toHexString(key_code);
+		// System.out.println("Now pressing key of hex unicode: " + s);
+		for (int i = 0; i < s.length(); i++)
+		{
+			int keycode = UnicodeToSwingKeyCodeConverter.convert(s.charAt(i));
+			
+			r.keyPress(keycode);
+			r.keyRelease(keycode);
+		}
+	}
+	
+	public static void pressUnicode(java.awt.Robot r, int key_code)
+	{
+		if (ControllerDroidServerApp.IS_WINDOWS)
+		{
+			pressUnicodeWindows(r, key_code);
+		}
+		else if (ControllerDroidServerApp.IS_LINUX)
+		{
+			pressUnicodeLinuxCompose(r, key_code);
+		}
+		else
+		{
+			// What do we do here? We can't send the real unicode character
+			// over...
+			// maybe an ascii-closest-equivalent?
+			// key_code = java.text.Normalizer.normalize(key_code,
+			// java.text.Normalizer.Form.NFD);
+			pressKey(r, key_code, false);
+		}
 	}
 	
 	private void sendAction(ControllerDroidAction action)

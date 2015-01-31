@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.prefs.Preferences;
 
@@ -64,7 +65,10 @@ public class ControllerDroidServerTrayIcon
 			message = "Bluetooth";
 		}
 		
-		this.trayIcon.displayMessage("ControllerDroid", (connection.active ? "New connection : " : "Device Disconnected: ") + message, MessageType.INFO);
+		if (this.preferences.getBoolean("notifications_enabled", true))
+		{
+			this.trayIcon.displayMessage("ControllerDroid", (connection.active ? "New connection: " : "Device Disconnected: ") + message, MessageType.INFO);
+		}
 	}
 	
 	public void notifyProtocolProblem()
@@ -184,6 +188,16 @@ public class ControllerDroidServerTrayIcon
 			menu.add(menuItemUnicodeWindows);
 		}
 		
+		final CheckboxMenuItem menuItemNotification = new CheckboxMenuItem("Enable notifications", this.preferences.getBoolean("notifications_enabled", true));
+		menuItemNotification.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e)
+			{
+				ControllerDroidServerTrayIcon.this.preferences.putBoolean("notifications_enabled", menuItemNotification.getState());
+			}
+		});
+		menu.add(menuItemNotification);
+		
 		menu.addSeparator();
 		
 		MenuItem menuItemWifiServer = new MenuItem("Wifi Server");
@@ -271,7 +285,7 @@ public class ControllerDroidServerTrayIcon
 		
 		SystemTray.getSystemTray().add(this.trayIcon);
 		
-		StringBuilder message = new StringBuilder("Server started\n");
+		StringBuilder message = new StringBuilder("Server started: \n");
 		message.append(this.getTcpListenAddresses());
 		
 		this.trayIcon.displayMessage("ControllerDroid", message.toString(), TrayIcon.MessageType.INFO);

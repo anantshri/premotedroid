@@ -140,7 +140,7 @@ public class ControlActivity extends Activity implements ControllerDroidActionRe
 		this.application.unregisterActionReceiver(this);
 	}
 	
-	public boolean onKeyUP(int KeyCode, KeyEvent event)
+	public boolean onKeyUp(int KeyCode, KeyEvent event)
 	{
 		if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)
 		{
