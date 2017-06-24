@@ -1,3 +1,7 @@
+This branch is kept for archival purpose only. I am not using this software anymore. Some patches were made by various contributor's on this branch and hence i have kept it as is for refernece purpose.
+ But for all intents and purposes there is no dev work going on here. please feel free to fork and maintain. Do inform if you want to maintain i will be happy to transfer the ownership or you can simply fork and i will add link to fork.
+
+
 premotedroid
 ============
 
