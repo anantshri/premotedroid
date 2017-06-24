@@ -14,7 +14,9 @@ public abstract class ControllerDroidConnection
 {
 	public static final String BLUETOOTH_UUID = "300ad0a7-059d-4d97-b9a3-eabe5f6af813";
 	public static final String DEFAULT_PASSWORD = "azerty";
-	
+	public static final String DEFAULT_VOLUME_UP_MAPPING = "volumeup";
+	public static final String DEFAULT_VOLUME_DOWN_MAPPING = "volumedown";
+
 	private DataInputStream dataInputStream;
 	private OutputStream outputStream;
 	private ControllerDroidAction capAction = new com.ControllerDroid.protocol.action.ScreenCaptureResponseAction(new byte[3000000]);

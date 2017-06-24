@@ -55,6 +55,10 @@
 	<PreferenceCategory
 		android:title="@string/text_miscellaneous">
 		<CheckBoxPreference
+			android:key="send_volume_as_pageupdn"
+			android:defaultValue="false"
+			android:title="@string/send_volume_as_pageupdn" android:summaryOn="Volume keys as PageUp/PageDown" android:summaryOff="Volume keys will control volume on PC"/>
+		<CheckBoxPreference
 			android:key="fullscreen"
 			android:defaultValue="false"
 			android:title="@string/text_fullscreen" />

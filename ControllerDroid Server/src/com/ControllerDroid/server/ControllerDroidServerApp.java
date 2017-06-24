@@ -12,6 +12,7 @@ import com.ControllerDroid.server.gui.ControllerDroidServerTrayIcon;
 public class ControllerDroidServerApp
 {
 	public static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
+	public static final boolean IS_LINUX   = System.getProperty("os.name").toLowerCase().contains("linux");
 	
 	private Preferences preferences;
 	private ControllerDroidServerTrayIcon trayIcon;
